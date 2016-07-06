@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39C3121AE1F65C272AC25567 /* Pods_TelemetryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */; };
 		4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB701D2D270F00FE882B /* AppDelegate.swift */; };
 		4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB721D2D270F00FE882B /* ViewController.swift */; };
 		4C5EFB761D2D270F00FE882B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB741D2D270F00FE882B /* Main.storyboard */; };
@@ -14,6 +15,8 @@
 		4C5EFB7B1D2D270F00FE882B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB791D2D270F00FE882B /* LaunchScreen.storyboard */; };
 		4C5EFB861D2D271000FE882B /* TelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB851D2D271000FE882B /* TelemetryTests.swift */; };
 		4C5EFB911D2D271000FE882B /* TelemetryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */; };
+		9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */; };
+		DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +37,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01902F34B488B83F69A7A49D /* Pods-TelemetryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryTests/Pods-TelemetryTests.debug.xcconfig"; sourceTree = "<group>"; };
+		04122A061DEAC585D1F2B1C4 /* Pods-Telemetry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Telemetry.release.xcconfig"; path = "Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry.release.xcconfig"; sourceTree = "<group>"; };
+		1A5863E4094CA416F5D60714 /* Pods-Telemetry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Telemetry.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry.debug.xcconfig"; sourceTree = "<group>"; };
+		28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB6D1D2D270F00FE882B /* Telemetry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Telemetry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB701D2D270F00FE882B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C5EFB721D2D270F00FE882B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +54,11 @@
 		4C5EFB8C1D2D271000FE882B /* TelemetryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelemetryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryUITests.swift; sourceTree = "<group>"; };
 		4C5EFB921D2D271000FE882B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Telemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9C0F15AB2A7A13BE9DB593E /* Pods-TelemetryUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E6173000B8F8B5DA0D2CE7B2 /* Pods-TelemetryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryTests/Pods-TelemetryTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39C3121AE1F65C272AC25567 /* Pods_TelemetryTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +96,8 @@
 				4C5EFB841D2D271000FE882B /* TelemetryTests */,
 				4C5EFB8F1D2D271000FE882B /* TelemetryUITests */,
 				4C5EFB6E1D2D270F00FE882B /* Products */,
+				930BEBE359E66D582BE31D58 /* Pods */,
+				6780F0BB9FB4831C196C2418 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -125,6 +142,29 @@
 			path = TelemetryUITests;
 			sourceTree = "<group>";
 		};
+		6780F0BB9FB4831C196C2418 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */,
+				28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */,
+				BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		930BEBE359E66D582BE31D58 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1A5863E4094CA416F5D60714 /* Pods-Telemetry.debug.xcconfig */,
+				04122A061DEAC585D1F2B1C4 /* Pods-Telemetry.release.xcconfig */,
+				01902F34B488B83F69A7A49D /* Pods-TelemetryTests.debug.xcconfig */,
+				E6173000B8F8B5DA0D2CE7B2 /* Pods-TelemetryTests.release.xcconfig */,
+				AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */,
+				C9C0F15AB2A7A13BE9DB593E /* Pods-TelemetryUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +172,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C5EFB951D2D271000FE882B /* Build configuration list for PBXNativeTarget "Telemetry" */;
 			buildPhases = (
+				483E787E4A5D101593DAA536 /* 📦 Check Pods Manifest.lock */,
 				4C5EFB691D2D270F00FE882B /* Sources */,
 				4C5EFB6A1D2D270F00FE882B /* Frameworks */,
 				4C5EFB6B1D2D270F00FE882B /* Resources */,
+				69C6EE3E8CA647BE4BDFC917 /* 📦 Embed Pods Frameworks */,
+				D39C47D771D274CE8DC47E2E /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -149,9 +192,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C5EFB981D2D271000FE882B /* Build configuration list for PBXNativeTarget "TelemetryTests" */;
 			buildPhases = (
+				6917C2F21FB2A296B4C75673 /* 📦 Check Pods Manifest.lock */,
 				4C5EFB7D1D2D271000FE882B /* Sources */,
 				4C5EFB7E1D2D271000FE882B /* Frameworks */,
 				4C5EFB7F1D2D271000FE882B /* Resources */,
+				35F072D21BFA3B47C88F1A98 /* 📦 Embed Pods Frameworks */,
+				6C45E3AFBDAC3C1404491BE7 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -167,9 +213,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4C5EFB9B1D2D271000FE882B /* Build configuration list for PBXNativeTarget "TelemetryUITests" */;
 			buildPhases = (
+				E121AFD734A75C5FA5DD84D7 /* 📦 Check Pods Manifest.lock */,
 				4C5EFB881D2D271000FE882B /* Sources */,
 				4C5EFB891D2D271000FE882B /* Frameworks */,
 				4C5EFB8A1D2D271000FE882B /* Resources */,
+				54F1B01CAF551852314F107B /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -250,6 +298,129 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		35F072D21BFA3B47C88F1A98 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TelemetryTests/Pods-TelemetryTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		483E787E4A5D101593DAA536 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		54F1B01CAF551852314F107B /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6917C2F21FB2A296B4C75673 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		69C6EE3E8CA647BE4BDFC917 /* 📦 Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6C45E3AFBDAC3C1404491BE7 /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TelemetryTests/Pods-TelemetryTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D39C47D771D274CE8DC47E2E /* 📦 Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E121AFD734A75C5FA5DD84D7 /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4C5EFB691D2D270F00FE882B /* Sources */ = {
@@ -399,6 +570,7 @@
 		};
 		4C5EFB961D2D271000FE882B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1A5863E4094CA416F5D60714 /* Pods-Telemetry.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Telemetry/Info.plist;
@@ -410,6 +582,7 @@
 		};
 		4C5EFB971D2D271000FE882B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 04122A061DEAC585D1F2B1C4 /* Pods-Telemetry.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Telemetry/Info.plist;
@@ -421,6 +594,7 @@
 		};
 		4C5EFB991D2D271000FE882B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 01902F34B488B83F69A7A49D /* Pods-TelemetryTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TelemetryTests/Info.plist;
@@ -433,6 +607,7 @@
 		};
 		4C5EFB9A1D2D271000FE882B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6173000B8F8B5DA0D2CE7B2 /* Pods-TelemetryTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = TelemetryTests/Info.plist;
@@ -445,6 +620,7 @@
 		};
 		4C5EFB9C1D2D271000FE882B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = TelemetryUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -456,6 +632,7 @@
 		};
 		4C5EFB9D1D2D271000FE882B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C9C0F15AB2A7A13BE9DB593E /* Pods-TelemetryUITests.release.xcconfig */;
 			buildSettings = {
 				INFOPLIST_FILE = TelemetryUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -484,6 +661,7 @@
 				4C5EFB971D2D271000FE882B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C5EFB981D2D271000FE882B /* Build configuration list for PBXNativeTarget "TelemetryTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +670,7 @@
 				4C5EFB9A1D2D271000FE882B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4C5EFB9B1D2D271000FE882B /* Build configuration list for PBXNativeTarget "TelemetryUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +679,7 @@
 				4C5EFB9D1D2D271000FE882B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
