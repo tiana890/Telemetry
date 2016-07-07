@@ -9,6 +9,8 @@ target 'Telemetry' do
 
   target 'TelemetryTests' do
     inherit! :search_paths
+    pod 'SocketRocket'
+    pod 'GoogleMaps'
     # Pods for testing
   end
 

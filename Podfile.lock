@@ -1,3 +1,15 @@
-PODFILE CHECKSUM: 2e1492ffd33b45d3ea39342a694977adbbbcae78
+PODS:
+  - GoogleMaps (1.13.2)
+  - SocketRocket (0.5.1)
+
+DEPENDENCIES:
+  - GoogleMaps
+  - SocketRocket
+
+SPEC CHECKSUMS:
+  GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
+  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+
+PODFILE CHECKSUM: 5e0fd75cb1da98f6f9e493c05060a876407bbe44
 
 COCOAPODS: 1.0.0
