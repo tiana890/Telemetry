@@ -11,6 +11,9 @@ target 'Telemetry' do
     inherit! :search_paths
     pod 'SocketRocket'
     pod 'GoogleMaps'
+    pod 'RxSwift'
+    pod 'RxBlocking'
+    pod 'RxCocoa'
     # Pods for testing
   end
 

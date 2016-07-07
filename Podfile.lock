@@ -1,15 +1,26 @@
 PODS:
   - GoogleMaps (1.13.2)
+  - RxBlocking (2.6.0):
+    - RxSwift (~> 2.5)
+  - RxCocoa (2.6.0):
+    - RxSwift (~> 2.5)
+  - RxSwift (2.6.0)
   - SocketRocket (0.5.1)
 
 DEPENDENCIES:
   - GoogleMaps
+  - RxBlocking
+  - RxCocoa
+  - RxSwift
   - SocketRocket
 
 SPEC CHECKSUMS:
   GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
+  RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
+  RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
+  RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
 
-PODFILE CHECKSUM: 5e0fd75cb1da98f6f9e493c05060a876407bbe44
+PODFILE CHECKSUM: 3b2ae22d987e0310e0b1f6d15388876b1b75a27d
 
 COCOAPODS: 1.0.0
