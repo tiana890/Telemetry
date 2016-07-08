@@ -6,14 +6,14 @@ target 'Telemetry' do
   use_frameworks!
 
   # Pods for Telemetry
-
+  pod 'SocketRocket'
+  pod 'GoogleMaps'
+  pod 'RxSwift'
+  pod 'RxBlocking'
+  pod 'RxCocoa'
   target 'TelemetryTests' do
     inherit! :search_paths
-    pod 'SocketRocket'
-    pod 'GoogleMaps'
-    pod 'RxSwift'
-    pod 'RxBlocking'
-    pod 'RxCocoa'
+
     # Pods for testing
   end
 

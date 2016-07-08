@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		39C3121AE1F65C272AC25567 /* Pods_TelemetryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */; };
-		4C5AD7D91D2E8D4100260F9D /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5AD7D81D2E8D4100260F9D /* MapVehiclesViewController.swift */; };
-		4C5AD7DB1D2E8DC000260F9D /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5AD7DA1D2E8DC000260F9D /* MapViewModel.swift */; };
 		4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB701D2D270F00FE882B /* AppDelegate.swift */; };
 		4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB721D2D270F00FE882B /* ViewController.swift */; };
 		4C5EFB761D2D270F00FE882B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB741D2D270F00FE882B /* Main.storyboard */; };
@@ -17,6 +15,11 @@
 		4C5EFB7B1D2D270F00FE882B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB791D2D270F00FE882B /* LaunchScreen.storyboard */; };
 		4C5EFB861D2D271000FE882B /* TelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB851D2D271000FE882B /* TelemetryTests.swift */; };
 		4C5EFB911D2D271000FE882B /* TelemetryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */; };
+		4C9A66771D2FD42600FCA3F4 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66761D2FD42600FCA3F4 /* Vehicles.swift */; };
+		4C9A66791D2FD42F00FCA3F4 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66781D2FD42F00FCA3F4 /* Vehicle.swift */; };
+		4C9A667B1D2FD44500FCA3F4 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */; };
+		4C9A667D1D2FD45200FCA3F4 /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */; };
+		4C9A667F1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */; };
 		9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */; };
 		DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */; };
 /* End PBXBuildFile section */
@@ -43,8 +46,6 @@
 		04122A061DEAC585D1F2B1C4 /* Pods-Telemetry.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Telemetry.release.xcconfig"; path = "Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry.release.xcconfig"; sourceTree = "<group>"; };
 		1A5863E4094CA416F5D60714 /* Pods-Telemetry.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Telemetry.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Telemetry/Pods-Telemetry.debug.xcconfig"; sourceTree = "<group>"; };
 		28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4C5AD7D81D2E8D4100260F9D /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
-		4C5AD7DA1D2E8DC000260F9D /* MapViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		4C5EFB6D1D2D270F00FE882B /* Telemetry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Telemetry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB701D2D270F00FE882B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C5EFB721D2D270F00FE882B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +59,11 @@
 		4C5EFB8C1D2D271000FE882B /* TelemetryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelemetryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryUITests.swift; sourceTree = "<group>"; };
 		4C5EFB921D2D271000FE882B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4C9A66761D2FD42600FCA3F4 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vehicles.swift; path = ../../../../.Trash/Vehicles.swift; sourceTree = "<group>"; };
+		4C9A66781D2FD42F00FCA3F4 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Vehicle.swift; path = ../../../../.Trash/Vehicle.swift; sourceTree = "<group>"; };
+		4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehiclesAPIService.swift; path = ../../../../.Trash/VehiclesAPIService.swift; sourceTree = "<group>"; };
+		4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehiclesViewModel.swift; path = ../../../../.Trash/VehiclesViewModel.swift; sourceTree = "<group>"; };
+		4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVehiclesViewController.swift; path = ../../../../.Trash/MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Telemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,8 +102,8 @@
 		4C5AD7D71D2E8D1F00260F9D /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				4C5AD7D81D2E8D4100260F9D /* MapVehiclesViewController.swift */,
-				4C5AD7DA1D2E8DC000260F9D /* MapViewModel.swift */,
+				4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */,
+				4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -127,6 +133,9 @@
 		4C5EFB6F1D2D270F00FE882B /* Telemetry */ = {
 			isa = PBXGroup;
 			children = (
+				4C6DEDB11D2FC06A001B5502 /* API */,
+				4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */,
+				4C6DEDAC1D2FBCCF001B5502 /* Models */,
 				4C5AD7D71D2E8D1F00260F9D /* UI */,
 				4C5EFB701D2D270F00FE882B /* AppDelegate.swift */,
 				4C5EFB721D2D270F00FE882B /* ViewController.swift */,
@@ -154,6 +163,22 @@
 				4C5EFB921D2D271000FE882B /* Info.plist */,
 			);
 			path = TelemetryUITests;
+			sourceTree = "<group>";
+		};
+		4C6DEDAC1D2FBCCF001B5502 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4C9A66761D2FD42600FCA3F4 /* Vehicles.swift */,
+				4C9A66781D2FD42F00FCA3F4 /* Vehicle.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		4C6DEDB11D2FC06A001B5502 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = API;
 			sourceTree = "<group>";
 		};
 		6780F0BB9FB4831C196C2418 /* Frameworks */ = {
@@ -441,10 +466,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C9A667F1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift in Sources */,
+				4C9A66791D2FD42F00FCA3F4 /* Vehicle.swift in Sources */,
+				4C9A667B1D2FD44500FCA3F4 /* VehiclesAPIService.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
-				4C5AD7D91D2E8D4100260F9D /* MapVehiclesViewController.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
-				4C5AD7DB1D2E8DC000260F9D /* MapViewModel.swift in Sources */,
+				4C9A66771D2FD42600FCA3F4 /* Vehicles.swift in Sources */,
+				4C9A667D1D2FD45200FCA3F4 /* VehiclesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -539,7 +567,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)";
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -582,7 +610,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LIBRARY_SEARCH_PATHS = "$(PODS_ROOT)";
+				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
