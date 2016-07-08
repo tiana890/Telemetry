@@ -20,6 +20,8 @@
 		4C9A667B1D2FD44500FCA3F4 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */; };
 		4C9A667D1D2FD45200FCA3F4 /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */; };
 		4C9A667F1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */; };
+		4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66821D2FE82F00FCA3F4 /* TelemetryClient.swift */; };
+		4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66851D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift */; };
 		9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */; };
 		DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,9 @@
 		4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehiclesAPIService.swift; path = ../../../../.Trash/VehiclesAPIService.swift; sourceTree = "<group>"; };
 		4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehiclesViewModel.swift; path = ../../../../.Trash/VehiclesViewModel.swift; sourceTree = "<group>"; };
 		4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVehiclesViewController.swift; path = ../../../../.Trash/MapVehiclesViewController.swift; sourceTree = "<group>"; };
+		4C9A66811D2FE76C00FCA3F4 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		4C9A66821D2FE82F00FCA3F4 /* TelemetryClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryClient.swift; sourceTree = "<group>"; };
+		4C9A66851D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesRequestSocket.swift; sourceTree = "<group>"; };
 		AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Telemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +138,7 @@
 		4C5EFB6F1D2D270F00FE882B /* Telemetry */ = {
 			isa = PBXGroup;
 			children = (
+				4C9A66801D2FE71900FCA3F4 /* Bridge */,
 				4C6DEDB11D2FC06A001B5502 /* API */,
 				4C9A667A1D2FD44500FCA3F4 /* VehiclesAPIService.swift */,
 				4C6DEDAC1D2FBCCF001B5502 /* Models */,
@@ -177,8 +183,26 @@
 		4C6DEDB11D2FC06A001B5502 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				4C9A66841D2FF41500FCA3F4 /* Requests */,
+				4C9A66821D2FE82F00FCA3F4 /* TelemetryClient.swift */,
 			);
 			name = API;
+			sourceTree = "<group>";
+		};
+		4C9A66801D2FE71900FCA3F4 /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				4C9A66811D2FE76C00FCA3F4 /* BridgingHeader.h */,
+			);
+			name = Bridge;
+			sourceTree = "<group>";
+		};
+		4C9A66841D2FF41500FCA3F4 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				4C9A66851D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift */,
+			);
+			name = Requests;
 			sourceTree = "<group>";
 		};
 		6780F0BB9FB4831C196C2418 /* Frameworks */ = {
@@ -467,7 +491,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4C9A667F1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift in Sources */,
+				4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */,
 				4C9A66791D2FD42F00FCA3F4 /* Vehicle.swift in Sources */,
+				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				4C9A667B1D2FD44500FCA3F4 /* VehiclesAPIService.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
@@ -571,6 +597,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = Telemetry/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -613,6 +640,7 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = Telemetry/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

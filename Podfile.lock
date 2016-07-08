@@ -6,6 +6,7 @@ PODS:
     - RxSwift (~> 2.5)
   - RxSwift (2.6.0)
   - SocketRocket (0.5.1)
+  - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
   - GoogleMaps
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - RxCocoa
   - RxSwift
   - SocketRocket
+  - SwiftyJSON
 
 SPEC CHECKSUMS:
   GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
@@ -20,7 +22,8 @@ SPEC CHECKSUMS:
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
+  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: d446c7432f67f860331d46c9fcd8cb55306b9b80
+PODFILE CHECKSUM: 2bf40ff88e4001ffc7c33b9c0631b2003f752849
 
 COCOAPODS: 1.0.0

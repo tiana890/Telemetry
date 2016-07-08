@@ -11,6 +11,7 @@ target 'Telemetry' do
   pod 'RxSwift'
   pod 'RxBlocking'
   pod 'RxCocoa'
+  pod 'SwiftyJSON'
   target 'TelemetryTests' do
     inherit! :search_paths
 
