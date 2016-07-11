@@ -5,6 +5,7 @@ PODS:
   - RxCocoa (2.6.0):
     - RxSwift (~> 2.5)
   - RxSwift (2.6.0)
+  - Socket.IO-Client-Swift (6.1.4)
   - SocketRocket (0.5.1)
   - SwiftyJSON (2.3.2)
 
@@ -13,6 +14,7 @@ DEPENDENCIES:
   - RxBlocking
   - RxCocoa
   - RxSwift
+  - Socket.IO-Client-Swift (~> 6.1.4)
   - SocketRocket
   - SwiftyJSON
 
@@ -21,9 +23,10 @@ SPEC CHECKSUMS:
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
+  Socket.IO-Client-Swift: 79dfbbe170d7816c84e2d3cc2baa3d227549e067
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: 2bf40ff88e4001ffc7c33b9c0631b2003f752849
+PODFILE CHECKSUM: 991c56e9a7130c4e4d9762655dfb4470acaf5115
 
 COCOAPODS: 1.0.0

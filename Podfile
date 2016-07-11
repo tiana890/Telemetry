@@ -7,6 +7,7 @@ target 'Telemetry' do
 
   # Pods for Telemetry
   pod 'SocketRocket'
+  pod 'Socket.IO-Client-Swift', '~> 6.1.4'
   pod 'GoogleMaps'
   pod 'RxSwift'
   pod 'RxBlocking'
