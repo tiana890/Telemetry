@@ -23,17 +23,18 @@ class TelemetryClient: NSObject, SRWebSocketDelegate {
         super.init()
 
         self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
-        self.webSocket?.open()
+        self.webSocket!.open()
+        self.observableVehicles = self.getVehicles()
         self.webSocket!.rx_didOpen.subscribeNext { [weak self](val) in
             self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true).getData() ?? NSData())
         }.addDisposableTo(self.disposeBag)
-        self.observableVehicles = self.getVehicles()
+        
     }
     
     func getVehicles() -> Observable<String>{
 
         return self.webSocket!.rx_didReceiveMessage.map({ (object) -> String in
-            
+            print(object as! String)
             let js = JSON.parse(object as! String)
             var str = ""
             print(js["vehicles"])
