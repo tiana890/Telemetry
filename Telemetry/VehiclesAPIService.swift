@@ -13,8 +13,8 @@ import SocketRocket
 class VehiclesAPIService: NSObject {
     let telemetryClient = TelemetryClient()
     
-    func getVehicles() -> Observable<Vehicles>{
-        return telemetryClient.vehiclesObservable
+    func getVehicles() -> Observable<String>?{
+        return telemetryClient.observableVehicles
     }
     
 }

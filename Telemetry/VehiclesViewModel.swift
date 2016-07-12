@@ -16,12 +16,12 @@ final class VehiclesViewModel{
     
     //MARK: Model
     
-    let vehicles: Observable<Vehicles>
+    let vehicles: Observable<String>
 
     //MARK: Set up
     init(){
         self.vehiclesAPIService = VehiclesAPIService()
-        self.vehicles = vehiclesAPIService.getVehicles()
+        self.vehicles = vehiclesAPIService.getVehicles()!
     }
     
 }

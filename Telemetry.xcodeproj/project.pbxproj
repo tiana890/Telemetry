@@ -19,7 +19,7 @@
 		4C5EFB7B1D2D270F00FE882B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB791D2D270F00FE882B /* LaunchScreen.storyboard */; };
 		4C5EFB861D2D271000FE882B /* TelemetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB851D2D271000FE882B /* TelemetryTests.swift */; };
 		4C5EFB911D2D271000FE882B /* TelemetryUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */; };
-		4C9A667D1D2FD45200FCA3F4 /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */; };
+		4C77AD6D1D34D712002FE708 /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */; };
 		4C9A667F1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */; };
 		4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66821D2FE82F00FCA3F4 /* TelemetryClient.swift */; };
 		4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9A66851D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift */; };
@@ -66,7 +66,7 @@
 		4C5EFB8C1D2D271000FE882B /* TelemetryUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TelemetryUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB901D2D271000FE882B /* TelemetryUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelemetryUITests.swift; sourceTree = "<group>"; };
 		4C5EFB921D2D271000FE882B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VehiclesViewModel.swift; path = ../../../../.Trash/VehiclesViewModel.swift; sourceTree = "<group>"; };
+		4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesViewModel.swift; sourceTree = "<group>"; };
 		4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapVehiclesViewController.swift; path = ../../../../.Trash/MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		4C9A66811D2FE76C00FCA3F4 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		4C9A66821D2FE82F00FCA3F4 /* TelemetryClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryClient.swift; sourceTree = "<group>"; };
@@ -117,8 +117,8 @@
 		4C5AD7D71D2E8D1F00260F9D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */,
 				4C9A667E1D2FD45F00FCA3F4 /* MapVehiclesViewController.swift */,
-				4C9A667C1D2FD45200FCA3F4 /* VehiclesViewModel.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -508,9 +508,9 @@
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
+				4C77AD6D1D34D712002FE708 /* VehiclesViewModel.swift in Sources */,
 				4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */,
 				4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */,
-				4C9A667D1D2FD45200FCA3F4 /* VehiclesViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
