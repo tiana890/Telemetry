@@ -17,8 +17,36 @@
                     <view key="view" contentMode="scaleToFill" id="NFK-xQ-PmY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UxH-Ip-rEg">
+                                <rect key="frame" x="252" y="140" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="X63-Rz-Jnd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-dG-kuv">
+                                <rect key="frame" x="252" y="199" width="97" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="97" id="5aL-SJ-Dsa"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="UxH-Ip-rEg" firstAttribute="centerX" secondItem="NFK-xQ-PmY" secondAttribute="centerX" id="LKf-Vn-dbX"/>
+                            <constraint firstItem="b4m-dG-kuv" firstAttribute="centerX" secondItem="NFK-xQ-PmY" secondAttribute="centerX" id="T0V-YN-aZ9"/>
+                            <constraint firstItem="b4m-dG-kuv" firstAttribute="top" secondItem="UxH-Ip-rEg" secondAttribute="bottom" constant="29" id="aLw-fU-nqo"/>
+                            <constraint firstItem="UxH-Ip-rEg" firstAttribute="top" secondItem="aiu-9r-AzA" secondAttribute="bottom" constant="120" id="jEg-iY-OSa"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="loginTxtField" destination="UxH-Ip-rEg" id="f6J-pz-rNA"/>
+                        <outlet property="passwordTxtField" destination="b4m-dG-kuv" id="ibC-91-qzS"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3hd-vr-er9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

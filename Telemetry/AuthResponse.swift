@@ -11,5 +11,11 @@ import SwiftyJSON
 
 class AuthResponse: BaseResponse {
 
+    var token: String?
     
+    override init(json: JSON){
+        super.init(json: json)
+        
+        self.token = json["auth"]["token"].string
+    }
 }

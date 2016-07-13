@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class BaseResponse: NSObject {
 
@@ -20,5 +21,8 @@ class BaseResponse: NSObject {
         self.reason = _reason
     }
     
-    in
+    init(json: JSON) {
+        self.status = json["status"].string
+        self.reason = json["reason"].string
+    }
 }

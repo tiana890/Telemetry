@@ -13,6 +13,9 @@ class AuthorizationViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     
+    @IBOutlet weak var passwordTxtField: UITextField!
+    @IBOutlet weak var loginTxtField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
