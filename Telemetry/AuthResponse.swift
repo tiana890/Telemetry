@@ -1,5 +1,5 @@
 //
-//  AuthAPIService.swift
+//  AuthResponse.swift
 //  Telemetry
 //
 //  Created by Agentum on 13.07.16.
@@ -7,11 +7,9 @@
 //
 
 import UIKit
-import RxSwift
-import SocketRocket
+import SwiftyJSON
 
-class AuthAPIService{
-    init(){
-        
-    }
+class AuthResponse: BaseResponse {
+
+    
 }

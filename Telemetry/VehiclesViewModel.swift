@@ -15,7 +15,6 @@ final class VehiclesViewModel{
     private let disposeBag = DisposeBag()
     
     //MARK: Model
-    
     let vehicles: Observable<String>
 
     //MARK: Set up

@@ -10,5 +10,6 @@
 #define BridgingHeader_h
 
 #import <SocketRocket/SRWebSocket.h>
+#import <CommonCrypto/CommonCrypto.h>
 
 #endif /* BridgingHeader_h */

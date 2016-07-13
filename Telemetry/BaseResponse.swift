@@ -19,4 +19,6 @@ class BaseResponse: NSObject {
         self.status = _status
         self.reason = _reason
     }
+    
+    in
 }

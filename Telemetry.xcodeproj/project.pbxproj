@@ -16,6 +16,10 @@
 		4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24311D36449100AC310E /* AuthAPIService.swift */; };
 		4C5B24361D36452200AC310E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24351D36452200AC310E /* DataLoader.swift */; };
 		4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24381D3645DE00AC310E /* BaseResponse.swift */; };
+		4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B243C1D366AE900AC310E /* AuthorizationViewController.swift */; };
+		4C5B243F1D366B0D00AC310E /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B243E1D366B0D00AC310E /* AuthorizationViewModel.swift */; };
+		4C5B24411D366DB400AC310E /* AuthResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24401D366DB400AC310E /* AuthResponse.swift */; };
+		4C5B24451D367C3B00AC310E /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24441D367C3B00AC310E /* String+MD5.swift */; };
 		4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB701D2D270F00FE882B /* AppDelegate.swift */; };
 		4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EFB721D2D270F00FE882B /* ViewController.swift */; };
 		4C5EFB761D2D270F00FE882B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EFB741D2D270F00FE882B /* Main.storyboard */; };
@@ -61,6 +65,10 @@
 		4C5B24311D36449100AC310E /* AuthAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		4C5B24351D36452200AC310E /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		4C5B24381D3645DE00AC310E /* BaseResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
+		4C5B243C1D366AE900AC310E /* AuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
+		4C5B243E1D366B0D00AC310E /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		4C5B24401D366DB400AC310E /* AuthResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthResponse.swift; sourceTree = "<group>"; };
+		4C5B24441D367C3B00AC310E /* String+MD5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		4C5EFB6D1D2D270F00FE882B /* Telemetry.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Telemetry.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EFB701D2D270F00FE882B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4C5EFB721D2D270F00FE882B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -125,8 +133,8 @@
 		4C5AD7D71D2E8D1F00260F9D /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */,
-				88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */,
+				4C5B243B1D366AA000AC310E /* Auth */,
+				4C5B243A1D366A8900AC310E /* Vehicles&Map */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -153,8 +161,43 @@
 			isa = PBXGroup;
 			children = (
 				4C5B24381D3645DE00AC310E /* BaseResponse.swift */,
+				4C5B24401D366DB400AC310E /* AuthResponse.swift */,
 			);
 			name = Responses;
+			sourceTree = "<group>";
+		};
+		4C5B243A1D366A8900AC310E /* Vehicles&Map */ = {
+			isa = PBXGroup;
+			children = (
+				4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */,
+				88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */,
+			);
+			name = "Vehicles&Map";
+			sourceTree = "<group>";
+		};
+		4C5B243B1D366AA000AC310E /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				4C5B243C1D366AE900AC310E /* AuthorizationViewController.swift */,
+				4C5B243E1D366B0D00AC310E /* AuthorizationViewModel.swift */,
+			);
+			name = Auth;
+			sourceTree = "<group>";
+		};
+		4C5B24421D367C1F00AC310E /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				4C5B24431D367C2700AC310E /* Extensions */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		4C5B24431D367C2700AC310E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4C5B24441D367C3B00AC310E /* String+MD5.swift */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		4C5EFB641D2D270F00FE882B = {
@@ -182,6 +225,7 @@
 		4C5EFB6F1D2D270F00FE882B /* Telemetry */ = {
 			isa = PBXGroup;
 			children = (
+				4C5B24421D367C1F00AC310E /* Common */,
 				4C9A66801D2FE71900FCA3F4 /* Bridge */,
 				4C6DEDB11D2FC06A001B5502 /* API */,
 				4C6DEDAC1D2FBCCF001B5502 /* Models */,
@@ -540,6 +584,9 @@
 				4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */,
 				4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */,
 				88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */,
+				4C5B24451D367C3B00AC310E /* String+MD5.swift in Sources */,
+				4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */,
+				4C5B243F1D366B0D00AC310E /* AuthorizationViewModel.swift in Sources */,
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,
@@ -551,6 +598,7 @@
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
 				4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */,
 				4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */,
+				4C5B24411D366DB400AC310E /* AuthResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
