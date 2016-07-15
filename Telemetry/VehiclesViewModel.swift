@@ -13,12 +13,16 @@ final class VehiclesViewModel{
     
     private let disposeBag = DisposeBag()
     
-    //MARK: Model
-    let vehicles: Observable<String>
-
+    //output
+    var vehicles = PublishSubject<String>()
+    
     //MARK: Set up
     init(telemetryClient: TelemetryClient){
-        vehicles = telemetryClient.getVehicles()
+    
+        //vehicles.debug("XXX").bindTo(telemetryClient.observableVehicles).addDisposableTo(self.disposeBag)
+        //telemetryClient.observableVehicles.asObservable().bindTo(vehicles).addDisposableTo(self.disposeBag)
+        telemetryClient.observableVehicles.bindTo(vehicles).addDisposableTo(self.disposeBag)
+   
     }
     
 }
