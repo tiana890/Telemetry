@@ -9,7 +9,7 @@
 import RxSwift
 import SocketRocket
 import SwiftyJSON
-import SocketIOClientSwift
+
 
 class TelemetryClient: NSObject {
     
@@ -18,7 +18,7 @@ class TelemetryClient: NSObject {
     var webSocket: SRWebSocket?
     let disposeBag = DisposeBag()
     
-    var observableVehicles = PublishSubject<String>()
+    var observableVehicles = PublishSubject<Vehicles>()
     
     init(token: String){
         super.init()
@@ -30,19 +30,22 @@ class TelemetryClient: NSObject {
             self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: token).getData() ?? NSData())
         }.addDisposableTo(self.disposeBag)
         
-        self.webSocket?.rx_didReceiveMessage.map({ (object) -> String in
-            print(object as! String)
-            let js = JSON.parse(object as! String)
-            var str = ""
-            if let dict = js["vehicles"].dictionary{
-                for(key, value) in dict{
-                    str = str + key + ","
+        self.webSocket?.rx_didReceiveMessage.map({ (object) -> Vehicles in
+            
+            var vehicles = Vehicles()
+            if let str = object as? String{
+                let js = JSON.parse(str)
+                if let dict = js["vehicles"].dictionary {
+                    for(key, value) in dict{
+                        let vehicleModel = Vehicle(json: value)
+                        vehicles.array.append(vehicleModel)
+                    }
                 }
             }
+            return vehicles
             
-            return str
-        }).subscribeNext({ (str) in
-            self.observableVehicles.on(.Next(str))
+        }).subscribeNext({ (veh) in
+            self.observableVehicles.on(.Next(veh))
         }).addDisposableTo(self.disposeBag)
 
     }

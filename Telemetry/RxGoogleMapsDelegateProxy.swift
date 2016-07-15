@@ -1,0 +1,32 @@
+//
+//  RxGoogleMapsDelegateProxy.swift
+//  Telemetry
+//
+//  Created by Agentum on 15.07.16.
+//  Copyright © 2016 GBU. All rights reserved.
+//
+
+import RxSwift
+import RxCocoa
+import GoogleMaps
+
+class RxGoogleMapsDelegateProxy: DelegateProxy, DelegateProxyType, GMSMapViewDelegate {
+    
+    static func currentDelegateFor(object: AnyObject) -> AnyObject?{
+        let googleMap: GMSMapView = object as! GMSMapView
+        return googleMap.delegate
+    }
+    
+    static func setCurrentDelegate(delegate: AnyObject?, toObject object: AnyObject) {
+        let googleMap: GMSMapView = object as! GMSMapView
+        googleMap.delegate = delegate as? GMSMapViewDelegate
+    }
+    
+}
+
+extension GMSMapView{
+    public var rx_delegate: DelegateProxy{
+        return RxGoogleMapsDelegateProxy.proxyForObject(self)
+    }
+    
+}

@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import SwiftyJSON
+import GoogleMaps
 
 class MapVehiclesViewController: UIViewController{
     
@@ -17,7 +18,10 @@ class MapVehiclesViewController: UIViewController{
     
     var token: String?
     
-    @IBOutlet weak var label: UILabel!
+    var dict = [Int64: (mapInfo: VehicleMapInfo, marker: GMSMarker)]()
+    
+    
+    @IBOutlet weak var mapView: GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +30,36 @@ class MapVehiclesViewController: UIViewController{
     }
     
     func addBindsToViewModel(){
-        viewModel?.vehicles.bindTo(label.rx_text).addDisposableTo(self.disposeBag)
+        viewModel?.vehiclesMetaInfo.subscribeNext({ [unowned self](mapInfoArr) in
+            self.appendMarkersOnMap(mapInfoArr)
+        }).addDisposableTo(self.disposeBag)
     }
+    
+    func appendMarkersOnMap(array: [VehicleMapInfo]){
+        //Find current markers in dict
+        for(vehicleMapInfo) in array{
+            if let value = dict[vehicleMapInfo.id]{
+                if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
+                    
+                } else {
+                    let marker = value.marker
+                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: marker)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        marker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+                    })
+                }
+            } else {
+                let gmsMapMarker = GMSMarker()
+                dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: gmsMapMarker)
+                gmsMapMarker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+                dispatch_async(dispatch_get_main_queue(), { 
+                    gmsMapMarker.map = self.mapView
+                })
+                
+            }
+        }
+    }
+    
     
 }
 

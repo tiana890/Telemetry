@@ -12,6 +12,7 @@
 		4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235C1D33EA91002D0009 /* Vehicles.swift */; };
 		4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */; };
 		4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */; };
+		4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */; };
 		4C5B24301D36432400AC310E /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B242F1D36432400AC310E /* AuthClient.swift */; };
 		4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24311D36449100AC310E /* AuthAPIService.swift */; };
 		4C5B24361D36452200AC310E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24351D36452200AC310E /* DataLoader.swift */; };
@@ -62,6 +63,7 @@
 		4C15235C1D33EA91002D0009 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
 		4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesAPIService.swift; sourceTree = "<group>"; };
 		4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSocketManagerDelegateProxy.swift; sourceTree = "<group>"; };
+		4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGoogleMapsDelegateProxy.swift; sourceTree = "<group>"; };
 		4C5B242F1D36432400AC310E /* AuthClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
 		4C5B24311D36449100AC310E /* AuthAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		4C5B24351D36452200AC310E /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
@@ -128,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */,
+				4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */,
 			);
 			name = "Proxy for delegate";
 			sourceTree = "<group>";
@@ -587,6 +590,7 @@
 				4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */,
 				4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */,
 				88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */,
+				4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */,
 				4C5B24451D367C3B00AC310E /* String+MD5.swift in Sources */,
 				4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */,
 				4C5B24471D36877600AC310E /* Auth.swift in Sources */,
@@ -700,6 +704,10 @@
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = Telemetry/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -743,6 +751,10 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LIBRARY_SEARCH_PATHS = "";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = Telemetry/BridgingHeader.h;
 				TARGETED_DEVICE_FAMILY = "1,2";

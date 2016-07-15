@@ -7,14 +7,13 @@ target 'Telemetry' do
   
   # Pods for Telemetry
   pod 'SocketRocket', '~> 0.5.1'
-  pod 'Socket.IO-Client-Swift', '~> 6.1.4'
   pod 'GoogleMaps', '~> 1.13.2'
   pod 'RxSwift', '~> 2.6.0'
   pod 'RxBlocking', '~> 2.6.0'
   pod 'RxCocoa', '~> 2.6.0'
   pod 'SwiftyJSON', '~> 2.3.2'
   pod 'RxAlamofire', '~> 2.5'
-  pod 'Action', '~> 1.2.2'
+
   
   target 'TelemetryTests' do
     inherit! :search_paths
