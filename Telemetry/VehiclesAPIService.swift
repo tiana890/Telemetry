@@ -11,10 +11,6 @@ import RxSwift
 import SocketRocket
 
 class VehiclesAPIService: NSObject {
-    let telemetryClient = TelemetryClient()
-    
-    func getVehicles() -> Observable<String>?{
-        return telemetryClient.observableVehicles
-    }
+   
     
 }

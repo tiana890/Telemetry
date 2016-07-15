@@ -19,16 +19,28 @@ class TelemetryClient: NSObject, SRWebSocketDelegate {
     let disposeBag = DisposeBag()
     
     var observableVehicles: Observable<String>?
-    override init(){
+    
+    init(token: String){
         super.init()
 
         self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
+        self.webSocket?.delegate = self
         self.webSocket!.open()
-        self.observableVehicles = self.getVehicles()
-        self.webSocket!.rx_didOpen.subscribeNext { [weak self](val) in
-            self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true).getData() ?? NSData())
-        }.addDisposableTo(self.disposeBag)
+        //self.observableVehicles = self.getVehicles()
         
+//        self.webSocket!.rx_didOpen.subscribeNext { [weak self](val) in
+//            self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: token).getData() ?? NSData())
+//        }.addDisposableTo(self.disposeBag)
+        
+        self.webSocket!.rx_didOpen.subscribe(onNext: { (val) in
+            print(val)
+            }, onError: { (err) in
+                print(err)
+            }, onCompleted: { 
+                
+            }) { 
+                
+        }.addDisposableTo(self.disposeBag)
     }
     
     func getVehicles() -> Observable<String>{
@@ -64,5 +76,9 @@ class TelemetryClient: NSObject, SRWebSocketDelegate {
     
     func webSocket(webSocket: SRWebSocket!, didReceivePong pongPayload: NSData!) {
         print("Pong")
+    }
+    
+    func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
+        print(error.description)
     }
 }

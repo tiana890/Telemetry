@@ -13,6 +13,7 @@ import SocketRocket
 class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocketDelegate{
     
     let didReceiveMessageSubject = PublishSubject<AnyObject>()
+    let didOpenSubject = PublishSubject<Bool>()
     
     static func currentDelegateFor(object: AnyObject) -> AnyObject?{
         let socket: SRWebSocket = object as! SRWebSocket
@@ -28,6 +29,12 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
         didReceiveMessageSubject.on(.Next(message))
         //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocket(webSocket, didReceiveMessage: message)
     }
+    
+    func webSocketDidOpen(webSocket: SRWebSocket!) {
+        didOpenSubject.on(.Next(true))
+        //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocketDidOpen(webSocket)
+    }
+    
 }
 
 extension SRWebSocket{
@@ -41,9 +48,11 @@ extension SRWebSocket{
     }
     
     public var rx_didOpen: Observable<Bool>{
-        return rx_delegate.observe(#selector(SRWebSocketDelegate.webSocketDidOpen(_:))).map({ (obj) -> Bool in
-            return true
-        })
+        let proxy = RxSocketManagerDelegateProxy.proxyForObject(self)
+        return proxy.didOpenSubject
+//        return rx_delegate.observe(#selector(SRWebSocketDelegate.webSocketDidOpen(_:))).map({ (obj) -> Bool in
+//            return true
+//        })
     }
         
 }

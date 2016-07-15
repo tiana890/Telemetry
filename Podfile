@@ -14,6 +14,7 @@ target 'Telemetry' do
   pod 'RxCocoa', '~> 2.6.0'
   pod 'SwiftyJSON', '~> 2.3.2'
   pod 'RxAlamofire', '~> 2.5'
+  pod 'Action', '~> 1.2.2'
   
   target 'TelemetryTests' do
     inherit! :search_paths

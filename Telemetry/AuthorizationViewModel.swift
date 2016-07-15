@@ -9,26 +9,43 @@
 import UIKit
 import RxSwift
 import SwiftyJSON
+import Action
 
 final class AuthorizationViewModel{
     
-    private let authClient: AuthClient
+
     private let disposeBag = DisposeBag()
     
-    private let authModel: Auth
+    //input
+    var login = PublishSubject<String>()
+    var password = PublishSubject<String>()
+    var didPressButton = PublishSubject<Void>()
+    //output
+    var authModel:Observable<Auth> = Observable.never()
+
     
-    let authEvent = Variable(UIControlEvents.TouchUpInside)
-    let login = Variable(String)
-    let password = Variable(String)
-    
-    init(){
-       authClient = AuthClient()
-    
-       authModel = authEvent.asObservable()
-                .flatMapLatest({ (events) -> Observable<Auth> in
-                    return authClient.authObservable(login.value, mergedHash: password.value)
-                        .
-                })
+    init(authClient: AuthClient){
+        
+        let userInputs = Observable.combineLatest(login, password) { (login, password) -> (String, String) in
+            return (login, password)
+        }
+        
+        authModel = didPressButton
+                    .withLatestFrom(userInputs)
+                    .asObservable()
+                    .flatMap({ (log, pass) -> Observable<AuthResponse> in
+                        return authClient.authObservable(log, mergedHash: "\(log):\(pass)".md5)
+                    })
+                    .map({ (authResponse) -> Auth in
+                        return self.convertAuthResponseToAuthModel(authResponse)
+                    })
+
     }
-    
+
+
+    func convertAuthResponseToAuthModel(authResponse: AuthResponse) -> Auth{
+        var authModel = Auth()
+        authModel.token = authResponse.token
+        return authModel
+    }
 }

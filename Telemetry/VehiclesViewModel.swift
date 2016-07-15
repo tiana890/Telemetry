@@ -11,16 +11,14 @@ import RxSwift
 
 final class VehiclesViewModel{
     
-    private let vehiclesAPIService: VehiclesAPIService
     private let disposeBag = DisposeBag()
     
     //MARK: Model
     let vehicles: Observable<String>
 
     //MARK: Set up
-    init(){
-        self.vehiclesAPIService = VehiclesAPIService()
-        self.vehicles = vehiclesAPIService.getVehicles()!
+    init(telemetryClient: TelemetryClient){
+        vehicles = telemetryClient.getVehicles()
     }
     
 }

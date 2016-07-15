@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="iT5-Be-VuO">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ddV-9p-eOf">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="AQI-2E-CDd">
+            <objects>
+                <navigationController id="ddV-9p-eOf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HMO-9V-4b3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="iT5-Be-VuO" kind="relationship" relationship="rootViewController" id="csP-8a-Kkp"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S6U-uk-e1Z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1008" y="385"/>
+        </scene>
         <!--Authorization View Controller-->
         <scene sceneID="JOd-P7-5Pq">
             <objects>
@@ -18,16 +34,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UxH-Ip-rEg">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="admin" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="UxH-Ip-rEg">
                                 <rect key="frame" x="252" y="140" width="97" height="30"/>
+                                <color key="backgroundColor" red="0.80784313730000001" green="0.81176470590000005" blue="0.81568627449999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="X63-Rz-Jnd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-dG-kuv">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ugv-ZP-yFq">
+                                <rect key="frame" x="277" y="272" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="46" id="43K-zK-I7L"/>
+                                    <constraint firstAttribute="height" constant="30" id="XGr-43-NMS"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="admin" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b4m-dG-kuv">
                                 <rect key="frame" x="252" y="199" width="97" height="30"/>
+                                <color key="backgroundColor" red="0.68235294120000001" green="0.68627450980000004" blue="0.69411764710000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="97" id="5aL-SJ-Dsa"/>
                                 </constraints>
@@ -38,19 +64,23 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="UxH-Ip-rEg" firstAttribute="centerX" secondItem="NFK-xQ-PmY" secondAttribute="centerX" id="LKf-Vn-dbX"/>
+                            <constraint firstItem="ugv-ZP-yFq" firstAttribute="top" secondItem="b4m-dG-kuv" secondAttribute="bottom" constant="43" id="O6I-vh-qqZ"/>
                             <constraint firstItem="b4m-dG-kuv" firstAttribute="centerX" secondItem="NFK-xQ-PmY" secondAttribute="centerX" id="T0V-YN-aZ9"/>
                             <constraint firstItem="b4m-dG-kuv" firstAttribute="top" secondItem="UxH-Ip-rEg" secondAttribute="bottom" constant="29" id="aLw-fU-nqo"/>
                             <constraint firstItem="UxH-Ip-rEg" firstAttribute="top" secondItem="aiu-9r-AzA" secondAttribute="bottom" constant="120" id="jEg-iY-OSa"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="opf-LE-P4O"/>
                     <connections>
+                        <outlet property="button" destination="ugv-ZP-yFq" id="qgx-Ne-1mm"/>
                         <outlet property="loginTxtField" destination="UxH-Ip-rEg" id="f6J-pz-rNA"/>
                         <outlet property="passwordTxtField" destination="b4m-dG-kuv" id="ibC-91-qzS"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="mapsSegue" id="ej8-9e-7mk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3hd-vr-er9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="124" y="382"/>
+            <point key="canvasLocation" x="-202" y="385"/>
         </scene>
         <!--Map Vehicles View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -64,7 +94,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="slv-U9-kiN">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="slv-U9-kiN">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RnO-4q-QTS">
@@ -99,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="861" y="385"/>
+            <point key="canvasLocation" x="642" y="385"/>
         </scene>
     </scenes>
 </document>
