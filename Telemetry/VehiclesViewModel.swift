@@ -19,8 +19,6 @@ final class VehiclesViewModel{
     //MARK: Set up
     init(telemetryClient: TelemetryClient){
     
-        //vehicles.debug("XXX").bindTo(telemetryClient.observableVehicles).addDisposableTo(self.disposeBag)
-        //telemetryClient.observableVehicles.asObservable().bindTo(vehicles).addDisposableTo(self.disposeBag)
         telemetryClient.observableVehicles.bindTo(vehicles).addDisposableTo(self.disposeBag)
    
     }

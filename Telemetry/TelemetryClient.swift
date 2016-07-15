@@ -36,7 +36,7 @@ class TelemetryClient: NSObject {
             var str = ""
             if let dict = js["vehicles"].dictionary{
                 for(key, value) in dict{
-                    str = key + ","
+                    str = str + key + ","
                 }
             }
             
