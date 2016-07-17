@@ -18,48 +18,70 @@ class MapVehiclesViewController: UIViewController{
     
     var token: String?
     
-    var dict = [Int64: (mapInfo: VehicleMapInfo, marker: GMSMarker)]()
+    var dict = [Int64: (mapInfo: VehicleMapInfo, spot: Spot)]()
     
+    var v: GMSMapView?
     
-    @IBOutlet weak var mapView: GMSMapView!
+    var clusterManager: GClusterManager?
+    
+    //@IBOutlet weak var mapView: GMSMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: token ?? ""))
         self.addBindsToViewModel()
+        
+        v = GMSMapView(frame: self.view.frame)
+        self.view.addSubview(v!)
+        
+        self.clusterManager = GClusterManager(mapView: self.v, algorithm: NonHierarchicalDistanceBasedAlgorithm(), renderer: GDefaultClusterRenderer(mapView: self.v))
+    
     }
     
     func addBindsToViewModel(){
-        viewModel?.vehiclesMetaInfo.subscribeNext({ [unowned self](mapInfoArr) in
+        let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+        viewModel?.vehiclesMetaInfo.observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue)).subscribeNext({ [unowned self](mapInfoArr) in
             self.appendMarkersOnMap(mapInfoArr)
+            dispatch_async(dispatch_get_main_queue(), {
+                self.clusterManager?.cluster()
+            })
         }).addDisposableTo(self.disposeBag)
     }
     
     func appendMarkersOnMap(array: [VehicleMapInfo]){
+
         //Find current markers in dict
         for(vehicleMapInfo) in array{
             if let value = dict[vehicleMapInfo.id]{
                 if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
                     
                 } else {
-                    let marker = value.marker
-                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: marker)
-                    dispatch_async(dispatch_get_main_queue(), {
-                        marker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-                    })
+//                    let spot = Spot
+//                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: marker)
+//                    dispatch_async(dispatch_get_main_queue(), {
+//                        marker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+//                    })
                 }
             } else {
                 let gmsMapMarker = GMSMarker()
-                dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: gmsMapMarker)
-                gmsMapMarker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-                dispatch_async(dispatch_get_main_queue(), { 
-                    gmsMapMarker.map = self.mapView
+                let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+                gmsMapMarker.position = pos
+                let spot = Spot(_position: pos, _marker: gmsMapMarker)
+                dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+
+                dispatch_async(dispatch_get_main_queue(), {
+        
+                    self.addSpot(spot)
                 })
                 
             }
         }
     }
     
+    func addSpot(spot: Spot){
+        self.clusterManager?.addItem(spot)
+
+    }
     
 }
 

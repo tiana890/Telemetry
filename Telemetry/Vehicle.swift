@@ -33,8 +33,8 @@ class Vehicle: NSObject {
         self.azimut = json["azm"].double
         self.speed = json["spe"].double
         self.odometr = json["odo"].double
-        self.lat = json["lat"].double
-        self.lon = json["lon"].double
+        self.lat = (json["lat"].string != nil) ? Double(json["lat"].stringValue) : 0
+        self.lon = (json["lon"].string != nil) ? Double(json["lon"].stringValue) : 0
         self.sta = json["sta"].string
         self.tsk = json["tsk"].string
         self.dateObserved = json["dt_o"].int64

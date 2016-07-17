@@ -22,11 +22,17 @@ class TelemetryClient: NSObject {
     
     init(token: String){
         super.init()
-
-        self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
-        self.webSocket!.open()
         
-        self.webSocket!.rx_didOpen.subscribeNext { [weak self](val) in
+        let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+
+        
+        self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
+        
+        dispatch_async(backgrQueue) {
+            self.webSocket!.open()
+        }
+        
+        self.webSocket!.rx_didOpen.observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).subscribeNext { [weak self](val) in
             self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: token).getData() ?? NSData())
         }.addDisposableTo(self.disposeBag)
         
@@ -35,18 +41,24 @@ class TelemetryClient: NSObject {
             var vehicles = Vehicles()
             if let str = object as? String{
                 let js = JSON.parse(str)
+                print(js["vehicles"].dictionaryValue)
                 if let dict = js["vehicles"].dictionary {
                     for(key, value) in dict{
                         let vehicleModel = Vehicle(json: value)
-                        vehicles.array.append(vehicleModel)
+                        if let intKey = Int64(key){
+                            vehicleModel.id = intKey
+                            vehicles.array.append(vehicleModel)
+                        }
                     }
                 }
             }
             return vehicles
             
-        }).subscribeNext({ (veh) in
+        }).observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
+            .subscribeNext({ (veh) in
             self.observableVehicles.on(.Next(veh))
         }).addDisposableTo(self.disposeBag)
+        
 
     }
 
