@@ -42,9 +42,7 @@ class MapVehiclesViewController: UIViewController{
         let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
         viewModel?.vehiclesMetaInfo.observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue)).subscribeNext({ [unowned self](mapInfoArr) in
             self.appendMarkersOnMap(mapInfoArr)
-            dispatch_async(dispatch_get_main_queue(), {
-                self.clusterManager?.cluster()
-            })
+            
         }).addDisposableTo(self.disposeBag)
     }
     
@@ -76,6 +74,9 @@ class MapVehiclesViewController: UIViewController{
                 
             }
         }
+        dispatch_async(dispatch_get_main_queue(), {
+            self.clusterManager?.cluster()
+        })
     }
     
     func addSpot(spot: Spot){
