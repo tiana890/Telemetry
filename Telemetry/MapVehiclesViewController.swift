@@ -22,9 +22,11 @@ class MapVehiclesViewController: UIViewController{
     
     var v: GMSMapView?
     
+    var clusterAlgorithm: NonHierarchicalDistanceBasedAlgorithm?
     var clusterManager: GClusterManager?
     
     //@IBOutlet weak var mapView: GMSMapView!
+    let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,15 +36,19 @@ class MapVehiclesViewController: UIViewController{
         v = GMSMapView(frame: self.view.frame)
         self.view.addSubview(v!)
         
-        self.clusterManager = GClusterManager(mapView: self.v, algorithm: NonHierarchicalDistanceBasedAlgorithm(), renderer: GDefaultClusterRenderer(mapView: self.v))
+        self.clusterAlgorithm = NonHierarchicalDistanceBasedAlgorithm()
+        self.clusterManager = GClusterManager(mapView: self.v, algorithm: self.clusterAlgorithm, renderer: GDefaultClusterRenderer(mapView: self.v))
     
     }
     
     func addBindsToViewModel(){
-        let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+        
         viewModel?.vehiclesMetaInfo.observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue)).subscribeNext({ [unowned self](mapInfoArr) in
-            self.appendMarkersOnMap(mapInfoArr)
-            
+            dispatch_barrier_async(self.mapQueue, {
+                self.appendMarkersOnMap(mapInfoArr)
+            })
+            //self.clusterManager?.removeItemsNotInRectangle(self.v!.frame)
+            self.clusterManager?.cluster()
         }).addDisposableTo(self.disposeBag)
     }
     
@@ -52,36 +58,39 @@ class MapVehiclesViewController: UIViewController{
         for(vehicleMapInfo) in array{
             if let value = dict[vehicleMapInfo.id]{
                 if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
-                    
+                    print("not changed")
                 } else {
-//                    let spot = Spot
-//                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, marker: marker)
-//                    dispatch_async(dispatch_get_main_queue(), {
-//                        marker.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-//                    })
+                    //change items in cluster manager
+                    print(self.clusterManager?.items?.count)
+                    guard let index = self.clusterAlgorithm?.items.map({ ($0 as! GQuadItem).marker }).indexOf(value.spot.marker) else { break}
+                    
+                    let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+                    
+                    self.clusterAlgorithm?.items.removeObjectAtIndex(index)
+                    
+                    self.addSpot(spot)
+                    
                 }
             } else {
-                let gmsMapMarker = GMSMarker()
-                let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-                gmsMapMarker.position = pos
-                let spot = Spot(_position: pos, _marker: gmsMapMarker)
+                let spot = addMarkerAndCreateSpot(vehicleMapInfo)
                 dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
-
-                dispatch_async(dispatch_get_main_queue(), {
-        
-                    self.addSpot(spot)
-                })
-                
+                self.addSpot(spot)
             }
         }
-        dispatch_async(dispatch_get_main_queue(), {
-            self.clusterManager?.cluster()
-        })
+
+    }
+    
+    func addMarkerAndCreateSpot(vehicleMapInfo: VehicleMapInfo) -> Spot{
+        let gmsMapMarker = GMSMarker()
+        let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+        gmsMapMarker.position = pos
+        let spot = Spot(_position: pos, _marker: gmsMapMarker)
+        return spot
     }
     
     func addSpot(spot: Spot){
         self.clusterManager?.addItem(spot)
-
     }
     
 }

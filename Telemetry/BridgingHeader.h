@@ -18,5 +18,6 @@
 #import "GClusterItem.h"
 #import "NonHierarchicalDistanceBasedAlgorithm.h"
 #import "GDefaultClusterRenderer.h"
+#import "GQuadItem.h"
 
 #endif /* BridgingHeader_h */
