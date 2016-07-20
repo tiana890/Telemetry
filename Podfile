@@ -7,7 +7,7 @@ target 'Telemetry' do
   
   # Pods for Telemetry
   pod 'SocketRocket', '~> 0.5.1'
-  pod 'GoogleMaps', '~> 1.13.2'
+  #pod 'GoogleMaps', '~> 1.13.2'
   pod 'RxSwift', '~> 2.6.0'
   pod 'RxBlocking', '~> 2.6.0'
   pod 'RxCocoa', '~> 2.6.0'
