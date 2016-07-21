@@ -18,12 +18,16 @@
 #import "GMUCluster.h"
 #import "GMUClusterItem.h"
 
+#import <CoreLocation/CoreLocation.h>
+
 NS_ASSUME_NONNULL_BEGIN
 
 /**
  * Generic protocol for arranging cluster items into groups.
  */
 @protocol GMUClusterAlgorithm<NSObject>
+
+- (void)replaceItemPosition:(CLLocationCoordinate2D)position withName:(NSString *)name;
 
 - (void)addItems:(NSArray<id<GMUClusterItem>> *)items;
 

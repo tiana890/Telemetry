@@ -19,6 +19,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     let disposeBag = DisposeBag()
     var token: String?
 
+    var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     
@@ -32,7 +33,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         
         // Set up the cluster manager with default icon generator and renderer.
         let iconGenerator = GMUDefaultClusterIconGenerator()
-        let algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
         clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
         self.mapView!.delegate = self
@@ -43,14 +43,13 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     func addBindsToViewModel(){
 
-        viewModel?.vehiclesMetaInfo.observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue)).subscribeNext({ [unowned self](mapInfoArr) in
-            
-            self.appendMarkersOnMap(mapInfoArr)
+        viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
+            dispatch_async(self.mapQueue, { 
+                self.appendMarkersOnMap(mapInfoArr)
+            })
+            dispatch_barrier_async(dispatch_get_main_queue(), { 
                 
-            
-            dispatch_async(dispatch_get_main_queue(), {
-                self.clusterManager?.cluster()
-                
+                self.clusterManager.cluster()
             })
             
         }).addDisposableTo(self.disposeBag)
@@ -65,26 +64,22 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                     print("not changed")
                 } else {
                     //change items in cluster manager
-                    dispatch_barrier_async(self.mapQueue, {
-                        self.clusterManager.removeItem(value.spot)
-                    })
                     
-                    let spot = addMarkerAndCreateSpot(vehicleMapInfo)
-                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+//                    self.clusterManager.removeItem(value.spot)
+//                    
+//                    let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+//                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+//                    self.clusterManager.addItem(spot)
+                    self.clusterManager.replaceItemPosition(CLLocationCoordinate2DMake(vehicleMapInfo.lat, vehicleMapInfo.lon), withName: "\(vehicleMapInfo.id)")
                     
-                    dispatch_barrier_async(self.mapQueue, {
-                        self.clusterManager.addItem(spot)
-                    })
                 }
             } else {
                 let spot = addMarkerAndCreateSpot(vehicleMapInfo)
                 dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
-                dispatch_barrier_async(self.mapQueue, {
-                    self.clusterManager.addItem(spot)
-                })
+                self.clusterManager.addItem(spot)
+                
             }
         }
-        
     }
     
     func addMarkerAndCreateSpot(vehicleMapInfo: VehicleMapInfo) -> POIItem{

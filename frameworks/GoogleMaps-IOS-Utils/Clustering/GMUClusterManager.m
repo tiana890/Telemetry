@@ -106,10 +106,15 @@ static const double kGMUClusterWaitIntervalSeconds = 0.2;
   [_algorithm removeItem:item];
 }
 
+- (void)replaceItemPosition:(CLLocationCoordinate2D)position withName:(NSString *)name{
+    [_algorithm replaceItemPosition:position withName:name];
+}
 - (void)clearItems {
   [_algorithm clearItems];
   [self requestCluster];
 }
+
+
 
 - (void)cluster {
   NSUInteger integralZoom = (NSUInteger)floorf(_mapView.camera.zoom + 0.5f);

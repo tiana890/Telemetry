@@ -26,6 +26,7 @@ class TelemetryClient: NSObject {
         let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
 
         
+        //self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
         self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
         
         dispatch_async(backgrQueue) {
@@ -40,8 +41,8 @@ class TelemetryClient: NSObject {
             
             var vehicles = Vehicles()
             if let str = object as? String{
+
                 let js = JSON.parse(str)
-                print(js["vehicles"].dictionaryValue)
                 if let dict = js["vehicles"].dictionary {
                     for(key, value) in dict{
                         let vehicleModel = Vehicle(json: value)

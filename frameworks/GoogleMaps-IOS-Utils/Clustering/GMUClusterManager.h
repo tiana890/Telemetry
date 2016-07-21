@@ -94,6 +94,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** Removes all items from the collection. */
 - (void)clearItems;
 
+- (void)replaceItemPosition:(CLLocationCoordinate2D)position withName:(NSString *)name;
+
 /**
  * Called to arrange items into groups.
  * - This method will be automatically invoked when the map's zoom level changes.
