@@ -36,7 +36,7 @@ class TelemetryClient: NSObject {
             self?.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: token).getData() ?? NSData())
         }.addDisposableTo(self.disposeBag)
         
-        self.webSocket?.rx_didReceiveMessage.map({ (object) -> Vehicles in
+        self.webSocket?.rx_didReceiveMessage.observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map({ (object) -> Vehicles in
             
             var vehicles = Vehicles()
             if let str = object as? String{
