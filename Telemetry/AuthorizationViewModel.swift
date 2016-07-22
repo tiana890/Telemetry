@@ -34,7 +34,7 @@ final class AuthorizationViewModel{
                     .withLatestFrom(userInputs)
                     .asObservable()
                     .flatMap({ (log, pass) -> Observable<AuthResponse> in
-                        return authClient.authObservable(log, mergedHash: "\(log):\(pass)".md5)
+                        return authClient.authObservable(log, password: pass)
                     })
                     .map({ (authResponse) -> Auth in
                         return self.convertAuthResponseToAuthModel(authResponse)

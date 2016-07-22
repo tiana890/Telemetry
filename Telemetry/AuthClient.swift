@@ -15,9 +15,9 @@ class AuthClient: NSObject {
     
     let AUTH_URL = "http://gbutelemob.agentum.org/api/v1/auth"
     
-    func authObservable(login: String, mergedHash: String) -> Observable<AuthResponse>{
+    func authObservable(login: String, password: String) -> Observable<AuthResponse>{
         
-        let paramDict = ["login" : "admin", "password" : "admin:admin".md5]
+        let paramDict = ["login" : login, "password" : "\(login):\(password)".md5]
         let queue = dispatch_queue_create("tasksLoad",nil)
         
         return requestJSON(.POST, AUTH_URL, parameters: paramDict, encoding: .URL, headers: nil)
