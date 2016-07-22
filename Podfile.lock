@@ -1,9 +1,5 @@
 PODS:
-  - Action (1.2.2):
-    - RxCocoa (~> 2.0)
-    - RxSwift (~> 2.0)
   - Alamofire (3.4.1)
-  - GoogleMaps (1.13.2)
   - RxAlamofire (2.5):
     - RxAlamofire/Core (= 2.5)
   - RxAlamofire/Core (2.5):
@@ -14,33 +10,26 @@ PODS:
   - RxCocoa (2.6.0):
     - RxSwift (~> 2.5)
   - RxSwift (2.6.0)
-  - Socket.IO-Client-Swift (6.1.4)
   - SocketRocket (0.5.1)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
-  - Action (~> 1.2.2)
-  - GoogleMaps (~> 1.13.2)
   - RxAlamofire (~> 2.5)
   - RxBlocking (~> 2.6.0)
   - RxCocoa (~> 2.6.0)
   - RxSwift (~> 2.6.0)
-  - Socket.IO-Client-Swift (~> 6.1.4)
   - SocketRocket (~> 0.5.1)
   - SwiftyJSON (~> 2.3.2)
 
 SPEC CHECKSUMS:
-  Action: 4c00077042467dbc214418c0b3e46c652b2785c5
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
-  GoogleMaps: b20a103ff307f58392e603cf142e59d7e30374c1
   RxAlamofire: b4572a077b6b2410c8732a27266299df4c00736e
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
-  Socket.IO-Client-Swift: 79dfbbe170d7816c84e2d3cc2baa3d227549e067
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: e0d480b5b5c3e865aeb7b8dd7df900ea28bb76de
+PODFILE CHECKSUM: b3c43df74326acca7394d513ca1cdf50dc96e591
 
 COCOAPODS: 1.0.0

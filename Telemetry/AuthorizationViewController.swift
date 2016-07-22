@@ -8,7 +8,7 @@
 
 import UIKit
 import RxSwift
-import Action
+
 
 class AuthorizationViewController: UIViewController {
     let MAPS_SEGUE_IDENTIFIER = "mapsSegue"

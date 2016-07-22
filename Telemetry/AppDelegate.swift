@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: Functions
     func initializeServices(){
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyAXRJHf2TXLFXVKL-qmUuOsz_iJdJGekSw")
+        GMSServices.provideAPIKey("AIzaSyA5s150KB5KFgRFS5XgR_-ag3taHccOXkE")
     }
 }
 

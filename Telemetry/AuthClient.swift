@@ -25,6 +25,7 @@ class AuthClient: NSObject {
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> AuthResponse in
                 let js = JSON(object)
+                print(js)
                 let authResponse = AuthResponse(json: js)
                 return authResponse
             })
