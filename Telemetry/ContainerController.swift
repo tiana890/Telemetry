@@ -50,7 +50,7 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        APP.i().containerViewController = self
+        ApplicationState.sharedInstance().containerViewController = self
         setInitialState()
         
         
