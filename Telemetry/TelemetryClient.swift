@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class TelemetryClient: NSObject {
     
-    let SERVER_URL = "ws://stk.esmc.info:8084/telemetry/socket_server"
+    let SERVER_URL = "ws://esmc.info/stk//api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
     let disposeBag = DisposeBag()
@@ -27,7 +27,7 @@ class TelemetryClient: NSObject {
 
         
         //self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
-        self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
+        self.webSocket = SRWebSocket(URL: NSURL(string: SERVER_URL))
         
         dispatch_async(backgrQueue) {
             self.webSocket!.open()

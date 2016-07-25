@@ -13,7 +13,7 @@ protocol APPLeftPanelIsShown: class{
 }
 
 class ApplicationState{
-    var isOfflineMode = false
+    var token: String?
     
     //MARK: Controllers
     weak var containerViewController: ContainerViewController?

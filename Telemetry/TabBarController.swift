@@ -27,8 +27,10 @@ class TabBarViewController: UITabBarController{
                 if let menuItem = MenuItem(rawValue: value){
                     switch(menuItem){
                     case MenuItem.Profile:
+                        self.selectedIndex = TabBarItem.Profile.rawValue
                         break
                     case MenuItem.Maps:
+                        self.selectedIndex = TabBarItem.Map.rawValue
                         break
                     default:
                         break

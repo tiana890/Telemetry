@@ -44,7 +44,8 @@ class AuthorizationViewController: UIViewController {
         
         authViewModel.authModel.observeOn(MainScheduler.instance).subscribeNext { [unowned self](ath) in
             if(ath.token != nil){
-                self.performSegueWithIdentifier(self.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: ath.token!)
+                self.performSegueWithIdentifier(self.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
+                ApplicationState.sharedInstance().token = ath.token!
             } else {
                 self.indicator.hidden = true
                 self.showAlert("Ошибка", msg: "Невозможно авторизоваться")
@@ -81,13 +82,5 @@ class AuthorizationViewController: UIViewController {
             
     }
         
-    
-    //MARK: -Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier == AUTH_SUCCESS_SEGUE_IDENTIFIER){
-            if let destVC = segue.destinationViewController as? MapVehiclesViewController{
-                destVC.token = (sender as! String)
-            }
-        }
-    }
+
 }

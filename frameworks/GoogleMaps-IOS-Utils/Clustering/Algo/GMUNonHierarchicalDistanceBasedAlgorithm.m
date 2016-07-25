@@ -112,6 +112,7 @@ static const double kGMUMapPointWidth = 2.0;  // MapPoint is in a [-1,1]x[-1,1] 
 }
 
 - (void)replaceItemPosition:(CLLocationCoordinate2D)position withName:(NSString *)name{
+
     NSIndexSet *indexSet = [_items indexesOfObjectsPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         id<GMUClusterItem> element = obj;
         return [element.name isEqualToString:name];
@@ -119,9 +120,6 @@ static const double kGMUMapPointWidth = 2.0;  // MapPoint is in a [-1,1]x[-1,1] 
     NSInteger index = indexSet.firstIndex;
     id<GMUClusterItem> item = [_items objectAtIndex:index];
     item.position = position;
-    [_items removeObject:item];
-    [_items addObject:item];
-    
 }
 
 /**
