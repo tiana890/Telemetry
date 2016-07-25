@@ -96,9 +96,11 @@
             <objects>
                 <navigationController id="ghz-4y-qSB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item" id="JXe-M3-GPf"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="88r-92-KEs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="nav_bar" id="88r-92-KEs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </navigationBar>
                     <connections>
                         <segue destination="FmE-77-cKD" kind="relationship" relationship="rootViewController" id="KDs-NA-R1Q"/>
@@ -592,6 +594,7 @@
         <image name="auth_enter_btn" width="243" height="44"/>
         <image name="auth_login_bar" width="320" height="64"/>
         <image name="auth_logo" width="320" height="64"/>
+        <image name="nav_bar" width="320" height="64"/>
         <image name="navbar_back" width="320" height="64"/>
         <image name="profile_temp_photo" width="320" height="64"/>
         <image name="user_card_icon" width="320" height="64"/>
