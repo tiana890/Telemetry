@@ -19,7 +19,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     let disposeBag = DisposeBag()
     var token: String?
 
-    var algorithm = GMUGridBasedClusterAlgorithm()
+    var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     
@@ -59,13 +59,28 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         for(vehicleMapInfo) in array{
             if let value = dict[vehicleMapInfo.id]{
                 if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
-                    print("not changed")
+                    
                 } else {
                     //change items in cluster manager
+                    //value.spot.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
                     
                     self.clusterManager.removeItem(value.spot)
                     
                     let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+                    if(value.spot.nextLat != nil && value.spot.nextLon != nil){
+                        spot.position = CLLocationCoordinate2D(latitude: Double(value.spot.nextLat)!, longitude: Double(value.spot.nextLon)!)
+                        
+                        spot.currentLat = value.spot.nextLat
+                        spot.currentLon = value.spot.nextLon
+                    } else {
+                        spot.position = value.spot.position
+                        
+                        spot.currentLat = "\(value.spot.position.latitude)"
+                        spot.currentLon = "\(value.spot.position.longitude)"
+                    }
+                    spot.nextLat = "\(vehicleMapInfo.lat)"
+                    spot.nextLon = "\(vehicleMapInfo.lon)"
+                    
                     dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
                     self.clusterManager.addItem(spot)
 
@@ -73,17 +88,18 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             } else {
                 let spot = addMarkerAndCreateSpot(vehicleMapInfo)
                 dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
-
                 self.clusterManager.addItem(spot)
-
-                
             }
         }
     }
     
     func addMarkerAndCreateSpot(vehicleMapInfo: VehicleMapInfo) -> POIItem{
         let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-        let spot = POIItem(position: pos, name: "\(vehicleMapInfo.id)")
+        let spot = POIItem()
+        spot.position = pos
+        spot.currentLat = "\(pos.latitude)"
+        spot.currentLon = "\(pos.longitude)"
+        spot.name = "\(vehicleMapInfo.id)"
         return spot
     }
 }

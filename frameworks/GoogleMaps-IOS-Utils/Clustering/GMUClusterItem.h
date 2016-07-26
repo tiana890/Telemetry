@@ -24,6 +24,8 @@
  * Returns the position of the item.
  */
 @property(nonatomic) CLLocationCoordinate2D position;
+@property(nonatomic) NSNumber* nextLat;
+@property(nonatomic) NSNumber* nextLon;
 @property(nonatomic) NSString* name;
 @end
 

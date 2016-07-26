@@ -16,12 +16,14 @@
 #import <Foundation/Foundation.h>
 
 #import "GMUClusterRenderer.h"
+#import "POIItem.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class GMSMapView;
 @class GMSMarker;
 @protocol GMUClusterIconGenerator;
+
 
 /**
  * Default cluster renderer which shows clusters as markers with specialized icons.

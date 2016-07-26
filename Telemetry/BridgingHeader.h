@@ -21,5 +21,6 @@
 //#import "GQuadItem.h"
 
 #import "GMUMarkerClustering.h"
+#import "POIItem.h"
 
 #endif /* BridgingHeader_h */

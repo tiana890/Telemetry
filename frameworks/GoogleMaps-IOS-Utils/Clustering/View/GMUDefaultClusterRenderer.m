@@ -24,6 +24,7 @@
 #import "GMUClusterIconGenerator.h"
 #import "GMUWrappingDictionaryKey.h"
 
+
 // Clusters smaller than this threshold will be expanded.
 static const NSUInteger kGMUMinClusterSize = 4;
 
@@ -287,28 +288,81 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
 
 // Returns a marker at final position of |position| with attached |userData|.
 // If animated is YES, animates from the closest point from |points|.
+//- (GMSMarker *)markerWithPosition:(CLLocationCoordinate2D)position
+//                             from:(CLLocationCoordinate2D)from
+//                         userData:(id)userData
+//                      clusterIcon:(UIImage *)clusterIcon
+//                         animated:(BOOL)animated {
+//  CLLocationCoordinate2D initialPosition = animated ? from : position;
+//  GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
+//  marker.userData = userData;
+//  if (clusterIcon != nil) {
+//    marker.icon = clusterIcon;
+//    marker.groundAnchor = CGPointMake(0.5, 0.5);
+//  }
+//  marker.map = _mapView;
+//
+//  if (animated) {
+//    [CATransaction begin];
+//    [CATransaction setAnimationDuration:kGMUAnimationDuration];
+//    marker.layer.latitude = position.latitude;
+//    marker.layer.longitude = position.longitude;
+//    [CATransaction commit];
+//  }
+//  return marker;
+//}
+
 - (GMSMarker *)markerWithPosition:(CLLocationCoordinate2D)position
                              from:(CLLocationCoordinate2D)from
                          userData:(id)userData
                       clusterIcon:(UIImage *)clusterIcon
                          animated:(BOOL)animated {
-  CLLocationCoordinate2D initialPosition = animated ? from : position;
-  GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
-  marker.userData = userData;
-  if (clusterIcon != nil) {
-    marker.icon = clusterIcon;
-    marker.groundAnchor = CGPointMake(0.5, 0.5);
-  }
-  marker.map = _mapView;
-
-  if (animated) {
-    [CATransaction begin];
-    [CATransaction setAnimationDuration:kGMUAnimationDuration];
-    marker.layer.latitude = position.latitude;
-    marker.layer.longitude = position.longitude;
-    [CATransaction commit];
-  }
-  return marker;
+    CLLocationCoordinate2D initialPosition = animated ? from : position;
+    GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
+    marker.userData = userData;
+    if (clusterIcon != nil) {
+        marker.icon = clusterIcon;
+        marker.groundAnchor = CGPointMake(0.5, 0.5);
+    }
+    marker.map = _mapView;
+    
+    if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+        if((NSString *)[marker.userData valueForKey:@"nextLat"]!=nil &&
+           (NSString *)[marker.userData valueForKey:@"nextLon"]!=nil &&
+           (NSString *)[marker.userData valueForKey:@"currentLat"] !=nil &&
+           (NSString *)[marker.userData valueForKey:@"currentLon"] != nil){
+        
+            double nextPositionLat = [(NSString *)[marker.userData valueForKey:@"nextLat"] doubleValue];
+            double nextPositionLon = [(NSString *)[marker.userData valueForKey:@"nextLon"] doubleValue];
+            
+            double curPositionLat = [(NSString *)[marker.userData valueForKey:@"currentLat"] doubleValue];
+            double curPositionLon = [(NSString *)[marker.userData valueForKey:@"currentLon"] doubleValue];
+            
+            
+            if(curPositionLat != nextPositionLat || curPositionLon != nextPositionLon){
+                [CATransaction begin];
+                [CATransaction setAnimationDuration:kGMUAnimationDuration];
+                marker.layer.latitude = nextPositionLat;
+                marker.layer.longitude = nextPositionLon;
+                [CATransaction setCompletionBlock:^{
+                    [marker.userData setValue:[NSString stringWithFormat:@"%.15f", nextPositionLat] forKey:@"currentLat"];
+                    [marker.userData setValue:[NSString stringWithFormat:@"%.15f", nextPositionLon] forKey:@"currentLon"];
+                }];
+                [CATransaction commit];
+                
+            }
+            
+        }
+    } else {
+        if (animated) {
+            [CATransaction begin];
+            [CATransaction setAnimationDuration:kGMUAnimationDuration];
+            marker.layer.latitude = position.latitude;
+            marker.layer.longitude = position.longitude;
+            [CATransaction commit];
+        }
+    }
+    return marker;
 }
 
 // Returns clusters which should be rendered and is inside the camera visible region.
