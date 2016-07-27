@@ -18,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         initializeServices()
+        setAppearanceForUIElements()
         return true
     }
 
@@ -47,6 +48,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func initializeServices(){
         // Override point for customization after application launch.
         GMSServices.provideAPIKey("AIzaSyA5s150KB5KFgRFS5XgR_-ag3taHccOXkE")
+    }
+    
+    func setAppearanceForUIElements(){
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar"), forBarMetrics: UIBarMetrics.Default)
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
     }
 }
 

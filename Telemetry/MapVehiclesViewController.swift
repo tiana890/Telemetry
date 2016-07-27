@@ -23,6 +23,12 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     
+    //MARK: IBOutlets
+    
+    @IBAction func menuPressed(sender: AnyObject) {
+        ApplicationState.sharedInstance().showLeftPanel()
+    }
+    
     override func viewDidLoad() {
         
         mapView = GMSMapView(frame: self.view.frame)
@@ -40,6 +46,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
         clusterManager.setDelegate(self, mapDelegate: self)
     }
+    
+    
     
     func addBindsToViewModel(){
 

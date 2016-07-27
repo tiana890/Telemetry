@@ -12,4 +12,7 @@ enum MenuItem: String {
     case Maps = "Maps"
     case Profile = "Profile"
     case Settings = "Settings"
+    case Organization = "Organization"
+    case Exit = "Exit"
+    case Vehicles = "Vehicles"
 }

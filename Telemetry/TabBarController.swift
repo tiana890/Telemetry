@@ -15,7 +15,7 @@ class TabBarViewController: UITabBarController{
     var subscription: Disposable?
     
     enum TabBarItem: Int{
-        case Profile, Map
+        case Profile, Map, Vehicles, Organization, Settings, Exit
     }
     
     override func viewDidLoad() {
@@ -27,10 +27,19 @@ class TabBarViewController: UITabBarController{
                 if let menuItem = MenuItem(rawValue: value){
                     switch(menuItem){
                     case MenuItem.Profile:
-                        self.selectedIndex = TabBarItem.Profile.rawValue
+                        self.showProfile()
                         break
                     case MenuItem.Maps:
-                        self.selectedIndex = TabBarItem.Map.rawValue
+                        self.showMap()
+                        break
+                    case MenuItem.Organization:
+                        self.showOrganizations()
+                        break
+                    case MenuItem.Settings:
+                        self.showSettings()
+                        break
+                    case MenuItem.Vehicles:
+                        self.showVehicles()
                         break
                     default:
                         break
@@ -48,17 +57,32 @@ class TabBarViewController: UITabBarController{
         ApplicationState.sharedInstance().containerViewController?.centerTabBarController = self
     }
     
-    //MARK: Menu control functions
-    func menuProtocolShowMap(){
+    //MARK: Menu functions
+    func showMap(){
         ApplicationState.sharedInstance().hideLeftPanel()
         self.selectedIndex = TabBarItem.Map.rawValue
     }
 
-    func menuProtocolShowProfile() {
+    func showProfile() {
         ApplicationState.sharedInstance().hideLeftPanel()
         self.selectedIndex = TabBarItem.Profile.rawValue
     }
 
+    func showVehicles(){
+        ApplicationState.sharedInstance().hideLeftPanel()
+        self.selectedIndex = TabBarItem.Vehicles.rawValue
+    }
+    
+    func showSettings(){
+        ApplicationState.sharedInstance().hideLeftPanel()
+        self.selectedIndex = TabBarItem.Organization.rawValue
+    }
+    
+    func showOrganizations(){
+        ApplicationState.sharedInstance().hideLeftPanel()
+        self.selectedIndex = TabBarItem.Settings.rawValue
+    }
+    
     deinit{
         print("TAB BAR DEINIT")
     }
