@@ -245,46 +245,105 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
   }
 }
 
+//- (void)renderCluster:(id<GMUCluster>)cluster animated:(BOOL)animated {
+//  float zoom = _mapView.camera.zoom;
+//  if ([self shouldRenderAsCluster:cluster atZoom:zoom]) {
+//    CLLocationCoordinate2D fromPosition;
+//    if (animated) {
+//      id<GMUCluster> fromCluster =
+//          [self overlappingClusterForCluster:cluster itemMap:_itemToOldClusterMap];
+//      animated = fromCluster != nil;
+//      fromPosition = fromCluster.position;
+//    }
+//
+//    UIImage *icon = [_clusterIconGenerator iconForSize:cluster.count];
+//    GMSMarker *marker = [self markerWithPosition:cluster.position
+//                                            from:fromPosition
+//                                        userData:cluster
+//                                     clusterIcon:icon
+//                                        animated:animated];
+//    [_markers addObject:marker];
+//  } else {
+//    for (id<GMUClusterItem> item in cluster.items) {
+//      CLLocationCoordinate2D fromPosition;
+//      BOOL shouldAnimate = animated;
+//      if (shouldAnimate) {
+//        GMUWrappingDictionaryKey *key = [[GMUWrappingDictionaryKey alloc] initWithObject:item];
+//        id<GMUCluster> fromCluster = [_itemToOldClusterMap objectForKey:key];
+//        shouldAnimate = fromCluster != nil;
+//        fromPosition = fromCluster.position;
+//      }
+//
+//      GMSMarker *marker = [self markerWithPosition:item.position
+//                                              from:fromPosition
+//                                          userData:item
+//                                       clusterIcon:nil
+//                                          animated:shouldAnimate];
+//      [_markers addObject:marker];
+//      [_renderedClusterItems addObject:item];
+//    }
+//  }
+//  [_renderedClusters addObject:cluster];
+//}
+
 - (void)renderCluster:(id<GMUCluster>)cluster animated:(BOOL)animated {
-  float zoom = _mapView.camera.zoom;
-  if ([self shouldRenderAsCluster:cluster atZoom:zoom]) {
-    CLLocationCoordinate2D fromPosition;
-    if (animated) {
-      id<GMUCluster> fromCluster =
-          [self overlappingClusterForCluster:cluster itemMap:_itemToOldClusterMap];
-      animated = fromCluster != nil;
-      fromPosition = fromCluster.position;
+    float zoom = _mapView.camera.zoom;
+    if ([self shouldRenderAsCluster:cluster atZoom:zoom]) {
+        CLLocationCoordinate2D fromPosition;
+        if (animated) {
+            id<GMUCluster> fromCluster =
+            [self overlappingClusterForCluster:cluster itemMap:_itemToOldClusterMap];
+            animated = fromCluster != nil;
+            fromPosition = fromCluster.position;
+        }
+        
+        UIImage *icon = [_clusterIconGenerator iconForSize:cluster.count];
+        GMSMarker *marker = [self markerWithPosition:cluster.position
+                                                from:fromPosition
+                                            userData:cluster
+                                         clusterIcon:icon
+                                            animated:animated];
+        [_markers addObject:marker];
+    } else {
+        for (id<GMUClusterItem> item in cluster.items) {
+            CLLocationCoordinate2D fromPosition;
+            BOOL shouldAnimate = animated;
+            
+            GMSMarker *marker = nil;
+            if (shouldAnimate) {
+                GMUWrappingDictionaryKey *key = [[GMUWrappingDictionaryKey alloc] initWithObject:item];
+                id<GMUCluster> fromCluster = [_itemToOldClusterMap objectForKey:key];
+                shouldAnimate = fromCluster != nil;
+                fromPosition = fromCluster.position;
+                marker = [self markerWithPosition:item.position
+                                                        from:fromPosition
+                                                    userData:item
+                                                 clusterIcon:nil
+                                                    animated:shouldAnimate];
+            } else {
+                fromPosition = item.position;
+                if(item.prevLat != nil && item.prevLon != nil){
+                    marker = [self markerWithPosition:item.position
+                                                 from:CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue)
+                                             userData:item
+                                          clusterIcon:nil
+                                             animated:true];
+                } else {
+                    marker = [self markerWithPosition:item.position
+                                                 from:fromPosition
+                                             userData:item
+                                          clusterIcon:nil
+                                             animated:shouldAnimate];
+                }
+            }
+            
+            [_markers addObject:marker];
+            [_renderedClusterItems addObject:item];
+        }
     }
-
-    UIImage *icon = [_clusterIconGenerator iconForSize:cluster.count];
-    GMSMarker *marker = [self markerWithPosition:cluster.position
-                                            from:fromPosition
-                                        userData:cluster
-                                     clusterIcon:icon
-                                        animated:animated];
-    [_markers addObject:marker];
-  } else {
-    for (id<GMUClusterItem> item in cluster.items) {
-      CLLocationCoordinate2D fromPosition;
-      BOOL shouldAnimate = animated;
-      if (shouldAnimate) {
-        GMUWrappingDictionaryKey *key = [[GMUWrappingDictionaryKey alloc] initWithObject:item];
-        id<GMUCluster> fromCluster = [_itemToOldClusterMap objectForKey:key];
-        shouldAnimate = fromCluster != nil;
-        fromPosition = fromCluster.position;
-      }
-
-      GMSMarker *marker = [self markerWithPosition:item.position
-                                              from:fromPosition
-                                          userData:item
-                                       clusterIcon:nil
-                                          animated:shouldAnimate];
-      [_markers addObject:marker];
-      [_renderedClusterItems addObject:item];
-    }
-  }
-  [_renderedClusters addObject:cluster];
+    [_renderedClusters addObject:cluster];
 }
+
 
 // Returns a marker at final position of |position| with attached |userData|.
 // If animated is YES, animates from the closest point from |points|.
@@ -312,59 +371,97 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
 //  return marker;
 //}
 
+
 - (GMSMarker *)markerWithPosition:(CLLocationCoordinate2D)position
                              from:(CLLocationCoordinate2D)from
                          userData:(id)userData
                       clusterIcon:(UIImage *)clusterIcon
                          animated:(BOOL)animated {
-    CLLocationCoordinate2D initialPosition = animated ? from : position;
-    GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
-    marker.userData = userData;
-    if (clusterIcon != nil) {
-        marker.icon = clusterIcon;
-        marker.groundAnchor = CGPointMake(0.5, 0.5);
-    }
-    marker.map = _mapView;
-    
-    if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
-        if((NSString *)[marker.userData valueForKey:@"nextLat"]!=nil &&
-           (NSString *)[marker.userData valueForKey:@"nextLon"]!=nil &&
-           (NSString *)[marker.userData valueForKey:@"currentLat"] !=nil &&
-           (NSString *)[marker.userData valueForKey:@"currentLon"] != nil){
-        
-            double nextPositionLat = [(NSString *)[marker.userData valueForKey:@"nextLat"] doubleValue];
-            double nextPositionLon = [(NSString *)[marker.userData valueForKey:@"nextLon"] doubleValue];
-            
-            double curPositionLat = [(NSString *)[marker.userData valueForKey:@"currentLat"] doubleValue];
-            double curPositionLon = [(NSString *)[marker.userData valueForKey:@"currentLon"] doubleValue];
-            
-            
-            if(curPositionLat != nextPositionLat || curPositionLon != nextPositionLon){
-                [CATransaction begin];
-                [CATransaction setAnimationDuration:kGMUAnimationDuration];
-                marker.layer.latitude = nextPositionLat;
-                marker.layer.longitude = nextPositionLon;
-                [CATransaction setCompletionBlock:^{
-                    [marker.userData setValue:[NSString stringWithFormat:@"%.15f", nextPositionLat] forKey:@"currentLat"];
-                    [marker.userData setValue:[NSString stringWithFormat:@"%.15f", nextPositionLon] forKey:@"currentLon"];
-                }];
-                [CATransaction commit];
-                
-            }
-            
-        }
-    } else {
-        if (animated) {
-            [CATransaction begin];
-            [CATransaction setAnimationDuration:kGMUAnimationDuration];
-            marker.layer.latitude = position.latitude;
-            marker.layer.longitude = position.longitude;
-            [CATransaction commit];
-        }
-    }
-    return marker;
+  CLLocationCoordinate2D initialPosition = animated ? from : position;
+  GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
+  marker.userData = userData;
+  if (clusterIcon != nil) {
+    marker.icon = clusterIcon;
+    marker.groundAnchor = CGPointMake(0.5, 0.5);
+  }
+  marker.map = _mapView;
+
+  if (animated) {
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:kGMUAnimationDuration];
+    marker.layer.latitude = position.latitude;
+    marker.layer.longitude = position.longitude;
+      [CATransaction setCompletionBlock:^{
+          if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+              if((NSString *)[marker.userData valueForKey:@"prevLat"]!=nil &&
+                 (NSString *)[marker.userData valueForKey:@"prevLon"]!=nil){
+                  [marker.userData setValue:nil forKey:@"prevLat"];
+                  [marker.userData setValue:nil forKey:@"prevLon"];
+              }
+          }
+        }];
+      [CATransaction commit];
+
+      
+    [CATransaction commit];
+  }
+  return marker;
 }
 
+//- (GMSMarker *)markerWithPosition:(CLLocationCoordinate2D)position
+//                             from:(CLLocationCoordinate2D)from
+//                         userData:(id)userData
+//                      clusterIcon:(UIImage *)clusterIcon
+//                         animated:(BOOL)animated {
+//    CLLocationCoordinate2D initialPosition = animated ? from : position;
+//    GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
+//    marker.userData = userData;
+//    if (clusterIcon != nil) {
+//        marker.icon = clusterIcon;
+//        marker.groundAnchor = CGPointMake(0.5, 0.5);
+//    }
+//    marker.map = _mapView;
+//    
+//    if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+//        POIItem *item = (POIItem*)marker.userData;
+//        if((NSString *)[marker.userData valueForKey:@"nextLat"]!=nil &&
+//           (NSString *)[marker.userData valueForKey:@"nextLon"]!=nil &&
+//           (NSString *)[marker.userData valueForKey:@"currentLat"] !=nil &&
+//           (NSString *)[marker.userData valueForKey:@"currentLon"] != nil){
+//        
+//            double nextPositionLat = [(NSString *)[marker.userData valueForKey:@"nextLat"] doubleValue];
+//            double nextPositionLon = [(NSString *)[marker.userData valueForKey:@"nextLon"] doubleValue];
+//            
+//            double curPositionLat = [(NSString *)[marker.userData valueForKey:@"currentLat"] doubleValue];
+//            double curPositionLon = [(NSString *)[marker.userData valueForKey:@"currentLon"] doubleValue];
+//            
+//            
+//            if(curPositionLat != nextPositionLat || curPositionLon != nextPositionLon){
+//                [CATransaction begin];
+//                [CATransaction setAnimationDuration:kGMUAnimationDuration];
+//                marker.layer.latitude = nextPositionLat;
+//                marker.layer.longitude = nextPositionLon;
+//                [CATransaction setCompletionBlock:^{
+//                    [marker.userData setValue:(NSString *)[marker.userData valueForKey:@"nextLat"] forKey:@"currentLat"];
+//                    [marker.userData setValue:(NSString *)[marker.userData valueForKey:@"nextLon"] forKey:@"currentLon"];
+//                }];
+//                [CATransaction commit];
+//                
+//            }
+//            
+//        }
+//    } else {
+//        if (animated) {
+//            [CATransaction begin];
+//            [CATransaction setAnimationDuration:kGMUAnimationDuration];
+//            marker.layer.latitude = position.latitude;
+//            marker.layer.longitude = position.longitude;
+//            [CATransaction commit];
+//        }
+//    }
+//    return marker;
+//}
+//
 // Returns clusters which should be rendered and is inside the camera visible region.
 - (NSArray<id<GMUCluster>> *)visibleClustersFromClusters:(NSArray<id<GMUCluster>> *)clusters {
   NSMutableArray *visibleClusters = [[NSMutableArray alloc] init];

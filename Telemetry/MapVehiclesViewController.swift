@@ -61,32 +61,19 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
                     
                 } else {
-                    //change items in cluster manager
-                    //value.spot.position = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
-                    
                     self.clusterManager.removeItem(value.spot)
                     
                     let spot = addMarkerAndCreateSpot(vehicleMapInfo)
-                    if(value.spot.nextLat != nil && value.spot.nextLon != nil){
-                        spot.position = CLLocationCoordinate2D(latitude: Double(value.spot.nextLat)!, longitude: Double(value.spot.nextLon)!)
-                        
-                        spot.currentLat = value.spot.nextLat
-                        spot.currentLon = value.spot.nextLon
-                    } else {
-                        spot.position = value.spot.position
-                        
-                        spot.currentLat = "\(value.spot.position.latitude)"
-                        spot.currentLon = "\(value.spot.position.longitude)"
-                    }
-                    spot.nextLat = "\(vehicleMapInfo.lat)"
-                    spot.nextLon = "\(vehicleMapInfo.lon)"
-                    
+                    spot.prevLon = String(value.spot.position.longitude)
+                    spot.prevLat = String(value.spot.position.latitude)
                     dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
                     self.clusterManager.addItem(spot)
-
                 }
+                
             } else {
                 let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+                spot.prevLat = nil
+                spot.prevLon = nil
                 dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
                 self.clusterManager.addItem(spot)
             }
@@ -97,8 +84,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
         let spot = POIItem()
         spot.position = pos
-        spot.currentLat = "\(pos.latitude)"
-        spot.currentLon = "\(pos.longitude)"
         spot.name = "\(vehicleMapInfo.id)"
         return spot
     }
