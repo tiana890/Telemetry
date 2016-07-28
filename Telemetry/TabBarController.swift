@@ -15,7 +15,7 @@ class TabBarViewController: UITabBarController{
     var subscription: Disposable?
     
     enum TabBarItem: Int{
-        case Profile, Map, Vehicles, Organization, Settings, Exit
+        case Profile, Map, Organization, Vehicles, Settings, Exit
     }
     
     override func viewDidLoad() {
@@ -75,12 +75,12 @@ class TabBarViewController: UITabBarController{
     
     func showSettings(){
         ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Organization.rawValue
+        self.selectedIndex = TabBarItem.Settings.rawValue
     }
     
     func showOrganizations(){
         ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Settings.rawValue
+        self.selectedIndex = TabBarItem.Organization.rawValue
     }
     
     deinit{
