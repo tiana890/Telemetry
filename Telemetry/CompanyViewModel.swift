@@ -25,9 +25,6 @@ final class CompanyViewModel{
         companyClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (compResponse) -> Company in
             return compResponse.company ?? Company()
         }.bindTo(company).addDisposableTo(self.disposeBag)
-//        companiesClient.companiesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
-//            return companiesResponse.companies ?? []
-//            }.bindTo(companies).addDisposableTo(self.disposeBag)
         
     }
 }

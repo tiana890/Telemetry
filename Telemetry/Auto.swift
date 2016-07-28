@@ -11,20 +11,16 @@ import SwiftyJSON
 
 /*
  {
- "status": "success",
-     "vehicles": {
-         "12": {
-             "id": 0,
-             "registrationNumber": "string",
-             "model": "string",
-             "modelName": "string",
-             "group": "string",
-             "organization": "string",
-             "lastUpdate": 0
-         }
-    }
- }
- */
+ 
+     "id": 0,
+     "registrationNumber": "string",
+     "model": "string",
+     "modelName": "string",
+     "group": "string",
+     "organization": "string",
+     "glonasId": 0
+ 
+ } */
 struct Auto {
     var id: Int64?
     var registrationNumber: String?
@@ -33,6 +29,7 @@ struct Auto {
     var group: String?
     var organization: String?
     var lastUpdate: Int64?
+    var glonasId: Int64?
     
     init(){
         
@@ -45,5 +42,6 @@ struct Auto {
         self.group = json["group"].string
         self.organization = json["organization"].string
         self.lastUpdate = json["lastUpdate"].int64
+        self.glonasId = json["glonasId"].int64
     }
 }

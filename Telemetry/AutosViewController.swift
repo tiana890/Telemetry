@@ -16,7 +16,7 @@ class AutosViewController: UIViewController {
     //MARK: IBOutlets
     @IBOutlet var collection:  UICollectionView!
     
-    let COMPANY_DETAIL_SEGUE = "autoDetailSegue"
+    let AUTO_DETAIL_SEGUE = "autoDetailSegue"
     let CELL_IDENTIFIER = "autoCollectionCell"
     
     var viewModel:AutosViewModel?
@@ -30,7 +30,7 @@ class AutosViewController: UIViewController {
         self.viewModel = AutosViewModel(autosClient: autosClient!)
         
         addBindsToViewModel()
-        //addCollectionBinds()
+        addCollectionBinds()
     }
     
     func addBindsToViewModel(){
@@ -47,26 +47,25 @@ class AutosViewController: UIViewController {
     }
     
     func addCollectionBinds(){
-        
-//        self.table.rx_modelSelected(Company)
-//            .observeOn(MainScheduler.instance)
-//            .subscribeNext { [unowned self](company) in
-//                if let companyId = company.id{
-//                    self.performSegueWithIdentifier(self.COMPANY_DETAIL_SEGUE, sender: NSNumber(longLong: companyId))
-//                }
-//            }.addDisposableTo(self.disposeBag)
+        self.collection.rx_modelSelected(Auto)
+            .observeOn(MainScheduler.instance)
+            .subscribeNext { [unowned self](auto) in
+                if let autoId = auto.id{
+                    self.performSegueWithIdentifier(self.AUTO_DETAIL_SEGUE, sender: NSNumber(longLong: autoId))
+                }
+        }.addDisposableTo(self.disposeBag)
         
     }
     
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        if(segue.identifier == COMPANY_DETAIL_SEGUE){
-//            if let destVC = segue.destinationViewController as? CompanyViewController{
-//                if let companyId = sender as? NSNumber{
-//                    destVC.companyId = companyId.longLongValue
-//                }
-//            }
-//        }
-//    }
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == AUTO_DETAIL_SEGUE){
+            if let destVC = segue.destinationViewController as? AutoViewController{
+                if let autoId = sender as? NSNumber{
+                    destVC.autoId = autoId.longLongValue
+                }
+            }
+        }
+    }
     
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()

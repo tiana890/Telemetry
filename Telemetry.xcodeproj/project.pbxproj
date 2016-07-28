@@ -93,6 +93,9 @@
 		88F99DCB1D4A40EF0031A645 /* AutoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */; };
 		88F99DCD1D4A438E0031A645 /* AutosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */; };
 		88F99DCF1D4A44560031A645 /* AutoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */; };
+		88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DD01D4A4B480031A645 /* AutoViewController.swift */; };
+		88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DD21D4A4B560031A645 /* AutoViewModel.swift */; };
+		88F99DD51D4A4B970031A645 /* AutoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DD41D4A4B970031A645 /* AutoClient.swift */; };
 		9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */; };
 		DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */; };
 /* End PBXBuildFile section */
@@ -233,6 +236,9 @@
 		88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoResponse.swift; sourceTree = "<group>"; };
 		88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosViewModel.swift; sourceTree = "<group>"; };
 		88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCollectionCell.swift; sourceTree = "<group>"; };
+		88F99DD01D4A4B480031A645 /* AutoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewController.swift; sourceTree = "<group>"; };
+		88F99DD21D4A4B560031A645 /* AutoViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoViewModel.swift; sourceTree = "<group>"; };
+		88F99DD41D4A4B970031A645 /* AutoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoClient.swift; sourceTree = "<group>"; };
 		AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Telemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,6 +333,7 @@
 				88F99DA81D49DC2F0031A645 /* CompaniesClient.swift */,
 				88F99DBB1D4A236C0031A645 /* CompanyClient.swift */,
 				88F99DC21D4A3E020031A645 /* AutosClient.swift */,
+				88F99DD41D4A4B970031A645 /* AutoClient.swift */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
@@ -663,6 +670,8 @@
 			children = (
 				88F99DC01D4A39470031A645 /* AutosViewController.swift */,
 				88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */,
+				88F99DD01D4A4B480031A645 /* AutoViewController.swift */,
+				88F99DD21D4A4B560031A645 /* AutoViewModel.swift */,
 			);
 			name = Vehicles;
 			sourceTree = "<group>";
@@ -966,6 +975,7 @@
 				88F99DBA1D4A226D0031A645 /* CompanyViewModel.swift in Sources */,
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */,
+				88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
@@ -979,6 +989,7 @@
 				4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */,
 				885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
+				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
 				885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */,
 				88F99DA91D49DC2F0031A645 /* CompaniesClient.swift in Sources */,
 				88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */,
@@ -1003,6 +1014,7 @@
 				88F99DB81D4A22170031A645 /* CompanyViewController.swift in Sources */,
 				88F99DB61D49EEEA0031A645 /* CompaniesViewController.swift in Sources */,
 				88F99DBC1D4A236C0031A645 /* CompanyClient.swift in Sources */,
+				88F99DD51D4A4B970031A645 /* AutoClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

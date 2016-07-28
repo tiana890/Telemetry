@@ -7,7 +7,14 @@
 //
 
 import UIKit
+import SwiftyJSON
 
-class AutoResponse: NSObject {
-
+class AutoResponse: BaseResponse {
+    var auto: Auto?
+    
+    override init(json: JSON){
+        super.init(json: json)
+        
+        self.auto = Auto(json: json["vehicles"])
+    }
 }
