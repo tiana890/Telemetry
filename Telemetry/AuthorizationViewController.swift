@@ -44,8 +44,9 @@ class AuthorizationViewController: UIViewController {
         
         authViewModel.authModel.observeOn(MainScheduler.instance).subscribeNext { [unowned self](ath) in
             if(ath.token != nil){
-                self.performSegueWithIdentifier(self.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
                 ApplicationState.sharedInstance().token = ath.token!
+                self.performSegueWithIdentifier(self.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
+                
             } else {
                 self.indicator.hidden = true
                 self.showAlert("Ошибка", msg: "Невозможно авторизоваться")

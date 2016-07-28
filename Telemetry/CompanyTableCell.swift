@@ -1,5 +1,5 @@
 //
-//  Organization.swift
+//  CompanyCollectionCell.swift
 //  Telemetry
 //
 //  Created by IMAC  on 28.07.16.
@@ -8,6 +8,7 @@
 
 import UIKit
 
-struct Organization {
-    
+class CompanyTableCell: UITableViewCell {
+
+    @IBOutlet var name: UILabel!
 }

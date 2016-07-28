@@ -24,7 +24,7 @@ class MenuTableViewController: BaseTableViewController{
     
     @IBOutlet weak var numberOfMyTasks: UILabel!
     enum MenuItemIndex: Int{
-        case Profile = 0, Maps = 1, Organization = 2, Vehicles = 3, Settings = 4, Exit = 5
+        case Profile = 0, Maps = 1, Company = 2, Vehicles = 3, Settings = 4, Exit = 5
     }
     
     //MARK: UIViewController methods
@@ -39,8 +39,8 @@ class MenuTableViewController: BaseTableViewController{
             case MenuItemIndex.Maps.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Maps.rawValue))
                 break
-            case MenuItemIndex.Organization.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Organization.rawValue))
+            case MenuItemIndex.Company.rawValue:
+                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Company.rawValue))
             case MenuItemIndex.Vehicles.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Vehicles.rawValue))
             case MenuItemIndex.Exit.rawValue:

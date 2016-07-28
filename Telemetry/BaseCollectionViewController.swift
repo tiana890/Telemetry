@@ -1,9 +1,16 @@
-import Foundation
+//
+//  BaseCollectionViewController.swift
+//  Telemetry
+//
+//  Created by IMAC  on 28.07.16.
+//  Copyright © 2016 GBU. All rights reserved.
+//
+
+import UIKit
 import RxSwift
 import RxCocoa
 
-class BaseViewController: UIViewController {
-
+class BaseCollectionViewController: UICollectionViewController {
     var disposeBag : DisposeBag?
     
     func addSubscription(subscription: Disposable){

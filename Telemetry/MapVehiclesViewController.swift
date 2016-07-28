@@ -5,7 +5,7 @@ import RxSwift
 import SwiftyJSON
 import GoogleMaps
 
-class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
+class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
 
     let kClusterItemCount = 10000
     
@@ -16,7 +16,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var dict = [Int64: (mapInfo: VehicleMapInfo, spot: POIItem)]()
     
     var viewModel :VehiclesViewModel?
-    let disposeBag = DisposeBag()
     var token: String?
 
     var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
@@ -35,7 +34,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.view.addSubview(mapView!)
         
         viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().token ?? ""))
-        self.addBindsToViewModel()
         
         // Set up the cluster manager with default icon generator and renderer.
         let iconGenerator = GMUDefaultClusterIconGenerator()
@@ -47,18 +45,22 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         clusterManager.setDelegate(self, mapDelegate: self)
     }
     
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addBindsToViewModel()
+    }
     
     func addBindsToViewModel(){
 
-        viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
+        let sub = viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
 
             dispatch_barrier_async(dispatch_get_main_queue(), {
                 self.appendMarkersOnMap(mapInfoArr)
                 self.clusterManager.cluster()
             })
             
-        }).addDisposableTo(self.disposeBag)
+        })
+        addSubscription(sub!)
     }
 
     func appendMarkersOnMap(array: [VehicleMapInfo]){
