@@ -1,5 +1,5 @@
 //
-//  OrganizationViewModel.swift
+//  CompanyViewModel.swift
 //  Telemetry
 //
 //  Created by IMAC  on 28.07.16.
@@ -15,17 +15,19 @@ final class CompanyViewModel{
     private let disposeBag = DisposeBag()
     
     //output
-    var companies = PublishSubject<[Company]>()
+    var company = PublishSubject<Company>()
     
     //MARK: Set up
-    init(companiesClient: CompaniesClient){
+    init(companyClient: CompanyClient){
         
         let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
-
-        companiesClient.companiesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
-            return companiesResponse.companies ?? []
-        }.bindTo(companies).addDisposableTo(self.disposeBag)
+        
+        companyClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (compResponse) -> Company in
+            return compResponse.company ?? Company()
+        }.bindTo(company).addDisposableTo(self.disposeBag)
+//        companiesClient.companiesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
+//            return companiesResponse.companies ?? []
+//            }.bindTo(companies).addDisposableTo(self.disposeBag)
         
     }
-    
 }
