@@ -26,7 +26,7 @@ class CompanyClient: NSObject {
     
     func companyObservable() -> Observable<CompanyResponse>{
         
-        let queue = dispatch_queue_create("tasksLoad",nil)
+        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
         print(self.token)
         print(COMPANY_URL + "\(companyId ?? 0)")
         return requestJSON(.GET, COMPANY_URL + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)

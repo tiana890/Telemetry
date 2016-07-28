@@ -85,6 +85,14 @@
 		88F99DBA1D4A226D0031A645 /* CompanyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DB91D4A226D0031A645 /* CompanyViewModel.swift */; };
 		88F99DBC1D4A236C0031A645 /* CompanyClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DBB1D4A236C0031A645 /* CompanyClient.swift */; };
 		88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DBD1D4A23B50031A645 /* CompanyResponse.swift */; };
+		88F99DC11D4A39470031A645 /* AutosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DC01D4A39470031A645 /* AutosViewController.swift */; };
+		88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DC21D4A3E020031A645 /* AutosClient.swift */; };
+		88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DC41D4A3FAD0031A645 /* AutosResponse.swift */; };
+		88F99DC71D4A3FE10031A645 /* Auto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DC61D4A3FE10031A645 /* Auto.swift */; };
+		88F99DC91D4A3FF80031A645 /* Autos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DC81D4A3FF80031A645 /* Autos.swift */; };
+		88F99DCB1D4A40EF0031A645 /* AutoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */; };
+		88F99DCD1D4A438E0031A645 /* AutosViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */; };
+		88F99DCF1D4A44560031A645 /* AutoCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */; };
 		9C31D43472076EB087FBDD11 /* Pods_TelemetryUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */; };
 		DC656B9CF3420EE1B5B95548 /* Pods_Telemetry.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */; };
 /* End PBXBuildFile section */
@@ -217,6 +225,14 @@
 		88F99DB91D4A226D0031A645 /* CompanyViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyViewModel.swift; sourceTree = "<group>"; };
 		88F99DBB1D4A236C0031A645 /* CompanyClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyClient.swift; sourceTree = "<group>"; };
 		88F99DBD1D4A23B50031A645 /* CompanyResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyResponse.swift; sourceTree = "<group>"; };
+		88F99DC01D4A39470031A645 /* AutosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosViewController.swift; sourceTree = "<group>"; };
+		88F99DC21D4A3E020031A645 /* AutosClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosClient.swift; sourceTree = "<group>"; };
+		88F99DC41D4A3FAD0031A645 /* AutosResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosResponse.swift; sourceTree = "<group>"; };
+		88F99DC61D4A3FE10031A645 /* Auto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Auto.swift; sourceTree = "<group>"; };
+		88F99DC81D4A3FF80031A645 /* Autos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Autos.swift; sourceTree = "<group>"; };
+		88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoResponse.swift; sourceTree = "<group>"; };
+		88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosViewModel.swift; sourceTree = "<group>"; };
+		88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoCollectionCell.swift; sourceTree = "<group>"; };
 		AC8A71628067E040B1606B5F /* Pods-TelemetryUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TelemetryUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		BDD0AB69755E940F1DAF3275 /* Pods_TelemetryUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C226D18C7F3F2FF143F99F8D /* Pods_Telemetry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Telemetry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -283,6 +299,7 @@
 		4C5AD7D71D2E8D1F00260F9D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				88F99DBF1D4A377C0031A645 /* Vehicles */,
 				88F99DAE1D49E9A00031A645 /* Cells */,
 				88F99DA51D49C8AD0031A645 /* Organizations */,
 				884098111D42754D007FEE7E /* Base */,
@@ -309,6 +326,7 @@
 				4C5B242F1D36432400AC310E /* AuthClient.swift */,
 				88F99DA81D49DC2F0031A645 /* CompaniesClient.swift */,
 				88F99DBB1D4A236C0031A645 /* CompanyClient.swift */,
+				88F99DC21D4A3E020031A645 /* AutosClient.swift */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
@@ -320,6 +338,8 @@
 				4C5B24401D366DB400AC310E /* AuthResponse.swift */,
 				88F99DAA1D49DC940031A645 /* CompaniesResponse.swift */,
 				88F99DBD1D4A23B50031A645 /* CompanyResponse.swift */,
+				88F99DC41D4A3FAD0031A645 /* AutosResponse.swift */,
+				88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -427,6 +447,8 @@
 				4C15235C1D33EA91002D0009 /* Vehicles.swift */,
 				4C5B24461D36877600AC310E /* Auth.swift */,
 				88F99DA31D49C88B0031A645 /* Company.swift */,
+				88F99DC61D4A3FE10031A645 /* Auto.swift */,
+				88F99DC81D4A3FF80031A645 /* Autos.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -631,8 +653,18 @@
 			isa = PBXGroup;
 			children = (
 				88F99DB31D49EBE90031A645 /* CompanyTableCell.swift */,
+				88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */,
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		88F99DBF1D4A377C0031A645 /* Vehicles */ = {
+			isa = PBXGroup;
+			children = (
+				88F99DC01D4A39470031A645 /* AutosViewController.swift */,
+				88F99DCC1D4A438E0031A645 /* AutosViewModel.swift */,
+			);
+			name = Vehicles;
 			sourceTree = "<group>";
 		};
 		930BEBE359E66D582BE31D58 /* Pods */ = {
@@ -911,7 +943,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88F99DCF1D4A44560031A645 /* AutoCollectionCell.swift in Sources */,
 				885F5C221D476A0C003353FD /* POIItem.h in Sources */,
+				88F99DCB1D4A40EF0031A645 /* AutoResponse.swift in Sources */,
 				4CBB2DFC1D3F938F000AAE33 /* GQTPointQuadTree.m in Sources */,
 				4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */,
 				884098131D427569007FEE7E /* BaseViewController.swift in Sources */,
@@ -933,9 +967,11 @@
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
+				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,
+				88F99DC11D4A39470031A645 /* AutosViewController.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
 				88F99DA71D49C8C40031A645 /* CompaniesViewModel.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
@@ -948,14 +984,18 @@
 				88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */,
 				4CBB2DFA1D3F938F000AAE33 /* GMUDefaultClusterIconGenerator.m in Sources */,
 				885F5C1E1D45ECB0003353FD /* MenuItem.swift in Sources */,
+				88F99DCD1D4A438E0031A645 /* AutosViewModel.swift in Sources */,
 				4C77AD6D1D34D712002FE708 /* VehiclesViewModel.swift in Sources */,
+				88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */,
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
 				4CBB2DF71D3F938F000AAE33 /* GMUWrappingDictionaryKey.m in Sources */,
 				4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */,
 				885F5C191D45EAAC003353FD /* MenuItemViewController.swift in Sources */,
 				88F99DB41D49EBE90031A645 /* CompanyTableCell.swift in Sources */,
+				88F99DC71D4A3FE10031A645 /* Auto.swift in Sources */,
 				884098101D427525007FEE7E /* ContainerController.swift in Sources */,
 				4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */,
+				88F99DC91D4A3FF80031A645 /* Autos.swift in Sources */,
 				4CBB2DF51D3F938F000AAE33 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				88F99DAB1D49DC940031A645 /* CompaniesResponse.swift in Sources */,
 				4CBB2DF41D3F938F000AAE33 /* GMUGridBasedClusterAlgorithm.m in Sources */,
