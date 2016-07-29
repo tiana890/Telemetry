@@ -19,7 +19,7 @@ class Vehicle: NSObject {
     var lat: Float64?
     var lon: Float64?
     var sta: String?
-    var tsk: String?
+    var tsk: Int?
     var dateObserved: Int64?
     var dateReceived: Int64?
     var registrationNumber: String?
@@ -27,16 +27,17 @@ class Vehicle: NSObject {
     init(json: JSON){
         super.init()
         
+        print(json)
         self.id = json["v_id"].int64
         self.companyProviderId = json["p_id"].int64
         self.sensorId = json["s_id"].int64
-        self.azimut = json["azm"].double
+        self.azimut = (json["azm"].string != nil) ? Double(json["azm"].stringValue) : 0
         self.speed = json["spe"].double
         self.odometr = json["odo"].double
         self.lat = (json["lat"].string != nil) ? Double(json["lat"].stringValue) : 0
         self.lon = (json["lon"].string != nil) ? Double(json["lon"].stringValue) : 0
         self.sta = json["sta"].string
-        self.tsk = json["tsk"].string
+        self.tsk = json["tsk"].int
         self.dateObserved = json["dt_o"].int64
         self.dateReceived = json["dt_r"].int64
         

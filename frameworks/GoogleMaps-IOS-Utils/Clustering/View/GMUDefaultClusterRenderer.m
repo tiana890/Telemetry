@@ -356,6 +356,15 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
   if (clusterIcon != nil) {
     marker.icon = clusterIcon;
     marker.groundAnchor = CGPointMake(0.5, 0.5);
+  } else {
+      marker.icon = [UIImage imageNamed:@"car"];
+      marker.groundAnchor = CGPointMake(0.5, 0.5);
+      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+          POIItem *item = (POIItem *)marker.userData;
+          if(item.azimut != nil){
+              marker.rotation = item.azimut.doubleValue;
+          }
+      }
   }
   marker.map = _mapView;
 

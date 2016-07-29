@@ -13,7 +13,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     
     private var clusterManager: GMUClusterManager!
     
-    var dict = [Int64: (mapInfo: VehicleMapInfo, spot: POIItem)]()
+    var dict = [Int64: (vehicle: Vehicle, spot: POIItem)]()
     
     var viewModel :VehiclesViewModel?
     var token: String?
@@ -52,49 +52,59 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     
     func addBindsToViewModel(){
 
-        let sub = viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
-
-            dispatch_barrier_async(dispatch_get_main_queue(), {
-                self.appendMarkersOnMap(mapInfoArr)
-                self.clusterManager.cluster()
-            })
-            
+//        let sub = viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
+//
+//            dispatch_barrier_async(dispatch_get_main_queue(), {
+//                self.appendMarkersOnMap(mapInfoArr)
+//                self.clusterManager.cluster()
+//            })
+//            
+//        })
+        let sub = viewModel?.vehicles.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](vehicles) in
+            self.appendMarkersOnMap(vehicles.array)
+            self.clusterManager.cluster()
         })
         addSubscription(sub!)
     }
 
-    func appendMarkersOnMap(array: [VehicleMapInfo]){
+    func appendMarkersOnMap(array: [Vehicle]){
 
         //Find current markers in dict
-        for(vehicleMapInfo) in array{
-            if let value = dict[vehicleMapInfo.id]{
-                if(value.mapInfo.lat == vehicleMapInfo.lat && value.mapInfo.lon == vehicleMapInfo.lon){
+        for(veh) in array{
+            guard veh.id != nil else { break }
+            guard veh.lat != nil else { break }
+            guard veh.lon != nil else { break }
+            if let value = dict[veh.id!]{
+                if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon){
                     
                 } else {
                     self.clusterManager.removeItem(value.spot)
                     
-                    let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+                    let spot = addMarkerAndCreateSpot(veh)
                     spot.prevLon = String(value.spot.position.longitude)
                     spot.prevLat = String(value.spot.position.latitude)
-                    dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+                    dict[veh.id!] = (vehicle: veh, spot: spot)
                     self.clusterManager.addItem(spot)
                 }
                 
             } else {
-                let spot = addMarkerAndCreateSpot(vehicleMapInfo)
+                let spot = addMarkerAndCreateSpot(veh)
                 spot.prevLat = nil
                 spot.prevLon = nil
-                dict[vehicleMapInfo.id] = (mapInfo: vehicleMapInfo, spot: spot)
+                dict[veh.id!] = (vehicle: veh, spot: spot)
                 self.clusterManager.addItem(spot)
             }
         }
     }
     
-    func addMarkerAndCreateSpot(vehicleMapInfo: VehicleMapInfo) -> POIItem{
-        let pos = CLLocationCoordinate2D(latitude: vehicleMapInfo.lat, longitude: vehicleMapInfo.lon)
+    func addMarkerAndCreateSpot(vehicle: Vehicle) -> POIItem{
+        let pos = CLLocationCoordinate2D(latitude: vehicle.lat!, longitude: vehicle.lon!)
         let spot = POIItem()
         spot.position = pos
-        spot.name = "\(vehicleMapInfo.id)"
+        if let azm = vehicle.azimut{
+            spot.azimut = NSNumber(double: azm)
+        }
+        spot.name = "\(vehicle.id)"
         return spot
     }
 }

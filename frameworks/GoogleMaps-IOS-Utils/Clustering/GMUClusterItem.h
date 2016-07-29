@@ -27,5 +27,6 @@
 @property(nonatomic) NSString* prevLat;
 @property(nonatomic) NSString* prevLon;
 @property(nonatomic) NSString* name;
+@property(nonatomic) NSNumber* azimut;
 @end
 
