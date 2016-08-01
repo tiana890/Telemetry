@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="HelveticaNeueCyr-Roman.otf">
@@ -125,33 +126,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uJV-ml-ara" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="-423"/>
+            <point key="canvasLocation" x="-24" y="-423"/>
         </scene>
         <!--Карта-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="MapVehiclesViewController" customModule="Telemetry" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pz1-tW-XWS">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="pz1-tW-XWS" secondAttribute="trailing" constant="-20" id="5sc-3o-YBW"/>
-                            <constraint firstItem="pz1-tW-XWS" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="IAo-dg-qQk"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="pz1-tW-XWS" secondAttribute="bottom" id="kfT-es-Dj2"/>
-                            <constraint firstItem="pz1-tW-XWS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="rZk-3t-oZk"/>
-                        </constraints>
-                    </view>
                     <navigationItem key="navigationItem" title="Карта" id="k51-Ns-iWa">
                         <barButtonItem key="leftBarButtonItem" image="icon_menu" id="bdN-Gu-C3z">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -159,11 +139,36 @@
                                 <action selector="menuPressed:" destination="BYZ-38-t0r" id="3ZD-rA-ur3"/>
                             </connections>
                         </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Фильтр" style="plain" id="JgS-DV-Uvx">
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="uzR-Lq-1ao">
+                                <view key="customView" contentMode="scaleToFill" id="8fq-9w-FEU">
+                                    <rect key="frame" x="492" y="12" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="qUg-kS-2Me">
+                                            <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstItem="qUg-kS-2Me" firstAttribute="centerX" secondItem="8fq-9w-FEU" secondAttribute="centerX" id="EYm-gN-wf2"/>
+                                        <constraint firstItem="qUg-kS-2Me" firstAttribute="centerY" secondItem="8fq-9w-FEU" secondAttribute="centerY" id="jhN-Op-Kcn"/>
+                                    </constraints>
+                                </view>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="indicator" destination="qUg-kS-2Me" id="y98-4t-bfk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="366"/>
+            <point key="canvasLocation" x="-24" y="366"/>
         </scene>
         <!--Организации-->
         <scene sceneID="0L8-rC-ffr">
@@ -252,7 +257,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5rs-bW-obM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="1134"/>
+            <point key="canvasLocation" x="-24" y="1134"/>
         </scene>
         <!--Организации-->
         <scene sceneID="rha-Wd-sYY">
@@ -1088,7 +1093,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i20-gH-wrs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="2108"/>
+            <point key="canvasLocation" x="-30" y="2108"/>
         </scene>
         <!--Настройки-->
         <scene sceneID="ddv-84-vWH">

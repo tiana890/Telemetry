@@ -24,6 +24,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     
     //MARK: IBOutlets
     
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()
     }
@@ -33,6 +34,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         mapView = GMSMapView(frame: self.view.frame)
         self.view.addSubview(mapView!)
         
+        self.indicator.startAnimating()
         viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
         
         // Set up the cluster manager with default icon generator and renderer.
@@ -63,6 +65,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         let sub = viewModel?.vehicles.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](vehicles) in
             self.appendMarkersOnMap(vehicles.array)
             self.clusterManager.cluster()
+            self.indicator.hidden = true
         })
         addSubscription(sub!)
     }
