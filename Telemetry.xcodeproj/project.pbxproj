@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		39C3121AE1F65C272AC25567 /* Pods_TelemetryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */; };
 		4C05421D1D4F4C4300644A89 /* POIItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C05421C1D4F4C4300644A89 /* POIItem.m */; };
+		4C0542231D4F589E00644A89 /* PreferencesManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C0542221D4F589E00644A89 /* PreferencesManager.swift */; };
 		4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235B1D33EA91002D0009 /* Vehicle.swift */; };
 		4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235C1D33EA91002D0009 /* Vehicles.swift */; };
 		4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */; };
@@ -123,6 +124,7 @@
 		28A21956DA93BAD659D8B0FF /* Pods_TelemetryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TelemetryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C05421B1D4F4C4300644A89 /* POIItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = POIItem.h; sourceTree = "<group>"; };
 		4C05421C1D4F4C4300644A89 /* POIItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = POIItem.m; sourceTree = "<group>"; };
+		4C0542221D4F589E00644A89 /* PreferencesManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesManager.swift; sourceTree = "<group>"; };
 		4C15235B1D33EA91002D0009 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		4C15235C1D33EA91002D0009 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
 		4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesAPIService.swift; sourceTree = "<group>"; };
@@ -292,6 +294,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C05421E1D4F585800644A89 /* App preferences */ = {
+			isa = PBXGroup;
+			children = (
+				4C0542221D4F589E00644A89 /* PreferencesManager.swift */,
+			);
+			name = "App preferences";
+			sourceTree = "<group>";
+		};
 		4C1523631D33EC2D002D0009 /* Proxy for delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -371,6 +381,7 @@
 		4C5B24421D367C1F00AC310E /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				4C05421E1D4F585800644A89 /* App preferences */,
 				885F5C1C1D45EC9C003353FD /* Enums */,
 				885F5C151D45EA3B003353FD /* Notifications */,
 				885F5C101D45E927003353FD /* Singleton */,
@@ -975,6 +986,7 @@
 				88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
 				4C05421D1D4F4C4300644A89 /* POIItem.m in Sources */,
+				4C0542231D4F589E00644A89 /* PreferencesManager.swift in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,

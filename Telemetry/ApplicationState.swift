@@ -13,7 +13,6 @@ protocol APPLeftPanelIsShown: class{
 }
 
 class ApplicationState{
-    var token: String?
     
     //MARK: Controllers
     weak var containerViewController: ContainerViewController?
@@ -44,6 +43,13 @@ class ApplicationState{
         containerViewController?.animatedLeftMoveViewToLeftEdge()
     }
     
+    func saveToken(token: String){
+        PreferencesManager.saveToken(token)
+    }
+    
+    func getToken() -> String?{
+        return PreferencesManager.getToken()
+    }
     
 }
 

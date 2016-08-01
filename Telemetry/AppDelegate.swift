@@ -11,6 +11,9 @@ import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    static let AUTH_CONTROLLER_ID = "authorizationControllerID"
+    static let CONTAINER_CONTROLLER_ID = "containerControllerID"
 
     var window: UIWindow?
 
@@ -19,6 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         initializeServices()
         setAppearanceForUIElements()
+        setInitialVC()
         return true
     }
 
@@ -54,6 +58,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar"), forBarMetrics: UIBarMetrics.Default)
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
         
+    }
+    
+    func setInitialVC(){
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let _ = ApplicationState.sharedInstance().getToken(){
+            let containerVC = mainStoryboard.instantiateViewControllerWithIdentifier("containerControllerID") as! ContainerViewController
+            self.window?.rootViewController = containerVC
+        } else {
+            let authVC = mainStoryboard.instantiateViewControllerWithIdentifier("authorizationControllerID") as! AuthorizationViewController
+            self.window?.rootViewController = authVC
+        }
+        self.window?.makeKeyAndVisible()
+
     }
 }
 

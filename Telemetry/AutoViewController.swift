@@ -24,7 +24,7 @@ class AutoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        autoClient = AutoClient(_token: ApplicationState.sharedInstance().token ?? "", _autoId: autoId ?? 0)
+        autoClient = AutoClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _autoId: autoId ?? 0)
         self.viewModel = AutoViewModel(autoClient: autoClient!)
         
         addBindsToViewModel()

@@ -33,7 +33,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         mapView = GMSMapView(frame: self.view.frame)
         self.view.addSubview(mapView!)
         
-        viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().token ?? ""))
+        viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
         
         // Set up the cluster manager with default icon generator and renderer.
         let iconGenerator = GMUDefaultClusterIconGenerator()
