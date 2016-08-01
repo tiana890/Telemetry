@@ -135,7 +135,19 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
       continue;
     }
     // If the marker is outside the visible view port, do not perform animation.
-    if (![visibleBounds containsCoordinate:marker.position]) {
+      BOOL showMarker = NO;
+      CLLocationCoordinate2D prevPosition;
+      if([marker.userData isKindOfClass:[POIItem class]]){
+          POIItem* item = (POIItem *)marker.userData;
+          if(item.prevLat != nil && item.prevLon != nil){
+              prevPosition = CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue);
+              if([visibleBounds containsCoordinate:prevPosition]){
+                  showMarker = YES;
+              }
+          }
+      }
+
+    if (![visibleBounds containsCoordinate:marker.position] || !showMarker) {
       marker.map = nil;
       continue;
     }
@@ -322,7 +334,7 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
                                                     animated:shouldAnimate];
             } else {
                 fromPosition = item.position;
-                if(item.prevLat != nil && item.prevLon != nil){
+                if(item.prevLat != nil && item.prevLon != nil && item.hasAnimated == NO){
                     marker = [self markerWithPosition:item.position
                                                  from:CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue)
                                              userData:item
@@ -375,11 +387,13 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
     marker.layer.longitude = position.longitude;
       [CATransaction setCompletionBlock:^{
           if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
-              if((NSString *)[marker.userData valueForKey:@"prevLat"]!=nil &&
-                 (NSString *)[marker.userData valueForKey:@"prevLon"]!=nil){
-                  [marker.userData setValue:nil forKey:@"prevLat"];
-                  [marker.userData setValue:nil forKey:@"prevLon"];
-              }
+//              if((NSString *)[marker.userData valueForKey:@"prevLat"]!=nil &&
+//                 (NSString *)[marker.userData valueForKey:@"prevLon"]!=nil){
+//                  [marker.userData setValue:nil forKey:@"prevLat"];
+//                  [marker.userData setValue:nil forKey:@"prevLon"];
+//              }
+              POIItem *item = (POIItem *)marker.userData;
+              item.hasAnimated = YES;
           }
         }];
       [CATransaction commit];

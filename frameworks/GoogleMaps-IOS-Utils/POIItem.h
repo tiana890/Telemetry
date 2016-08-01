@@ -17,4 +17,5 @@
 @property (nonatomic) NSString *prevLat;
 @property (nonatomic) NSString *prevLon;
 @property (nonatomic) NSNumber *azimut;
+@property (nonatomic) BOOL hasAnimated;
 @end

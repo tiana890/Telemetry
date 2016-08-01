@@ -83,6 +83,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                     let spot = addMarkerAndCreateSpot(veh)
                     spot.prevLon = String(value.spot.position.longitude)
                     spot.prevLat = String(value.spot.position.latitude)
+                    spot.hasAnimated = false
                     dict[veh.id!] = (vehicle: veh, spot: spot)
                     self.clusterManager.addItem(spot)
                 }
@@ -91,6 +92,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                 let spot = addMarkerAndCreateSpot(veh)
                 spot.prevLat = nil
                 spot.prevLon = nil
+                spot.hasAnimated = true
                 dict[veh.id!] = (vehicle: veh, spot: spot)
                 self.clusterManager.addItem(spot)
             }
@@ -105,6 +107,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             spot.azimut = NSNumber(double: azm)
         }
         spot.name = "\(vehicle.id)"
+        spot.hasAnimated = false
         return spot
     }
 }
