@@ -17,6 +17,7 @@
 
 #import "GMUClusterRenderer.h"
 #import "POIItem.h"
+#import "MarkerIcon.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -35,6 +35,8 @@ static const float kGMUMaxClusterZoom = 20;
 // Animation duration for marker splitting/merging effects.
 static const double kGMUAnimationDuration = 0.5;  // seconds.
 
+static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
+
 @implementation GMUDefaultClusterRenderer {
   // Map view to render clusters on.
   __weak GMSMapView *_mapView;
@@ -369,14 +371,24 @@ static const double kGMUAnimationDuration = 0.5;  // seconds.
     marker.icon = clusterIcon;
     marker.groundAnchor = CGPointMake(0.5, 0.5);
   } else {
-      marker.icon = [UIImage imageNamed:@"car"];
-      marker.groundAnchor = CGPointMake(0.5, 0.5);
-      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
-          POIItem *item = (POIItem *)marker.userData;
-          if(item.azimut != nil){
-              marker.rotation = item.azimut.doubleValue;
-          }
-      }
+//      marker.icon = [UIImage imageNamed:@"car"];
+//      marker.groundAnchor = CGPointMake(0.5, 0.5);
+//      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+//          POIItem *item = (POIItem *)marker.userData;
+//          if(item.azimut != nil){
+//              marker.rotation = item.azimut.doubleValue;
+//          }
+//      }
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            MarkerIcon* markerView = (MarkerIcon *)[[NSBundle mainBundle] loadNibNamed:@"MarkerIcon" owner:marker options:nil][0];
+            markerView.carImage.image = [UIImage imageNamed:@"car"];
+            markerView.carImage.transform = CGAffineTransformMakeRotation(DegreesToRadians(item.azimut.floatValue));
+            markerView.registrationNumber.text = [NSString stringWithFormat:@"%ld" ,(long)item.azimut.integerValue];
+            marker.iconView = markerView;
+        }
+
+      
   }
   marker.map = _mapView;
 

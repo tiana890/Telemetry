@@ -74,8 +74,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             guard veh.id != nil else { break }
             guard veh.lat != nil else { break }
             guard veh.lon != nil else { break }
+            guard veh.azimut != nil else { break }
             if let value = dict[veh.id!]{
-                if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon){
+                if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon && value.vehicle.azimut! == veh.azimut){
                     
                 } else {
                     self.clusterManager.removeItem(value.spot)
