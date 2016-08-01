@@ -15,9 +15,9 @@ class CompaniesResponse: BaseResponse {
     
     override init(json: JSON){
         super.init(json: json)
-        if let dict = json["organizations"].dictionary{
+        if let array = json["organizations"].array{
             self.companies = [Company]()
-            for(js) in dict.values{
+            for(js) in array{
                 self.companies?.append(Company(json: js))
             }
         }
