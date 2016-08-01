@@ -12,6 +12,7 @@ class CommonCell: UITableViewCell {
 
     @IBOutlet var mainText: UILabel!
     @IBOutlet var additionalText: UILabel!
+    @IBOutlet var additionalImg: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
