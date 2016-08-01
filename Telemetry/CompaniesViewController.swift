@@ -27,7 +27,6 @@ class CompaniesViewController: UIViewController {
         super.viewDidLoad()
         
         self.viewModel = CompaniesViewModel(companiesClient: companiesClient)
-        
         addBindsToViewModel()
         addTableBinds()
     }
