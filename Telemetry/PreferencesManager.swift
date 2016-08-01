@@ -20,4 +20,9 @@ class PreferencesManager: NSObject {
         let def = NSUserDefaults.standardUserDefaults()
         return def.objectForKey("token") as? String
     }
+    
+    static func deleteToken(){
+        let def = NSUserDefaults.standardUserDefaults()
+        def.removeObjectForKey("token")
+    }
 }

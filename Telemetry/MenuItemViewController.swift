@@ -31,7 +31,7 @@ class MenuTableViewController: BaseTableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sub = self.table.rx_itemSelected.subscribeNext { (indexPath) in
+        let sub = self.table.rx_itemSelected.subscribeNext { [unowned self](indexPath) in
             switch (indexPath.row){
             case MenuItemIndex.Profile.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
@@ -41,12 +41,16 @@ class MenuTableViewController: BaseTableViewController{
                 break
             case MenuItemIndex.Company.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Company.rawValue))
+                break
             case MenuItemIndex.Vehicles.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Vehicles.rawValue))
+                break
             case MenuItemIndex.Exit.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Exit.rawValue))
+                self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
+                break
             case MenuItemIndex.Settings.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Settings.rawValue))
+                break
             default:
                 break
             }
@@ -54,5 +58,28 @@ class MenuTableViewController: BaseTableViewController{
         self.addSubscription(sub)
     }
 
+    //MARK: -Alerts
+    
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "Отмена",
+                                         style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        
+        let exitAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate{
+                appDelegate.exit()
+            }
+        }
+        
+        alert.addAction(exitAction)
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
     
    }

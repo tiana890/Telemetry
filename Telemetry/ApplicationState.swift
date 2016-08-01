@@ -51,5 +51,9 @@ class ApplicationState{
         return PreferencesManager.getToken()
     }
     
+    func deleteToken(){
+        PreferencesManager.deleteToken()
+    }
+    
 }
 

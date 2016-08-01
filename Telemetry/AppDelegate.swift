@@ -12,8 +12,8 @@ import GoogleMaps
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    static let AUTH_CONTROLLER_ID = "authorizationControllerID"
-    static let CONTAINER_CONTROLLER_ID = "containerControllerID"
+    let AUTH_CONTROLLER_ID = "authorizationControllerID"
+    let CONTAINER_CONTROLLER_ID = "containerControllerID"
 
     var window: UIWindow?
 
@@ -65,14 +65,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
         if let _ = ApplicationState.sharedInstance().getToken(){
-            let containerVC = mainStoryboard.instantiateViewControllerWithIdentifier("containerControllerID") as! ContainerViewController
+            let containerVC = mainStoryboard.instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_ID) as! ContainerViewController
             self.window?.rootViewController = containerVC
         } else {
-            let authVC = mainStoryboard.instantiateViewControllerWithIdentifier("authorizationControllerID") as! AuthorizationViewController
+            let authVC = mainStoryboard.instantiateViewControllerWithIdentifier(AUTH_CONTROLLER_ID) as! AuthorizationViewController
             self.window?.rootViewController = authVC
         }
         self.window?.makeKeyAndVisible()
 
+    }
+    
+    func exit(){
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let authVC = mainStoryboard.instantiateViewControllerWithIdentifier(AUTH_CONTROLLER_ID) as! AuthorizationViewController
+        if let currentRootVC = self.window?.rootViewController{
+            currentRootVC.dismissViewControllerAnimated(true, completion: nil)
+        }
+        self.window?.rootViewController = authVC
+        self.window?.makeKeyAndVisible()
+        ApplicationState.sharedInstance().deleteToken()
     }
 }
 
