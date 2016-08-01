@@ -27,7 +27,6 @@ class CompanyFilterViewController: UIViewController {
             (name: "Модель ТС", cellID: FILTER_CELL_ID)
             ])
         
-
     }
 
     //MARK: IBActions
@@ -36,6 +35,7 @@ class CompanyFilterViewController: UIViewController {
     }
     
     @IBAction func applyFilter(sender: AnyObject) {
+        
     }
     
     @IBAction func clearFilter(sender: AnyObject) {

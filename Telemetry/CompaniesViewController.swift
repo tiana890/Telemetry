@@ -25,7 +25,9 @@ class CompaniesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let filter = Filter()
+        filter.companyName = "Центр"
+        companiesClient.filter = filter
         self.viewModel = CompaniesViewModel(companiesClient: companiesClient)
         addBindsToViewModel()
         addTableBinds()

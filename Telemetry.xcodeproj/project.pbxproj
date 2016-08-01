@@ -13,13 +13,13 @@
 		4C0542261D4F838C00644A89 /* MarkerIcon.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0542251D4F838C00644A89 /* MarkerIcon.xib */; };
 		4C05422B1D4F86DB00644A89 /* MarkerIcon.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C05422A1D4F86DB00644A89 /* MarkerIcon.m */; };
 		4C132A951D4FA04F00B47BFF /* MapFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C132A941D4FA04F00B47BFF /* MapFilterViewController.swift */; };
-		4C132A981D4FA0D400B47BFF /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C132A971D4FA0D400B47BFF /* Filter.swift */; };
 		4C132A9A1D4FA27600B47BFF /* CommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C132A991D4FA27600B47BFF /* CommonCell.swift */; };
 		4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235B1D33EA91002D0009 /* Vehicle.swift */; };
 		4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235C1D33EA91002D0009 /* Vehicles.swift */; };
 		4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */; };
 		4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */; };
 		4C2280481D4FB5B4008B0722 /* CompanyFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */; };
+		4C22804C1D4FB7FD008B0722 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22804B1D4FB7FD008B0722 /* Filter.swift */; };
 		4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */; };
 		4C5B24301D36432400AC310E /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B242F1D36432400AC310E /* AuthClient.swift */; };
 		4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24311D36449100AC310E /* AuthAPIService.swift */; };
@@ -135,13 +135,13 @@
 		4C0542291D4F86DB00644A89 /* MarkerIcon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkerIcon.h; sourceTree = "<group>"; };
 		4C05422A1D4F86DB00644A89 /* MarkerIcon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkerIcon.m; sourceTree = "<group>"; };
 		4C132A941D4FA04F00B47BFF /* MapFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapFilterViewController.swift; sourceTree = "<group>"; };
-		4C132A971D4FA0D400B47BFF /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		4C132A991D4FA27600B47BFF /* CommonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonCell.swift; sourceTree = "<group>"; };
 		4C15235B1D33EA91002D0009 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		4C15235C1D33EA91002D0009 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
 		4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesAPIService.swift; sourceTree = "<group>"; };
 		4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSocketManagerDelegateProxy.swift; sourceTree = "<group>"; };
 		4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFilterViewController.swift; sourceTree = "<group>"; };
+		4C22804B1D4FB7FD008B0722 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGoogleMapsDelegateProxy.swift; sourceTree = "<group>"; };
 		4C5B242F1D36432400AC310E /* AuthClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
 		4C5B24311D36449100AC310E /* AuthAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
@@ -328,7 +328,7 @@
 		4C132A961D4FA0C200B47BFF /* Filter */ = {
 			isa = PBXGroup;
 			children = (
-				4C132A971D4FA0D400B47BFF /* Filter.swift */,
+				4C22804B1D4FB7FD008B0722 /* Filter.swift */,
 			);
 			name = Filter;
 			sourceTree = "<group>";
@@ -1036,7 +1036,6 @@
 				88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */,
 				88F99DB21D49EA060031A645 /* BaseCollectionViewController.swift in Sources */,
 				4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */,
-				4C132A981D4FA0D400B47BFF /* Filter.swift in Sources */,
 				885F5C171D45EA56003353FD /* NotificationManager.swift in Sources */,
 				4C5B24451D367C3B00AC310E /* String+MD5.swift in Sources */,
 				4CBB2DFB1D3F938F000AAE33 /* GMUDefaultClusterRenderer.m in Sources */,
@@ -1057,6 +1056,7 @@
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,
 				88F99DC11D4A39470031A645 /* AutosViewController.swift in Sources */,
+				4C22804C1D4FB7FD008B0722 /* Filter.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
 				88F99DA71D49C8C40031A645 /* CompaniesViewModel.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,

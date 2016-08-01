@@ -14,6 +14,7 @@ import SwiftyJSON
 class CompaniesClient: NSObject {
     
     var token: String?
+    var filter: Filter?
     let COMPANIES_URL = "http://gbutelemob.agentum.org/api/v1/organizations"
     
     init(_token: String) {
@@ -25,7 +26,13 @@ class CompaniesClient: NSObject {
         
         let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
         
-        return requestJSON(.POST, COMPANIES_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        var parameters = [String: AnyObject]()
+        parameters["token"] = self.token ?? ""
+        if let _ = self.filter{
+            parameters["filter"] = ["name": self.filter?.companyName ?? ""]
+        }
+        
+        return requestJSON(.POST, COMPANIES_URL, parameters: parameters, encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> CompaniesResponse in
@@ -35,6 +42,7 @@ class CompaniesClient: NSObject {
                 return compResponse
             })
     }
+    
     
 }
 

@@ -10,4 +10,7 @@ import UIKit
 
 class Filter: NSObject {
     
+    var modelIds = [Int]()
+    var companyIds = [Int]()
+    var companyName: String?
 }
