@@ -19,6 +19,7 @@
 		4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235C1D33EA91002D0009 /* Vehicles.swift */; };
 		4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */; };
 		4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */; };
+		4C2280481D4FB5B4008B0722 /* CompanyFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */; };
 		4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */; };
 		4C5B24301D36432400AC310E /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B242F1D36432400AC310E /* AuthClient.swift */; };
 		4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24311D36449100AC310E /* AuthAPIService.swift */; };
@@ -140,6 +141,7 @@
 		4C15235C1D33EA91002D0009 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
 		4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesAPIService.swift; sourceTree = "<group>"; };
 		4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSocketManagerDelegateProxy.swift; sourceTree = "<group>"; };
+		4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFilterViewController.swift; sourceTree = "<group>"; };
 		4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGoogleMapsDelegateProxy.swift; sourceTree = "<group>"; };
 		4C5B242F1D36432400AC310E /* AuthClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
 		4C5B24311D36449100AC310E /* AuthAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
@@ -340,9 +342,35 @@
 			name = "Proxy for delegate";
 			sourceTree = "<group>";
 		};
+		4C2280461D4FB594008B0722 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				4C22804A1D4FB5DD008B0722 /* Company */,
+				4C2280491D4FB5D5008B0722 /* Map */,
+			);
+			name = Filters;
+			sourceTree = "<group>";
+		};
+		4C2280491D4FB5D5008B0722 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4C132A941D4FA04F00B47BFF /* MapFilterViewController.swift */,
+			);
+			name = Map;
+			sourceTree = "<group>";
+		};
+		4C22804A1D4FB5DD008B0722 /* Company */ = {
+			isa = PBXGroup;
+			children = (
+				4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */,
+			);
+			name = Company;
+			sourceTree = "<group>";
+		};
 		4C5AD7D71D2E8D1F00260F9D /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				4C2280461D4FB594008B0722 /* Filters */,
 				88F99DBF1D4A377C0031A645 /* Vehicles */,
 				88F99DAE1D49E9A00031A645 /* Cells */,
 				88F99DA51D49C8AD0031A645 /* Organizations */,
@@ -394,7 +422,6 @@
 			children = (
 				4C77AD6C1D34D712002FE708 /* VehiclesViewModel.swift */,
 				88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */,
-				4C132A941D4FA04F00B47BFF /* MapFilterViewController.swift */,
 			);
 			name = "Vehicles&Map";
 			sourceTree = "<group>";
@@ -1016,6 +1043,7 @@
 				4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */,
 				4C5B24471D36877600AC310E /* Auth.swift in Sources */,
 				4C5B243F1D366B0D00AC310E /* AuthorizationViewModel.swift in Sources */,
+				4C2280481D4FB5B4008B0722 /* CompanyFilterViewController.swift in Sources */,
 				4C05422B1D4F86DB00644A89 /* MarkerIcon.m in Sources */,
 				88F99DBA1D4A226D0031A645 /* CompanyViewModel.swift in Sources */,
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
