@@ -12,5 +12,9 @@ class Filter: NSObject {
     
     var modelIds = [Int]()
     var companyIds = [Int]()
+    
     var companyName: String?
+    var registrationNumber: String?
+    
+    var filterDict: FilterDict?
 }

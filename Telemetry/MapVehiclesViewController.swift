@@ -6,6 +6,8 @@ import SwiftyJSON
 import GoogleMaps
 
 class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
+    
+    let FILTER_STORYBOARD_ID = "FilterStoryboardID"
 
     let kClusterItemCount = 10000
     
@@ -113,6 +115,14 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         spot.name = "\(vehicle.id)"
         spot.hasAnimated = false
         return spot
+    }
+    
+    //MARK: IBActions
+    
+    @IBAction func filter(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
    

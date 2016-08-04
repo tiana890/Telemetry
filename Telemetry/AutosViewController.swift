@@ -16,6 +16,8 @@ class AutosViewController: UIViewController {
     //MARK: IBOutlets
     @IBOutlet var collection:  UICollectionView!
     
+    let FILTER_STORYBOARD_ID = "FilterStoryboardID"
+    
     let AUTO_DETAIL_SEGUE = "autoDetailSegue"
     let CELL_IDENTIFIER = "autoCollectionCell"
     
@@ -25,6 +27,7 @@ class AutosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
         autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
         self.viewModel = AutosViewModel(autosClient: autosClient!)
@@ -67,7 +70,16 @@ class AutosViewController: UIViewController {
         }
     }
     
+    //MARK: IBActions
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()
     }
+    
+   
+    @IBAction func filter(sender: AnyObject) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }

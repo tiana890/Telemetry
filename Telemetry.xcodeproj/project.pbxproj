@@ -70,6 +70,12 @@
 		8809A08C1D3F6A7300974319 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A08B1D3F6A7300974319 /* SystemConfiguration.framework */; };
 		8809A08E1D3F6AD300974319 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A08D1D3F6AD300974319 /* GLKit.framework */; };
 		8809A0901D3F6AEA00974319 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A08F1D3F6AEA00974319 /* ImageIO.framework */; };
+		88263E751D534DBF00688708 /* VehiclesFilterClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E741D534DBF00688708 /* VehiclesFilterClient.swift */; };
+		88263E771D534DF300688708 /* VehiclesFilterResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E761D534DF300688708 /* VehiclesFilterResponse.swift */; };
+		88263E791D534E4900688708 /* AutoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E781D534E4900688708 /* AutoModel.swift */; };
+		88263E7B1D53517500688708 /* VehiclesFilterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E7A1D53517500688708 /* VehiclesFilterViewModel.swift */; };
+		88263E7E1D53558A00688708 /* FilterDict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E7D1D53558A00688708 /* FilterDict.swift */; };
+		88263E801D53688900688708 /* SelectableTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E7F1D53688900688708 /* SelectableTableViewController.swift */; };
 		884098101D427525007FEE7E /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840980F1D427525007FEE7E /* ContainerController.swift */; };
 		884098131D427569007FEE7E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884098121D427569007FEE7E /* BaseViewController.swift */; };
 		885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C0E1D45E6F7003353FD /* TabBarController.swift */; };
@@ -221,6 +227,12 @@
 		8809A08B1D3F6A7300974319 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8809A08D1D3F6AD300974319 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		8809A08F1D3F6AEA00974319 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		88263E741D534DBF00688708 /* VehiclesFilterClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesFilterClient.swift; sourceTree = "<group>"; };
+		88263E761D534DF300688708 /* VehiclesFilterResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesFilterResponse.swift; sourceTree = "<group>"; };
+		88263E781D534E4900688708 /* AutoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoModel.swift; sourceTree = "<group>"; };
+		88263E7A1D53517500688708 /* VehiclesFilterViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesFilterViewModel.swift; sourceTree = "<group>"; };
+		88263E7D1D53558A00688708 /* FilterDict.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterDict.swift; sourceTree = "<group>"; };
+		88263E7F1D53688900688708 /* SelectableTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableTableViewController.swift; sourceTree = "<group>"; };
 		8840980F1D427525007FEE7E /* ContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		884098121D427569007FEE7E /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		885F5C0E1D45E6F7003353FD /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -325,14 +337,6 @@
 			name = xibs;
 			sourceTree = "<group>";
 		};
-		4C132A961D4FA0C200B47BFF /* Filter */ = {
-			isa = PBXGroup;
-			children = (
-				4C22804B1D4FB7FD008B0722 /* Filter.swift */,
-			);
-			name = Filter;
-			sourceTree = "<group>";
-		};
 		4C1523631D33EC2D002D0009 /* Proxy for delegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				4C132A941D4FA04F00B47BFF /* MapFilterViewController.swift */,
+				88263E7A1D53517500688708 /* VehiclesFilterViewModel.swift */,
 			);
 			name = Map;
 			sourceTree = "<group>";
@@ -400,6 +405,7 @@
 				88F99DBB1D4A236C0031A645 /* CompanyClient.swift */,
 				88F99DC21D4A3E020031A645 /* AutosClient.swift */,
 				88F99DD41D4A4B970031A645 /* AutoClient.swift */,
+				88263E741D534DBF00688708 /* VehiclesFilterClient.swift */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
@@ -413,6 +419,7 @@
 				88F99DBD1D4A23B50031A645 /* CompanyResponse.swift */,
 				88F99DC41D4A3FAD0031A645 /* AutosResponse.swift */,
 				88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */,
+				88263E761D534DF300688708 /* VehiclesFilterResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -524,6 +531,8 @@
 				88F99DA31D49C88B0031A645 /* Company.swift */,
 				88F99DC61D4A3FE10031A645 /* Auto.swift */,
 				88F99DC81D4A3FF80031A645 /* Autos.swift */,
+				88263E781D534E4900688708 /* AutoModel.swift */,
+				88263E7D1D53558A00688708 /* FilterDict.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -531,7 +540,7 @@
 		4C6DEDB11D2FC06A001B5502 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				4C132A961D4FA0C200B47BFF /* Filter */,
+				88263E7C1D53555900688708 /* Filter */,
 				4C5B24371D3645CC00AC310E /* Responses */,
 				4C5B24341D3644A700AC310E /* Clients */,
 				4C5B24331D36449B00AC310E /* Services */,
@@ -669,6 +678,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		88263E7C1D53555900688708 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				4C22804B1D4FB7FD008B0722 /* Filter.swift */,
+			);
+			name = Filter;
+			sourceTree = "<group>";
+		};
 		8840980E1D427503007FEE7E /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -676,6 +693,7 @@
 				885F5C0E1D45E6F7003353FD /* TabBarController.swift */,
 				885F5C131D45EA18003353FD /* DarkAlphaView.swift */,
 				885F5C181D45EAAC003353FD /* MenuItemViewController.swift */,
+				88263E7F1D53688900688708 /* SelectableTableViewController.swift */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -835,6 +853,7 @@
 				TargetAttributes = {
 					4C5EFB6C1D2D270F00FE882B = {
 						CreatedOnToolsVersion = 7.3.1;
+						DevelopmentTeam = WLFBMB9YE7;
 					};
 					4C5EFB801D2D271000FE882B = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -1032,6 +1051,7 @@
 				4CBB2DF91D3F938F000AAE33 /* GMUStaticCluster.m in Sources */,
 				4CBB2DFD1D3F938F000AAE33 /* GQTPointQuadTreeChild.m in Sources */,
 				4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */,
+				88263E791D534E4900688708 /* AutoModel.swift in Sources */,
 				4C132A951D4FA04F00B47BFF /* MapFilterViewController.swift in Sources */,
 				88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */,
 				88F99DB21D49EA060031A645 /* BaseCollectionViewController.swift in Sources */,
@@ -1041,6 +1061,7 @@
 				4CBB2DFB1D3F938F000AAE33 /* GMUDefaultClusterRenderer.m in Sources */,
 				4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */,
 				4C5B24471D36877600AC310E /* Auth.swift in Sources */,
+				88263E801D53688900688708 /* SelectableTableViewController.swift in Sources */,
 				4C5B243F1D366B0D00AC310E /* AuthorizationViewModel.swift in Sources */,
 				4C2280481D4FB5B4008B0722 /* CompanyFilterViewController.swift in Sources */,
 				4C05422B1D4F86DB00644A89 /* MarkerIcon.m in Sources */,
@@ -1062,6 +1083,7 @@
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
 				4CBB2DF61D3F938F000AAE33 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */,
+				88263E7E1D53558A00688708 /* FilterDict.swift in Sources */,
 				885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
 				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
@@ -1075,6 +1097,8 @@
 				88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */,
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
 				4CBB2DF71D3F938F000AAE33 /* GMUWrappingDictionaryKey.m in Sources */,
+				88263E7B1D53517500688708 /* VehiclesFilterViewModel.swift in Sources */,
+				88263E751D534DBF00688708 /* VehiclesFilterClient.swift in Sources */,
 				4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */,
 				885F5C191D45EAAC003353FD /* MenuItemViewController.swift in Sources */,
 				88F99DB41D49EBE90031A645 /* CompanyTableCell.swift in Sources */,
@@ -1083,6 +1107,7 @@
 				884098101D427525007FEE7E /* ContainerController.swift in Sources */,
 				4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */,
 				88F99DC91D4A3FF80031A645 /* Autos.swift in Sources */,
+				88263E771D534DF300688708 /* VehiclesFilterResponse.swift in Sources */,
 				4CBB2DF51D3F938F000AAE33 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				88F99DAB1D49DC940031A645 /* CompaniesResponse.swift in Sources */,
 				4CBB2DF41D3F938F000AAE33 /* GMUGridBasedClusterAlgorithm.m in Sources */,
@@ -1265,6 +1290,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Telemetry/GoogleMaps.framework",
@@ -1289,6 +1315,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Telemetry",

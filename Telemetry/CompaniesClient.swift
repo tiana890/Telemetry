@@ -27,15 +27,16 @@ class CompaniesClient: NSObject {
         let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
         
         var parameters = [String: AnyObject]()
-        parameters["token"] = self.token ?? ""
+        //parameters["token"] = self.token ?? ""
         if let _ = self.filter{
             parameters["filter"] = ["name": self.filter?.companyName ?? ""]
         }
-        
-        return requestJSON(.POST, COMPANIES_URL, parameters: parameters, encoding: .URL, headers: nil)
+
+        return requestJSON(.POST, COMPANIES_URL + "?token=" + (self.token ?? ""), parameters: parameters, encoding: .JSON, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> CompaniesResponse in
+                print(response)
                 let js = JSON(object)
                 print(js)
                 let compResponse = CompaniesResponse(json: js)
