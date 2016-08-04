@@ -19,6 +19,7 @@ class ApplicationState{
     
     //MARK: Support classes
     var filter: Filter?
+    var autosDict: [Int64: Auto]?
     
     weak var leftPanelDelegate: APPLeftPanelIsShown?
     

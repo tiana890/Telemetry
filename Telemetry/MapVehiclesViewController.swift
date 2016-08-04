@@ -23,6 +23,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     var algorithm = GMUGridBasedClusterAlgorithm()
     
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+    let dispBag = DisposeBag()
     
     //MARK: IBOutlets
     
@@ -47,6 +48,13 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         
         // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
         clusterManager.setDelegate(self, mapDelegate: self)
+        
+        AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
+        .observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue))
+        .subscribeNext { (autosDictResponse) in
+            ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
+            print(autosDictResponse.autosDict)
+        }.addDisposableTo(self.dispBag)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -109,6 +117,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         let pos = CLLocationCoordinate2D(latitude: vehicle.lat!, longitude: vehicle.lon!)
         let spot = POIItem()
         spot.position = pos
+        if let regNumber = ApplicationState.sharedInstance().autosDict?[vehicle.id!]{
+            spot.regNumber = "\(regNumber)"
+        }
         if let azm = vehicle.azimut{
             spot.azimut = NSNumber(double: azm)
         }

@@ -87,6 +87,7 @@
 		885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */; };
 		885F5C1E1D45ECB0003353FD /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1D1D45ECB0003353FD /* MenuItem.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
+		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
 		88F99DA41D49C88B0031A645 /* Company.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DA31D49C88B0031A645 /* Company.swift */; };
 		88F99DA71D49C8C40031A645 /* CompaniesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DA61D49C8C40031A645 /* CompaniesViewModel.swift */; };
 		88F99DA91D49DC2F0031A645 /* CompaniesClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88F99DA81D49DC2F0031A645 /* CompaniesClient.swift */; };
@@ -245,6 +246,7 @@
 		885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		885F5C1D1D45ECB0003353FD /* MenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
+		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
 		88F99DA31D49C88B0031A645 /* Company.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Company.swift; sourceTree = "<group>"; };
 		88F99DA61D49C8C40031A645 /* CompaniesViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompaniesViewModel.swift; sourceTree = "<group>"; };
 		88F99DA81D49DC2F0031A645 /* CompaniesClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompaniesClient.swift; sourceTree = "<group>"; };
@@ -422,6 +424,7 @@
 				88F99DC41D4A3FAD0031A645 /* AutosResponse.swift */,
 				88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */,
 				88263E761D534DF300688708 /* VehiclesFilterResponse.swift */,
+				88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -1082,6 +1085,7 @@
 				88263E831D53750200688708 /* Status.swift in Sources */,
 				88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
+				88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */,
 				4C05421D1D4F4C4300644A89 /* POIItem.m in Sources */,
 				4C0542231D4F589E00644A89 /* PreferencesManager.swift in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,

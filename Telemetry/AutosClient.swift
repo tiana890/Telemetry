@@ -37,5 +37,20 @@ class AutosClient: NSObject {
             })
     }
     
+    func autosDictObservable() -> Observable<AutosDictResponse>{
+        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
+        print(AUTOS_URL)
+        print(self.token ?? "")
+        return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+            .debug()
+            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .map({ (response, object) -> AutosDictResponse in
+                let js = JSON(object)
+                print(js)
+                let autosDictResponse = AutosDictResponse(json: js)
+                return autosDictResponse
+            })
+    }
+    
 }
 
