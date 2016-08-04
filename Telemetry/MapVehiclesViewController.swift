@@ -45,6 +45,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
         clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
         self.mapView!.delegate = self
+        self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
         
         // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
         clusterManager.setDelegate(self, mapDelegate: self)

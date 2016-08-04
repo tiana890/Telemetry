@@ -15,6 +15,6 @@ class AutoResponse: BaseResponse {
     override init(json: JSON){
         super.init(json: json)
         
-        self.auto = Auto(json: json["vehicles"])
+        self.auto = Auto(json: json["vehicle"])
     }
 }
