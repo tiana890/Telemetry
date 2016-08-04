@@ -47,10 +47,6 @@ class TelemetryClient: NSObject {
                     for(key, value) in dict{
                         let vehicleModel = Vehicle(json: value)
                         if let intKey = Int64(key){
-                            if(intKey == 1831){
-                                print("lat = \(vehicleModel.lat) lon = \(vehicleModel.lon)")
-                                
-                            }
                             vehicleModel.id = intKey
                             vehicles.array.append(vehicleModel)
                         }
@@ -60,7 +56,7 @@ class TelemetryClient: NSObject {
             return vehicles
             
         }).observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
-            .subscribeNext({ (veh) in
+          .subscribeNext({ (veh) in
             self.observableVehicles.on(.Next(veh))
         }).addDisposableTo(self.disposeBag)
         

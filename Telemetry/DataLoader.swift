@@ -11,9 +11,6 @@ import RxSwift
 
 
 class DataLoader<E: BaseResponse> {
-    
-    var STATUS_SUCCESS = "success"
-    var STATUS_FAIL = "fail"
 
     func load(observable: Observable<E>) -> Observable<E>{
         return observable
@@ -21,8 +18,8 @@ class DataLoader<E: BaseResponse> {
                     return Observable.error(RxError.Unknown)
                 })
                 .flatMap({ (element) -> Observable<E> in
-                    let status = element.status ?? ""
-                    if(status == self.STATUS_SUCCESS){
+                    let status = element.status ?? Status.Error
+                    if(status == Status.Success){
                         return Observable.just(element)
                     } else {
                         return Observable.error(RxError.Unknown)

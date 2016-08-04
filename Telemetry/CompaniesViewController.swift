@@ -16,6 +16,7 @@ class CompaniesViewController: UIViewController {
     //MARK: IBOutlets
     @IBOutlet var table: UITableView!
     
+
     let COMPANY_DETAIL_SEGUE = "companyDetailSegue"
     let CELL_IDENTIFIER = "companyCellIdentifier"
     
@@ -42,6 +43,9 @@ class CompaniesViewController: UIViewController {
                 return cell
         }.addDisposableTo(self.disposeBag)
         
+        self.viewModel?.companies.subscribeError({ (errType) in
+            self.showAlert("", msg: "Ошибка")
+        }).addDisposableTo(self.disposeBag)
     }
     
     func addTableBinds(){
@@ -68,5 +72,18 @@ class CompaniesViewController: UIViewController {
     
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()
+    }
+    
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
 }

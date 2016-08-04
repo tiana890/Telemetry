@@ -13,6 +13,7 @@ import RxSwift
 final class CompaniesViewModel{
     
     private let disposeBag = DisposeBag()
+    let dataLoader = DataLoader<CompaniesResponse>()
     
     //output
     var companies = PublishSubject<[Company]>()
@@ -22,7 +23,8 @@ final class CompaniesViewModel{
         
         let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
 
-        companiesClient.companiesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
+        dataLoader.load(companiesClient.companiesObservable()).observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
+            
             return companiesResponse.companies ?? []
         }.bindTo(companies).addDisposableTo(self.disposeBag)
         

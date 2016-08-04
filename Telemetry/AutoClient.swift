@@ -31,9 +31,6 @@ class AutoClient: NSObject {
         return requestJSON(.GET, AUTO_URL + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .doOnError({ (errType) in
-                print(errType)
-            })
             .map({ (response, object) -> AutoResponse in
                 let js = JSON(object)
                 print(js)

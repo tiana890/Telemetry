@@ -11,18 +11,18 @@ import SwiftyJSON
 
 class BaseResponse: NSObject {
 
-    var status: String?
+    var status: Status?
     var reason: String?
     
     init(_status: String?, _reason: String?) {
         super.init()
         
-        self.status = _status
+        self.status = Status(rawValue: _status ?? "error")
         self.reason = _reason
     }
     
     init(json: JSON) {
-        self.status = json["status"].string
+        self.status = Status(rawValue: json["status"].string ?? "error")
         self.reason = json["reason"].string
     }
 }

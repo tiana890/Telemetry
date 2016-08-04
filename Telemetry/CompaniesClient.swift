@@ -11,7 +11,7 @@ import RxSwift
 import RxAlamofire
 import SwiftyJSON
 
-class CompaniesClient: NSObject {
+class CompaniesClient: NSObject{
     
     var token: String?
     var filter: Filter?
@@ -43,6 +43,7 @@ class CompaniesClient: NSObject {
                 return compResponse
             })
     }
+    
     
     
 }

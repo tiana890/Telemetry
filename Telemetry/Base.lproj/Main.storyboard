@@ -332,7 +332,7 @@
                     <connections>
                         <outlet property="clearFilter" destination="bxo-TO-Fmb" id="EMi-Oj-LiY"/>
                         <outlet property="table" destination="rgw-5W-Wxa" id="gR1-fR-3MZ"/>
-                        <segue destination="ehv-yd-qBX" kind="show" id="aYA-6M-xMn"/>
+                        <segue destination="ehv-yd-qBX" kind="show" identifier="selectSegueID" id="aYA-6M-xMn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MjS-f9-4hB" userLabel="First Responder" sceneMemberID="firstResponder"/>

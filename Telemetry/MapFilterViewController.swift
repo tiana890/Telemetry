@@ -14,8 +14,7 @@ class MapFilterViewController: UIViewController {
     let HEADER_CELL_ID = "headerCell"
     let FILTER_CELL_ID = "filterCell"
     
-    let COMPANY_SELECT_SEGUE_ID = "companySelectSegueID"
-    let AUTO_MODEL_SELECT_SEGUE_ID = "autoModelSelectSegueID"
+    let SELECT_SEGUE_IDENTIFIER = "selectSegueID"
     
     @IBOutlet var table: UITableView!
     let disposeBag = DisposeBag()
@@ -26,8 +25,8 @@ class MapFilterViewController: UIViewController {
     var filterDict: FilterDict?
     
     enum RowType: Int{
-        case Company = 2
-        case AutoModel = 4
+        case Company = 1
+        case AutoModel = 3
     }
 
     override func viewDidLoad() {
@@ -41,8 +40,8 @@ class MapFilterViewController: UIViewController {
     }
     
     func addBindsToViewModel(){
-        filterViewModel?.filterDict.subscribeNext({ (filterDict) in
-            print(filterDict)
+        filterViewModel?.filterDict.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](filtDict) in
+            self.filterDict = filtDict
         }).addDisposableTo(self.disposeBag)
     }
     
@@ -66,9 +65,9 @@ class MapFilterViewController: UIViewController {
         .subscribeNext { [unowned self](indexPath) in
             if (self.filterDict != nil){
                 if(indexPath.row == RowType.Company.rawValue){
-                    self.performSegueWithIdentifier(self.COMPANY_SELECT_SEGUE_ID, sender: nil)
+                    self.performSegueWithIdentifier(self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(integer:RowType.Company.rawValue))
                 } else if(indexPath.row == RowType.AutoModel.rawValue){
-                    self.performSegueWithIdentifier(self.AUTO_MODEL_SELECT_SEGUE_ID, sender: nil)
+                    self.performSegueWithIdentifier(self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(integer:RowType.AutoModel.rawValue))
                 }
             }
         }.addDisposableTo(self.disposeBag)
@@ -76,15 +75,17 @@ class MapFilterViewController: UIViewController {
     
     //MARK: Segues
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if(segue.identifier == COMPANY_SELECT_SEGUE_ID){
-            if let destVC = segue.destinationViewController as? SelectableTableViewController{
-                destVC.selectType = .Company
-                destVC.companies = filterDict!.companies ?? []
-            }
-        } else if(segue.identifier == AUTO_MODEL_SELECT_SEGUE_ID){
-            if let destVC = segue.destinationViewController as? SelectableTableViewController{
-                destVC.selectType = .AutoModel
-                destVC.autoModels = filterDict!.models ?? []
+        if(segue.identifier == SELECT_SEGUE_IDENTIFIER){
+            if let rowType = RowType(rawValue: (sender as! NSNumber).integerValue){
+                if let destVC = segue.destinationViewController as? SelectableTableViewController{
+                    if(rowType == RowType.Company){
+                        destVC.selectType = .Company
+                        destVC.companies = filterDict!.companies ?? []
+                    } else if(rowType == RowType.AutoModel){
+                        destVC.selectType = .AutoModel
+                        destVC.autoModels = filterDict!.models ?? []
+                    }
+                }
             }
         }
      }
