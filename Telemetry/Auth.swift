@@ -10,4 +10,5 @@ import UIKit
 
 struct Auth{
     var token: String?
+    var reason: String?
 }

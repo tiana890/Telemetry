@@ -17,5 +17,4 @@ class AutoCollectionCell: UICollectionViewCell {
     @IBOutlet var lastUpdate: UILabel!
     @IBOutlet var registrationNumber: UILabel!
     
-    
 }

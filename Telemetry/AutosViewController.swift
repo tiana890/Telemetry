@@ -43,6 +43,20 @@ class AutosViewController: UIViewController {
             .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
                 let indexPath = NSIndexPath(forItem: row, inSection: 0)
                 let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
+                cell.registrationNumber.text = element.registrationNumber ?? ""
+                cell.companyName.text = element.organization ?? ""
+                cell.modelName.text = element.modelName ?? ""
+                cell.model.text = element.model ?? ""
+                cell.group.text = element.group ?? ""
+                
+                if let lastUpdate = element.lastUpdate{
+                    let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+                    cell.lastUpdate.text = dateFormatter.stringFromDate(date)
+                } else {
+                    cell.lastUpdate.text = ""
+                }
                 
                 return cell
             }.addDisposableTo(self.disposeBag)

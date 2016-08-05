@@ -34,7 +34,7 @@ class MenuTableViewController: BaseTableViewController{
         let sub = self.table.rx_itemSelected.subscribeNext { [unowned self](indexPath) in
             switch (indexPath.row){
             case MenuItemIndex.Profile.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
+                //NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
                 break
             case MenuItemIndex.Maps.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Maps.rawValue))

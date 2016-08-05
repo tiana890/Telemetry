@@ -31,26 +31,38 @@ class AuthorizationViewController: UIViewController {
     
     func addBindsToViewModel(){
         
-        let authViewModel = AuthorizationViewModel(authClient: AuthClient())
+        let authViewModel = AuthorizationViewModel(authClient: AuthClient(), withLogin: loginTxtField.rx_text.asObservable(), password: passwordTxtField.rx_text.asObservable(), didPressButton: enterButton.rx_tap.asObservable())
         
-        passwordTxtField.rx_text.asObservable().bindTo(authViewModel.password).addDisposableTo(self.disposeBag)
-        loginTxtField.rx_text.asObservable().bindTo(authViewModel.login).addDisposableTo(self.disposeBag)
-        enterButton.rx_tap
-            .bindTo(authViewModel.didPressButton)
-            .addDisposableTo(disposeBag)
+        Observable.combineLatest(passwordTxtField.rx_text, loginTxtField.rx_text) { (txt1, txt2) -> Bool in
+            if(txt1.characters.count > 0 && txt2.characters.count > 0){
+                return true
+            }
+            return false
+        }.bindTo(enterButton.rx_enabled).addDisposableTo(self.disposeBag)
         
-        //authViewModel.didPressButton.asObservable().map({ return false }).bindTo(self.indicator.rx_hidden).addDisposableTo(self.disposeBag)
-        //authViewModel.didPressButton.asObservable().map({ return true }).bindTo(self.indicator.rx_animating).addDisposableTo(self.disposeBag)
+        enterButton.rx_tap.asObservable().map({ return false }).bindTo(self.indicator.rx_hidden).addDisposableTo(self.disposeBag)
+        enterButton.rx_tap.asObservable().map({ return true }).bindTo(self.indicator.rx_animating).addDisposableTo(self.disposeBag)
+        enterButton.rx_tap.asObservable().map({ return true }).bindTo(self.enterButton.rx_hidden).addDisposableTo(self.disposeBag)
         
-        authViewModel.authModel.observeOn(MainScheduler.instance).subscribeNext { [unowned self](ath) in
+        authViewModel.authModel!.debug().observeOn(MainScheduler.instance).subscribeNext { [unowned self](ath) in
             if(ath.token != nil){
                 ApplicationState.sharedInstance().saveToken(ath.token!)
                 self.performSegueWithIdentifier(AuthorizationViewController.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
-                
             } else {
                 self.indicator.hidden = true
+                self.showAlert("Ошибка", msg: ath.reason ?? "Невозможно авторизоваться")
+                self.enterButton.hidden = false
+            }
+        }.addDisposableTo(self.disposeBag)
+        
+        authViewModel.authModel!.debug().observeOn(MainScheduler.instance).subscribeError { [unowned self](err) in
+            self.indicator.hidden = true
+            if let error = err as? APIError{
+                self.showAlert("Ошибка", msg: error.getReason())
+            } else {
                 self.showAlert("Ошибка", msg: "Невозможно авторизоваться")
             }
+            self.enterButton.hidden = false
         }.addDisposableTo(self.disposeBag)
 
     }

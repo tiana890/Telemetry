@@ -561,6 +561,7 @@
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KUG-kp-Krf">
                                                 <rect key="frame" x="179" y="399" width="242" height="44"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="242" id="SJV-yf-GG9"/>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="242" id="YkC-Zh-oAW"/>
@@ -1121,7 +1122,7 @@
                                                             <color key="textColor" red="0.32156862749999998" green="0.32156862749999998" blue="0.32156862749999998" alpha="0.82058086829999999" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Борисова М. А." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hI8-j5-pYu">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Борисова М. А." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hI8-j5-pYu">
                                                             <rect key="frame" x="36" y="125" width="111" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="111" id="2Dx-eF-NnU"/>
@@ -1145,7 +1146,7 @@
                                                                 <constraint firstAttribute="height" constant="10" id="fUe-Y8-zxR"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 км" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZM-c7-C6a">
+                                                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7 км" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DZM-c7-C6a">
                                                             <rect key="frame" x="160" y="127" width="38" height="15"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="15" id="HyJ-6Y-lU8"/>
