@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MarkerWindow : UIView
+@interface Old : UIView
 
 @property (weak, nonatomic) IBOutlet UILabel *model;
 @property (weak, nonatomic) IBOutlet UILabel *modelName;

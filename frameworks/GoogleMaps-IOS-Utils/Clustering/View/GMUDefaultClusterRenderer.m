@@ -141,6 +141,10 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
       CLLocationCoordinate2D prevPosition;
       if([marker.userData isKindOfClass:[POIItem class]]){
           POIItem* item = (POIItem *)marker.userData;
+          if(item.selected){
+              _mapView.selectedMarker = marker;
+              showMarker = YES;
+          }
           if(item.prevLat != nil && item.prevLon != nil){
               prevPosition = CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue);
               if([visibleBounds containsCoordinate:prevPosition]){
@@ -150,8 +154,8 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
       }
 
     if (![visibleBounds containsCoordinate:marker.position] || !showMarker) {
-      marker.map = nil;
-      continue;
+        marker.map = nil;
+        continue;
     }
 
     // Find a candidate cluster to animate to.
@@ -317,6 +321,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                             userData:cluster
                                          clusterIcon:icon
                                             animated:animated];
+        
         [_markers addObject:marker];
     } else {
         for (id<GMUClusterItem> item in cluster.items) {
@@ -324,6 +329,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
             BOOL shouldAnimate = animated;
             
             GMSMarker *marker = nil;
+            
             if (shouldAnimate) {
                 GMUWrappingDictionaryKey *key = [[GMUWrappingDictionaryKey alloc] initWithObject:item];
                 id<GMUCluster> fromCluster = [_itemToOldClusterMap objectForKey:key];
@@ -334,8 +340,13 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                     userData:item
                                                  clusterIcon:nil
                                                     animated:shouldAnimate];
+                if(item.selected){
+                    _mapView.selectedMarker = marker;
+                }
+                
             } else {
                 fromPosition = item.position;
+                
                 if(item.prevLat != nil && item.prevLon != nil && item.hasAnimated == NO){
                     marker = [self markerWithPosition:item.position
                                                  from:CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue)
@@ -348,6 +359,9 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                              userData:item
                                           clusterIcon:nil
                                              animated:shouldAnimate];
+                }
+                if(item.selected){
+                    _mapView.selectedMarker = marker;
                 }
             }
             
@@ -461,8 +475,10 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 
 - (void)clearMarkers:(NSArray<GMSMarker *> *)markers {
   for (GMSMarker *marker in markers) {
-    marker.userData = nil;
-    marker.map = nil;
+  
+      marker.userData = nil;
+      marker.map = nil;
+    
   }
 }
 

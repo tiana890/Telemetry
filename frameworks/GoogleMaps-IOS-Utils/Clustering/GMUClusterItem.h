@@ -29,5 +29,6 @@
 @property(nonatomic) NSString* name;
 @property(nonatomic) NSNumber* azimut;
 @property(nonatomic) BOOL hasAnimated;
+@property(nonatomic) BOOL selected;
 @end
 

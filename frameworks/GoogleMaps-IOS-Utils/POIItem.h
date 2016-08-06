@@ -12,11 +12,13 @@
 
 @interface POIItem : NSObject<GMUClusterItem>
 
-@property (nonatomic) NSString* name;
+@property (nonatomic) NSNumber *vehicleId;
+@property (nonatomic) NSString *name;
 @property (nonatomic) CLLocationCoordinate2D position;
 @property (nonatomic) NSString *prevLat;
 @property (nonatomic) NSString *prevLon;
 @property (nonatomic) NSNumber *azimut;
 @property (nonatomic) NSString *regNumber;
 @property (nonatomic) BOOL hasAnimated;
+@property (nonatomic) BOOL selected;
 @end

@@ -46,7 +46,7 @@ class MenuTableViewController: BaseTableViewController{
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Vehicles.rawValue))
                 break
             case MenuItemIndex.Exit.rawValue:
-                self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
+                //self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
                 break
             case MenuItemIndex.Settings.rawValue:
                 NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Settings.rawValue))

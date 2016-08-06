@@ -1,5 +1,13 @@
 PODS:
   - Alamofire (3.4.1)
+  - Crashlytics (3.7.2):
+    - Fabric (~> 1.6.3)
+  - Fabric (1.6.7)
+  - GoogleMaps (2.0.1):
+    - GoogleMaps/Maps (= 2.0.1)
+  - GoogleMaps/Base (2.0.1)
+  - GoogleMaps/Maps (2.0.1):
+    - GoogleMaps/Base (= 2.0.1)
   - RxAlamofire (2.5):
     - RxAlamofire/Core (= 2.5)
   - RxAlamofire/Core (2.5):
@@ -14,6 +22,9 @@ PODS:
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
+  - Crashlytics
+  - Fabric
+  - GoogleMaps
   - RxAlamofire (~> 2.5)
   - RxBlocking (~> 2.6.0)
   - RxCocoa (~> 2.6.0)
@@ -23,6 +34,9 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
+  Crashlytics: 130ab943f8c78cda7a814b434f270b2e2c8a3cba
+  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
   RxAlamofire: b4572a077b6b2410c8732a27266299df4c00736e
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
@@ -30,6 +44,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
-PODFILE CHECKSUM: b3c43df74326acca7394d513ca1cdf50dc96e591
+PODFILE CHECKSUM: c91be6957b9434cd1ed9fa84e7191386b4ac256e
 
 COCOAPODS: 1.0.0
