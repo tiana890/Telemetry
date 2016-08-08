@@ -14,15 +14,15 @@ final class AutoViewModel{
     private let disposeBag = DisposeBag()
     
     //output
-    var auto = PublishSubject<Auto>()
+    var auto = PublishSubject<AutoDetail>()
     
     //MARK: Set up
     init(autoClient: AutoClient){
         
         let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
         
-        autoClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (autoResponse) -> Auto in
-            return autoResponse.auto ?? Auto()
+        autoClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (autoResponse) -> AutoDetail in
+            return autoResponse.autoDetail ?? AutoDetail()
             }.bindTo(auto).addDisposableTo(self.disposeBag)
 
         

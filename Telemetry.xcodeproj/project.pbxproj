@@ -85,6 +85,9 @@
 		885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */; };
 		885F5C1E1D45ECB0003353FD /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1D1D45ECB0003353FD /* MenuItem.swift */; };
 		886BC1CD1D5878E800C7C7B9 /* SelectableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1CC1D5878E800C7C7B9 /* SelectableCell.swift */; };
+		886BC1CF1D59047100C7C7B9 /* AutoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1CE1D59047100C7C7B9 /* AutoDetail.swift */; };
+		886BC1D11D59052900C7C7B9 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1D01D59052900C7C7B9 /* Sensor.swift */; };
+		886BC1D31D5905C600C7C7B9 /* AutoDetailResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1D21D5905C600C7C7B9 /* AutoDetailResponse.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
@@ -267,6 +270,9 @@
 		885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		885F5C1D1D45ECB0003353FD /* MenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
 		886BC1CC1D5878E800C7C7B9 /* SelectableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableCell.swift; sourceTree = "<group>"; };
+		886BC1CE1D59047100C7C7B9 /* AutoDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDetail.swift; sourceTree = "<group>"; };
+		886BC1D01D59052900C7C7B9 /* Sensor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		886BC1D21D5905C600C7C7B9 /* AutoDetailResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoDetailResponse.swift; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
@@ -457,6 +463,7 @@
 				88F99DCA1D4A40EF0031A645 /* AutoResponse.swift */,
 				88263E761D534DF300688708 /* VehiclesFilterResponse.swift */,
 				88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */,
+				886BC1D21D5905C600C7C7B9 /* AutoDetailResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -570,6 +577,8 @@
 				88F99DC81D4A3FF80031A645 /* Autos.swift */,
 				88263E781D534E4900688708 /* AutoModel.swift */,
 				88263E7D1D53558A00688708 /* FilterDict.swift */,
+				886BC1CE1D59047100C7C7B9 /* AutoDetail.swift */,
+				886BC1D01D59052900C7C7B9 /* Sensor.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1155,8 +1164,10 @@
 				88F99DA71D49C8C40031A645 /* CompaniesViewModel.swift in Sources */,
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
 				4CBB2DF61D3F938F000AAE33 /* GMUSimpleClusterAlgorithm.m in Sources */,
+				886BC1D11D59052900C7C7B9 /* Sensor.swift in Sources */,
 				4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */,
 				88263E7E1D53558A00688708 /* FilterDict.swift in Sources */,
+				886BC1D31D5905C600C7C7B9 /* AutoDetailResponse.swift in Sources */,
 				885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
 				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
@@ -1165,6 +1176,7 @@
 				88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */,
 				4CBB2DFA1D3F938F000AAE33 /* GMUDefaultClusterIconGenerator.m in Sources */,
 				885F5C1E1D45ECB0003353FD /* MenuItem.swift in Sources */,
+				886BC1CF1D59047100C7C7B9 /* AutoDetail.swift in Sources */,
 				88F99DCD1D4A438E0031A645 /* AutosViewModel.swift in Sources */,
 				88EDFAA11D547CB3005ACA54 /* Old.m in Sources */,
 				4C77AD6D1D34D712002FE708 /* VehiclesViewModel.swift in Sources */,

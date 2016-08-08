@@ -24,17 +24,17 @@ class AutoClient: NSObject {
         self.autoId = _autoId
     }
     
-    func companyObservable() -> Observable<AutoResponse>{
+    func companyObservable() -> Observable<AutoDetailResponse>{
         
         let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
 
         return requestJSON(.GET, AUTO_URL + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .map({ (response, object) -> AutoResponse in
+            .map({ (response, object) -> AutoDetailResponse in
                 let js = JSON(object)
                 print(js)
-                let autoResponse = AutoResponse(json: js)
+                let autoResponse = AutoDetailResponse(json: js)
                 return autoResponse
             })
     }

@@ -14,13 +14,20 @@ import RxSwift
 
 class AutoViewController: UIViewController {
     
-    @IBOutlet var companyName: UILabel!
+    let HEADER_CELL_IDENTIFIER = "headerCell"
+    let COMMON_CELL_IDENTIFIER = "commonCell"
     
     var autoId: Int64?
     var viewModel :AutoViewModel?
     var autoClient: AutoClient?
     
     let disposeBag = DisposeBag()
+    var items = Observable<[(cellID:String, name: String)]>.empty()
+    
+    
+    //MARK: IBOutlets
+    @IBOutlet var table: UITableView!
+    @IBOutlet var companyName: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,18 +35,67 @@ class AutoViewController: UIViewController {
         self.viewModel = AutoViewModel(autoClient: autoClient!)
         
         addBindsToViewModel()
-        
+
     }
     
     func addBindsToViewModel(){
         
         self.viewModel?.auto
             .observeOn(MainScheduler.instance)
-            .map({ (auto) -> String in
-                return "\(auto.registrationNumber ?? "")"
-            }).bindTo(self.companyName.rx_text)
-            .addDisposableTo(self.disposeBag)
+            .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
+                return Observable.just(self.createItemsArrayFromAutoModel(auto))
+            }).bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+                    let indexPath = NSIndexPath(forItem: row, inSection: 0)
+                    let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
+                    cell.mainText.text = element.name
+                    return cell
+            }.addDisposableTo(self.disposeBag)
         
+    }
+    
+    func addTableBinds(){
+        
+        
+        
+    }
+    
+    func createItemsArrayFromAutoModel(auto: AutoDetail) -> [(cellID:String, name: String)]{
+        var array = [(cellID:String, name: String)]()
+        
+        array.append((self.HEADER_CELL_IDENTIFIER, "Модель ТС"))
+        array.append((self.COMMON_CELL_IDENTIFIER, auto.model ?? ""))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Тип"))
+        array.append((self.COMMON_CELL_IDENTIFIER, auto.type ?? ""))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Регистрационный номер"))
+        array.append((self.COMMON_CELL_IDENTIFIER, auto.registrationNumber ?? ""))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Организация"))
+        array.append((self.COMMON_CELL_IDENTIFIER, auto.organization ?? ""))
+        if let speed = auto.speed{
+            array.append((self.HEADER_CELL_IDENTIFIER, "Скорость"))
+            array.append((self.COMMON_CELL_IDENTIFIER, "\(speed)" ))
+        }
+        if let glonasId = auto.glonasId{
+            array.append((self.HEADER_CELL_IDENTIFIER, "Глонасс ID"))
+            array.append((self.COMMON_CELL_IDENTIFIER, "\(glonasId)"))
+        }
+        
+        if let lastUpdate = auto.lastUpdate{
+            let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+            let dateFormatter = NSDateFormatter()
+            dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+            array.append((self.HEADER_CELL_IDENTIFIER, "Дата последнего обновления"))
+            array.append((self.COMMON_CELL_IDENTIFIER, dateFormatter.stringFromDate(date)))
+        }
+        
+        array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
+        
+        if let sensors = auto.sensors{
+            for sensor in sensors{
+                array.append((self.COMMON_CELL_IDENTIFIER, sensor.name ?? ""))
+            }
+        }
+        
+        return array
     }
     
     @IBAction func backBtnPressed(sender: AnyObject) {

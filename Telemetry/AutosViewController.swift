@@ -45,9 +45,7 @@ class AutosViewController: UIViewController {
                 let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
                 cell.registrationNumber.text = element.registrationNumber ?? ""
                 cell.companyName.text = element.organization ?? ""
-                cell.modelName.text = element.modelName ?? ""
                 cell.model.text = element.model ?? ""
-                cell.group.text = element.group ?? ""
                 
                 if let lastUpdate = element.lastUpdate{
                     let date = NSDate(timeIntervalSince1970: Double(lastUpdate))

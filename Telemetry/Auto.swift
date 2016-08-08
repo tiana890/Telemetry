@@ -12,36 +12,35 @@ import SwiftyJSON
 /*
  {
  
-     "id": 0,
-     "registrationNumber": "string",
-     "model": "string",
-     "modelName": "string",
-     "group": "string",
-     "organization": "string",
-     "glonasId": 0
+ "speed" : 1.27,
+ "id" : 623,
+ "registrationNumber" : "Ut ad adipisci minima quidem.",
+ "model" : "Dicta sed omnis rerum.",
+ "organization" : "Ea at labore et nemo autem.",
+ "type" : "Qui mollitia vel eius.",
+ "lastUpdate" : 1052771092
  
  } */
 struct Auto {
     var id: Int64?
     var registrationNumber: String?
     var model: String?
-    var modelName: String?
-    var group: String?
     var organization: String?
     var lastUpdate: Int64?
-    var glonasId: Int64?
+    var speed: Double?
+    var type: String?
     
     init(){
         
     }
     init(json: JSON){
+        print(json)
         self.id = json["id"].int64
         self.registrationNumber = json["registrationNumber"].string
         self.model = json["model"].string
-        self.modelName = json["modelName"].string
-        self.group = json["group"].string
         self.organization = json["organization"].string
         self.lastUpdate = json["lastUpdate"].int64
-        self.glonasId = json["glonasId"].int64
+        self.speed = json["speed"].double
+        self.type = json["type"].string
     }
 }

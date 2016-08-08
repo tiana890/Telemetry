@@ -166,9 +166,8 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
             markerView.company.text = auto.organization
             markerView.regNumber.text = auto.registrationNumber
-            markerView.group.text = auto.group
             markerView.model.text = auto.model
-            markerView.modelName.text = auto.modelName
+
             
             if let lastUpdate = auto.lastUpdate{
                 let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
