@@ -29,12 +29,13 @@ class SelectableTableViewController: UIViewController {
     let COMMON_CELL_IDENTIFIER = "commonCell"
 
     @IBOutlet var headerName: UILabel!
-    
     @IBOutlet var table: UITableView!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        headerName.text = (self.selectType == .Company) ? "Организация" : "Модель ТС"
+        
         createObservables()
         addTableBinds()
     }

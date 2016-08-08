@@ -17,6 +17,7 @@ class MapFilterViewController: UIViewController {
     let SELECT_SEGUE_IDENTIFIER = "selectSegueID"
     
     @IBOutlet var table: UITableView!
+    
     let disposeBag = DisposeBag()
     
     var filterClient: VehiclesFilterClient?
