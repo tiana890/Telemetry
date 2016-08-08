@@ -1463,7 +1463,7 @@
             </objects>
             <point key="canvasLocation" x="752" y="2556"/>
         </scene>
-        <!--Организации-->
+        <!--Фильтр-->
         <scene sceneID="u9O-UZ-EVt">
             <objects>
                 <viewController id="ehv-yd-qBX" customClass="SelectableTableViewController" customModule="Telemetry" customModuleProvider="target" sceneMemberID="viewController">
@@ -1475,7 +1475,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CPk-XW-BK6">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsMultipleSelection="YES" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="CPk-XW-BK6">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="HTj-YS-OsM" userLabel="Organization">
@@ -1501,7 +1501,7 @@
                                     </constraints>
                                 </view>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commonCell" rowHeight="48" id="2nQ-69-o86" customClass="CommonCell" customModule="Telemetry" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commonCell" rowHeight="48" id="2nQ-69-o86" customClass="SelectableCell" customModule="Telemetry" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="64" width="600" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2nQ-69-o86" id="aHX-WN-QnM">
@@ -1533,8 +1533,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="additionalImg" destination="Elt-6f-xVd" id="MHm-yc-XiL"/>
-                                            <outlet property="mainText" destination="Nga-SH-ahg" id="L9n-Q4-o8p"/>
+                                            <outlet property="additionalImg" destination="Elt-6f-xVd" id="IaB-bm-NdV"/>
+                                            <outlet property="mainText" destination="Nga-SH-ahg" id="wip-BU-Ee0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1548,7 +1548,20 @@
                             <constraint firstItem="F9F-fb-qpX" firstAttribute="top" secondItem="CPk-XW-BK6" secondAttribute="bottom" id="hJq-vx-WjY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Организации" id="ObG-Uz-chg"/>
+                    <navigationItem key="navigationItem" title="Фильтр" id="IhM-wI-nkK">
+                        <barButtonItem key="leftBarButtonItem" image="navbar_back" id="6Pl-F3-Aua">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backBtnPressed:" destination="ehv-yd-qBX" id="PpC-Qn-OwE"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="filter_apply" style="plain" id="WsZ-lV-HEH">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="applyFilter:" destination="ehv-yd-qBX" id="zDv-WS-HSU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="headerName" destination="GBd-7s-Lhh" id="vnF-RJ-npL"/>
                         <outlet property="table" destination="CPk-XW-BK6" id="Tl0-ZG-AYb"/>

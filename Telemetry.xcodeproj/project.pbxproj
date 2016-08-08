@@ -84,6 +84,7 @@
 		885F5C191D45EAAC003353FD /* MenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C181D45EAAC003353FD /* MenuItemViewController.swift */; };
 		885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */; };
 		885F5C1E1D45ECB0003353FD /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C1D1D45ECB0003353FD /* MenuItem.swift */; };
+		886BC1CD1D5878E800C7C7B9 /* SelectableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1CC1D5878E800C7C7B9 /* SelectableCell.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
@@ -265,6 +266,7 @@
 		885F5C181D45EAAC003353FD /* MenuItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItemViewController.swift; sourceTree = "<group>"; };
 		885F5C1A1D45EAFD003353FD /* BaseTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTableViewController.swift; sourceTree = "<group>"; };
 		885F5C1D1D45ECB0003353FD /* MenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
+		886BC1CC1D5878E800C7C7B9 /* SelectableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableCell.swift; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
@@ -800,6 +802,7 @@
 				88F99DB31D49EBE90031A645 /* CompanyTableCell.swift */,
 				88F99DCE1D4A44560031A645 /* AutoCollectionCell.swift */,
 				4C132A991D4FA27600B47BFF /* CommonCell.swift */,
+				886BC1CC1D5878E800C7C7B9 /* SelectableCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -1167,6 +1170,7 @@
 				4C77AD6D1D34D712002FE708 /* VehiclesViewModel.swift in Sources */,
 				88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */,
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
+				886BC1CD1D5878E800C7C7B9 /* SelectableCell.swift in Sources */,
 				4CBB2DF71D3F938F000AAE33 /* GMUWrappingDictionaryKey.m in Sources */,
 				88263E7B1D53517500688708 /* VehiclesFilterViewModel.swift in Sources */,
 				88263E751D534DBF00688708 /* VehiclesFilterClient.swift in Sources */,

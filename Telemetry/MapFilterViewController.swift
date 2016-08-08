@@ -81,15 +81,20 @@ class MapFilterViewController: UIViewController {
                     if(rowType == RowType.Company){
                         destVC.selectType = .Company
                         destVC.companies = filterDict!.companies ?? []
+                        destVC.selectedIds = ApplicationState.sharedInstance().filter!.companyIds
                     } else if(rowType == RowType.AutoModel){
                         destVC.selectType = .AutoModel
                         destVC.autoModels = filterDict!.models ?? []
+                        destVC.selectedIds = ApplicationState.sharedInstance().filter!.autoModelIds
                     }
                 }
             }
         }
      }
     
+    override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
+        
+    }
     //MARK: IBActions
     
     @IBAction func backBtnPressed(sender: AnyObject) {
@@ -97,6 +102,7 @@ class MapFilterViewController: UIViewController {
     }
     
     @IBAction func applyFilter(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     @IBOutlet weak var clearFilter: UIBarButtonItem!

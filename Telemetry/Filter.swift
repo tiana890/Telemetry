@@ -10,8 +10,8 @@ import UIKit
 
 class Filter: NSObject {
     
-    var modelIds = [Int]()
-    var companyIds = [Int]()
+    var autoModelIds = [Int64]()
+    var companyIds = [Int64]()
     
     var companyName: String?
     var registrationNumber: String?
