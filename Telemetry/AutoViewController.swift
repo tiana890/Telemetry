@@ -108,4 +108,13 @@ class AutoViewController: UIViewController {
     @IBAction func backBtnPressed(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
     }
+    
+    //MARK: Segues
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if(segue.identifier == SHOW_TRACK_SEGUE_IDENTIFIER){
+            if let destVC = segue.destinationViewController as? TrackParamsViewController{
+                destVC.autoId = self.autoId
+            }
+        }
+    }
 }

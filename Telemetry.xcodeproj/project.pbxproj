@@ -92,6 +92,10 @@
 		886BC1DA1D5AECE500C7C7B9 /* TrackParamsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1D91D5AECE500C7C7B9 /* TrackParamsViewController.swift */; };
 		886BC1DD1D5B007A00C7C7B9 /* NSDate+dateFromFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1DC1D5B007900C7C7B9 /* NSDate+dateFromFormat.swift */; };
 		886BC1DF1D5B251A00C7C7B9 /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1DE1D5B251A00C7C7B9 /* TrackViewController.swift */; };
+		886BC1E11D5B2D0800C7C7B9 /* TrackClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E01D5B2D0800C7C7B9 /* TrackClient.swift */; };
+		886BC1E31D5B2DBE00C7C7B9 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E21D5B2DBE00C7C7B9 /* Track.swift */; };
+		886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */; };
+		886BC1E71D5B320F00C7C7B9 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
@@ -281,6 +285,10 @@
 		886BC1D91D5AECE500C7C7B9 /* TrackParamsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackParamsViewController.swift; sourceTree = "<group>"; };
 		886BC1DC1D5B007900C7C7B9 /* NSDate+dateFromFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+dateFromFormat.swift"; sourceTree = "<group>"; };
 		886BC1DE1D5B251A00C7C7B9 /* TrackViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
+		886BC1E01D5B2D0800C7C7B9 /* TrackClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackClient.swift; sourceTree = "<group>"; };
+		886BC1E21D5B2DBE00C7C7B9 /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackResponse.swift; sourceTree = "<group>"; };
+		886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
@@ -456,6 +464,7 @@
 				88F99DC21D4A3E020031A645 /* AutosClient.swift */,
 				88F99DD41D4A4B970031A645 /* AutoClient.swift */,
 				88263E741D534DBF00688708 /* VehiclesFilterClient.swift */,
+				886BC1E01D5B2D0800C7C7B9 /* TrackClient.swift */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
@@ -472,6 +481,7 @@
 				88263E761D534DF300688708 /* VehiclesFilterResponse.swift */,
 				88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */,
 				886BC1D21D5905C600C7C7B9 /* AutoDetailResponse.swift */,
+				886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -588,6 +598,7 @@
 				88263E7D1D53558A00688708 /* FilterDict.swift */,
 				886BC1CE1D59047100C7C7B9 /* AutoDetail.swift */,
 				886BC1D01D59052900C7C7B9 /* Sensor.swift */,
+				886BC1E21D5B2DBE00C7C7B9 /* Track.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -800,6 +811,7 @@
 			children = (
 				886BC1D91D5AECE500C7C7B9 /* TrackParamsViewController.swift */,
 				886BC1DE1D5B251A00C7C7B9 /* TrackViewController.swift */,
+				886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */,
 			);
 			name = Track;
 			sourceTree = "<group>";
@@ -1157,6 +1169,7 @@
 				88F99DA41D49C88B0031A645 /* Company.swift in Sources */,
 				4CBB2DF91D3F938F000AAE33 /* GMUStaticCluster.m in Sources */,
 				4CBB2DFD1D3F938F000AAE33 /* GQTPointQuadTreeChild.m in Sources */,
+				886BC1E71D5B320F00C7C7B9 /* TrackViewModel.swift in Sources */,
 				4C9A66861D2FF42E00FCA3F4 /* VehiclesRequestSocket.swift in Sources */,
 				88263E791D534E4900688708 /* AutoModel.swift in Sources */,
 				4C132A951D4FA04F00B47BFF /* MapFilterViewController.swift in Sources */,
@@ -1183,12 +1196,14 @@
 				4C05421D1D4F4C4300644A89 /* POIItem.m in Sources */,
 				4C0542231D4F589E00644A89 /* PreferencesManager.swift in Sources */,
 				886BC1DD1D5B007A00C7C7B9 /* NSDate+dateFromFormat.swift in Sources */,
+				886BC1E11D5B2D0800C7C7B9 /* TrackClient.swift in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,
 				88F99DC11D4A39470031A645 /* AutosViewController.swift in Sources */,
 				4C22804C1D4FB7FD008B0722 /* Filter.swift in Sources */,
+				886BC1E31D5B2DBE00C7C7B9 /* Track.swift in Sources */,
 				886BC1DF1D5B251A00C7C7B9 /* TrackViewController.swift in Sources */,
 				4C5EFB731D2D270F00FE882B /* ViewController.swift in Sources */,
 				88F99DA71D49C8C40031A645 /* CompaniesViewModel.swift in Sources */,
@@ -1200,6 +1215,7 @@
 				88263E7E1D53558A00688708 /* FilterDict.swift in Sources */,
 				886BC1D31D5905C600C7C7B9 /* AutoDetailResponse.swift in Sources */,
 				885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */,
+				886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
 				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
 				885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */,

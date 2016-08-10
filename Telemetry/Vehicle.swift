@@ -27,7 +27,6 @@ class Vehicle: NSObject {
     init(json: JSON){
         super.init()
         
-        print(json)
         self.id = json["v_id"].int64
         self.companyProviderId = json["p_id"].int64
         self.sensorId = json["s_id"].int64

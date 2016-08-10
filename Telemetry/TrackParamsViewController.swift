@@ -29,6 +29,8 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
 
     @IBOutlet var table: UITableView!
     
+    var autoId: Int64?
+    
     var trackParams: (startDate: Int64?, endDate: Int64?) = (nil, nil)
     
     override func viewDidLoad() {
@@ -48,7 +50,10 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
+        if let destVC = segue.destinationViewController as? TrackViewController{
+            destVC.autoId = self.autoId
+            destVC.trackParams = self.trackParams
+        }
     }
     
     //MARK: UITableViewDelegate & UITableViewDataSource

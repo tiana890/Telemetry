@@ -68,14 +68,6 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     
     func addBindsToViewModel(){
 
-//        let sub = viewModel?.vehiclesMetaInfo.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](mapInfoArr) in
-//
-//            dispatch_barrier_async(dispatch_get_main_queue(), {
-//                self.appendMarkersOnMap(mapInfoArr)
-//                self.clusterManager.cluster()
-//            })
-//            
-//        })
         let sub = viewModel?.vehicles.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](vehicles) in
             self.appendMarkersOnMap(vehicles.array)
             self.clusterManager.cluster()
