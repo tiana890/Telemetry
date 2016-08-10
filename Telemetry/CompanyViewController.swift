@@ -1,6 +1,6 @@
 //
 //  CompanyViewController.swift
-//  Telemetry
+//  TeleFilterCellmetry
 //
 //  Created by IMAC  on 28.07.16.
 //  Copyright © 2016 GBU. All rights reserved.

@@ -16,6 +16,10 @@ class AutoViewController: UIViewController {
     
     let HEADER_CELL_IDENTIFIER = "headerCell"
     let COMMON_CELL_IDENTIFIER = "commonCell"
+    let COMMON_ARROW_CELL_IDENTIFIER = "commonArrowCell"
+    
+    
+    let SHOW_TRACK_SEGUE_IDENTIFIER = "showTrack"
     
     var autoId: Int64?
     var viewModel :AutoViewModel?
@@ -45,17 +49,16 @@ class AutoViewController: UIViewController {
             .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
                 return Observable.just(self.createItemsArrayFromAutoModel(auto))
             }).bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                    let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                    let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
-                    cell.mainText.text = element.name
-                    return cell
+                let indexPath = NSIndexPath(forItem: row, inSection: 0)
+                let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
+                cell.mainText.text = element.name
+                
+                return cell
             }.addDisposableTo(self.disposeBag)
         
     }
     
     func addTableBinds(){
-        
-        
         
     }
     
@@ -70,6 +73,7 @@ class AutoViewController: UIViewController {
         array.append((self.COMMON_CELL_IDENTIFIER, auto.registrationNumber ?? ""))
         array.append((self.HEADER_CELL_IDENTIFIER, "Организация"))
         array.append((self.COMMON_CELL_IDENTIFIER, auto.organization ?? ""))
+        
         if let speed = auto.speed{
             array.append((self.HEADER_CELL_IDENTIFIER, "Скорость"))
             array.append((self.COMMON_CELL_IDENTIFIER, "\(speed)" ))
@@ -94,6 +98,9 @@ class AutoViewController: UIViewController {
                 array.append((self.COMMON_CELL_IDENTIFIER, sensor.name ?? ""))
             }
         }
+        
+        array.append((self.HEADER_CELL_IDENTIFIER, "Проиграть трек"))
+        array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Выбрать параметры трека"))
         
         return array
     }
