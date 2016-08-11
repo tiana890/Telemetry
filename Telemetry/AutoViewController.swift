@@ -20,6 +20,7 @@ class AutoViewController: UIViewController {
     
     
     let SHOW_TRACK_SEGUE_IDENTIFIER = "showTrack"
+    let FOLLOW_VEHICLE_SEGUE_IDENTIFIER = "followVehicle"
     
     var autoId: Int64?
     var viewModel :AutoViewModel?
@@ -101,6 +102,8 @@ class AutoViewController: UIViewController {
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Проиграть трек"))
         array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Выбрать параметры трека"))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Следить за ТС"))
+        array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Следить за ТС"))
         
         return array
     }
@@ -116,5 +119,6 @@ class AutoViewController: UIViewController {
                 destVC.autoId = self.autoId
             }
         }
+        
     }
 }

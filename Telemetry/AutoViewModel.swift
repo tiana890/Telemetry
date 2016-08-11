@@ -23,8 +23,6 @@ final class AutoViewModel{
         
         autoClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (autoResponse) -> AutoDetail in
             return autoResponse.autoDetail ?? AutoDetail()
-            }.bindTo(auto).addDisposableTo(self.disposeBag)
-
-        
+            }.bindTo(auto).addDisposableTo(self.disposeBag)        
     }
 }

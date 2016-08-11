@@ -25,8 +25,6 @@ class TelemetryClient: NSObject {
         
         let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
 
-        
-        //self.webSocket = SRWebSocket(URL: NSURL(string: "ws://stk.esmc.info:8084/telemetry/socket_server"))
         self.webSocket = SRWebSocket(URL: NSURL(string: SERVER_URL))
         
         dispatch_async(backgrQueue) {
