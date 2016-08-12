@@ -34,9 +34,16 @@ class TrackClient: NSObject {
         let parameters = ["token": self.token ?? "",
                           "startTime": self.startTime ?? "",
                           "endTime": self.endTime ?? ""]
+        print(TRACK_URL + "\(autoId ?? 0)")
+
+       
         
         return requestJSON(.GET, TRACK_URL + "\(autoId ?? 0)", parameters: parameters, encoding: .URL, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .catchError({ (errType) -> Observable<(NSHTTPURLResponse, AnyObject)> in
+                print(errType)
+                return Observable.just((NSHTTPURLResponse(coder: NSCoder())!, ""))
+            })
             .map({ (response, object) -> TrackResponse in
                 print(response)
                 let js = JSON(object)
@@ -44,11 +51,7 @@ class TrackClient: NSObject {
                 let trackResponse = TrackResponse(json: js)
                 return trackResponse
             })
-            .debug()
-//            .catchError({ (err) -> Observable<TrackResponse> in
-//                print("Error")
-//                return Observable.just(TrackResponse())
-//            })
+
     }
 
 }
