@@ -59,6 +59,8 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
             print(autosDictResponse.autosDict)
         }.addDisposableTo(self.dispBag)
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -68,12 +70,23 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     
     func addBindsToViewModel(){
 
-        let sub = viewModel?.vehicles.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](vehicles) in
-            self.appendMarkersOnMap(vehicles.array)
-            self.clusterManager.cluster()
-            self.indicator.hidden = true
+        let sub = viewModel?
+            .vehicles
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [unowned self](vehicles) in
+                self.appendMarkersOnMap(vehicles.array)
+                self.clusterManager.cluster()
+                self.indicator.hidden = true
+            }, onError: { (errType) in
+                    print(errType)
+            }, onCompleted: {
+                    
+            }, onDisposed: {
+                    
         })
+        
         addSubscription(sub!)
+        
     }
 
     func appendMarkersOnMap(array: [Vehicle]){

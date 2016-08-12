@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Telemetry/TrackResponse.swift"
-            timestampString = "492530537.227186"
+            filePath = "Telemetry/MapVehiclesViewController.swift"
+            timestampString = "492685796.614955"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "init()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Telemetry/TrackResponse.swift"
-            timestampString = "492530538.104712"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "init(json:)"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "addBindsToViewModel()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

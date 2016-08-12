@@ -11,6 +11,7 @@ import UIKit
 enum APIErrorType: String{
     case NETWORK
     case UNKNOWN
+    case NONE
 }
 
 class APIError: ErrorType {
@@ -27,6 +28,12 @@ class APIError: ErrorType {
         self.reason = _reason
     }
     
+    init(_errCode: Int?, _reason: String? ){
+        self.errorCode = _errCode
+        self.reason = _reason
+    }
+
+    
     func getReason() -> String{
         if let reas = self.reason {
             return reas
@@ -38,6 +45,7 @@ class APIError: ErrorType {
         case .UNKNOWN:
             return "Неизвестная ошибка"
         default:
+            return ""
             break
         }
     }

@@ -21,7 +21,7 @@ final class VehiclesViewModel{
     init(telemetryClient: TelemetryClient){
 
         let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
-        telemetryClient.observableVehicles.observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))//.map { (veh) -> [VehicleMapInfo] in
+        telemetryClient.vehiclesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))//.map { (veh) -> [VehicleMapInfo] in
 //            var arr = [VehicleMapInfo]()
 //            for(vehicle) in veh.array{
 //                if(vehicle.id != nil && vehicle.lat != nil && vehicle.lon != nil){
