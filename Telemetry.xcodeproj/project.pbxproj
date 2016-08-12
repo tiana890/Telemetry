@@ -16,13 +16,11 @@
 		4C132A9A1D4FA27600B47BFF /* CommonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C132A991D4FA27600B47BFF /* CommonCell.swift */; };
 		4C15235D1D33EA91002D0009 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235B1D33EA91002D0009 /* Vehicle.swift */; };
 		4C15235E1D33EA91002D0009 /* Vehicles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235C1D33EA91002D0009 /* Vehicles.swift */; };
-		4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */; };
 		4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */; };
 		4C2280481D4FB5B4008B0722 /* CompanyFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */; };
 		4C22804C1D4FB7FD008B0722 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C22804B1D4FB7FD008B0722 /* Filter.swift */; };
 		4C56B69E1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */; };
 		4C5B24301D36432400AC310E /* AuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B242F1D36432400AC310E /* AuthClient.swift */; };
-		4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24311D36449100AC310E /* AuthAPIService.swift */; };
 		4C5B24361D36452200AC310E /* DataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24351D36452200AC310E /* DataLoader.swift */; };
 		4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B24381D3645DE00AC310E /* BaseResponse.swift */; };
 		4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C5B243C1D366AE900AC310E /* AuthorizationViewController.swift */; };
@@ -181,13 +179,11 @@
 		4C132A991D4FA27600B47BFF /* CommonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonCell.swift; sourceTree = "<group>"; };
 		4C15235B1D33EA91002D0009 /* Vehicle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		4C15235C1D33EA91002D0009 /* Vehicles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Vehicles.swift; sourceTree = "<group>"; };
-		4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VehiclesAPIService.swift; sourceTree = "<group>"; };
 		4C1523611D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxSocketManagerDelegateProxy.swift; sourceTree = "<group>"; };
 		4C2280471D4FB5B4008B0722 /* CompanyFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyFilterViewController.swift; sourceTree = "<group>"; };
 		4C22804B1D4FB7FD008B0722 /* Filter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		4C56B69D1D390E6B00B3BF7D /* RxGoogleMapsDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxGoogleMapsDelegateProxy.swift; sourceTree = "<group>"; };
 		4C5B242F1D36432400AC310E /* AuthClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthClient.swift; sourceTree = "<group>"; };
-		4C5B24311D36449100AC310E /* AuthAPIService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthAPIService.swift; sourceTree = "<group>"; };
 		4C5B24351D36452200AC310E /* DataLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataLoader.swift; sourceTree = "<group>"; };
 		4C5B24381D3645DE00AC310E /* BaseResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseResponse.swift; sourceTree = "<group>"; };
 		4C5B243C1D366AE900AC310E /* AuthorizationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
@@ -450,8 +446,6 @@
 		4C5B24331D36449B00AC310E /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				4C15235F1D33EA9E002D0009 /* VehiclesAPIService.swift */,
-				4C5B24311D36449100AC310E /* AuthAPIService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -1175,7 +1169,6 @@
 				88F99DCF1D4A44560031A645 /* AutoCollectionCell.swift in Sources */,
 				88F99DCB1D4A40EF0031A645 /* AutoResponse.swift in Sources */,
 				4CBB2DFC1D3F938F000AAE33 /* GQTPointQuadTree.m in Sources */,
-				4C1523601D33EA9E002D0009 /* VehiclesAPIService.swift in Sources */,
 				884098131D427569007FEE7E /* BaseViewController.swift in Sources */,
 				88F99DA41D49C88B0031A645 /* Company.swift in Sources */,
 				4CBB2DF91D3F938F000AAE33 /* GMUStaticCluster.m in Sources */,
@@ -1222,7 +1215,6 @@
 				4C5EFB711D2D270F00FE882B /* AppDelegate.swift in Sources */,
 				4CBB2DF61D3F938F000AAE33 /* GMUSimpleClusterAlgorithm.m in Sources */,
 				886BC1D11D59052900C7C7B9 /* Sensor.swift in Sources */,
-				4C5B24321D36449100AC310E /* AuthAPIService.swift in Sources */,
 				88263E7E1D53558A00688708 /* FilterDict.swift in Sources */,
 				886BC1D31D5905C600C7C7B9 /* AutoDetailResponse.swift in Sources */,
 				885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */,

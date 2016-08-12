@@ -35,7 +35,6 @@ class CompanyFilterViewController: UIViewController {
             (name: "Модель ТС", cellID: FILTER_CELL_ID)
             ])
         
-        
     }
 
     //MARK: IBActions

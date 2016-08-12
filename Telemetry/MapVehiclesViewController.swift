@@ -74,11 +74,20 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             .vehicles
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self](vehicles) in
+                
                 self.appendMarkersOnMap(vehicles.array)
                 self.clusterManager.cluster()
                 self.indicator.hidden = true
-            }, onError: { (errType) in
-                    print(errType)
+                
+            }, onError: { [unowned self](errType) in
+                
+                self.indicator.hidden = true
+                if let error = errType as? APIError{
+                    self.showAlert("", msg: error.getReason())
+                } else {
+                    self.showAlert("", msg: "Произошла ошибка")
+                }
+                
             }, onCompleted: {
                     
             }, onDisposed: {
@@ -86,7 +95,6 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         })
         
         addSubscription(sub!)
-        
     }
 
     func appendMarkersOnMap(array: [Vehicle]){
@@ -142,7 +150,6 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     }
     
     //MARK: IBActions
-    
     @IBAction func filter(sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
@@ -165,14 +172,15 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         item.selected = true
         
         let vehicleId = item.vehicleId.longLongValue
-        guard let auto = self.autosDict?[vehicleId] else { return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow }
+        guard let auto = self.autosDict?[vehicleId] else {
+            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
+        }
         
         if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
             markerView.company.text = auto.organization
             markerView.regNumber.text = auto.registrationNumber
             markerView.model.text = auto.model
 
-            
             if let lastUpdate = auto.lastUpdate{
                 let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
                 let dateFormatter = NSDateFormatter()
@@ -197,6 +205,20 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         for(val) in self.dict.values{
             val.spot.selected = false
         }
+    }
+    
+    //MARK: -Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
     }
 }
    

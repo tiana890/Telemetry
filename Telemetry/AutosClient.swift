@@ -24,8 +24,7 @@ class AutosClient: NSObject {
     func autosObservable() -> Observable<AutosResponse>{
         
         let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
-        print(AUTOS_URL)
-        print(self.token ?? "")
+
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
@@ -38,9 +37,9 @@ class AutosClient: NSObject {
     }
     
     func autosDictObservable() -> Observable<AutosDictResponse>{
+        
         let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
-        print(AUTOS_URL)
-        print(self.token ?? "")
+
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))

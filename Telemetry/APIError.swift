@@ -33,7 +33,6 @@ class APIError: ErrorType {
         self.reason = _reason
     }
 
-    
     func getReason() -> String{
         if let reas = self.reason {
             return reas
