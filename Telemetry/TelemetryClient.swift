@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class TelemetryClient: NSObject {
     
-    let SERVER_URL = "ws://esmc.info/stk//api/v1/telemetry/socket_server1"
+    let SERVER_URL = "ws://esmc.info/stk//api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
     var token: String?
@@ -24,6 +24,7 @@ class TelemetryClient: NSObject {
     init(token: String){
         super.init()
         self.webSocket = SRWebSocket(URL: NSURL(string: SERVER_URL))
+        self.token = token
     }
     
     func vehiclesObservable() -> Observable<Vehicles>{
@@ -39,6 +40,7 @@ class TelemetryClient: NSObject {
             .subscribeNext { [unowned self](val) in
                 if(val){
                     self.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: self.token ?? "").getData() ?? NSData())
+                    print(self.token)
                 } else {
                     self.vehObservable.onError(APIError(errType: .UNKNOWN))
                 }

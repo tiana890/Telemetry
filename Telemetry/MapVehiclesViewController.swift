@@ -31,6 +31,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     //MARK: IBOutlets
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    @IBOutlet var updateBtn: UIBarButtonItem!
     
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()
@@ -42,7 +43,8 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         mapView!.delegate = self
         self.view.addSubview(mapView!)
         
-        self.indicator.startAnimating()
+        
+        print(ApplicationState.sharedInstance().getToken())
         viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
         
         // Set up the cluster manager with default icon generator and renderer.
@@ -61,19 +63,36 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             print(autosDictResponse.autosDict)
         }.addDisposableTo(self.dispBag)
         
+        self.updateBtn
+            .rx_tap
+            .observeOn(MainScheduler.instance)
+            .subscribeNext { [unowned self]() in
+                self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
+                self.addBindsToViewModel()
+                
+        }.addDisposableTo(self.dispBag)
+        
+    
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         self.addBindsToViewModel()
     }
     
     
     func addBindsToViewModel(){
-
+        self.indicator.hidden = false
+        self.indicator.startAnimating()
+        
+        self.updateBtn.enabled = false
+        self.updateBtn.image = nil
+        
         let sub = viewModel?
             .vehicles
             .observeOn(MainScheduler.instance)
+            .debug()
             .subscribe(onNext: { [unowned self](vehicles) in
                 
                 self.appendMarkersOnMap(vehicles.array)
@@ -83,6 +102,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             }, onError: { [unowned self](errType) in
                 
                 self.indicator.hidden = true
+                self.updateBtn.image = UIImage(named: "update_icon")
+                self.updateBtn.enabled = true
+                
                 if let error = errType as? APIError{
                     self.showAlert("", msg: error.getReason())
                 } else {
