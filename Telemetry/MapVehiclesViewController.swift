@@ -31,6 +31,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     //MARK: IBOutlets
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     @IBAction func menuPressed(sender: AnyObject) {
         ApplicationState.sharedInstance().showLeftPanel()
     }
@@ -60,13 +61,13 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             print(autosDictResponse.autosDict)
         }.addDisposableTo(self.dispBag)
         
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.addBindsToViewModel()
     }
+    
     
     func addBindsToViewModel(){
 
@@ -105,6 +106,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             guard veh.lat != nil else { break }
             guard veh.lon != nil else { break }
             guard veh.azimut != nil else { break }
+            
             if let value = dict[veh.id!]{
                 if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon && value.vehicle.azimut! == veh.azimut){
                     
@@ -134,6 +136,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     }
     
     func addMarkerAndCreateSpot(vehicle: Vehicle) -> POIItem{
+        
         let pos = CLLocationCoordinate2D(latitude: vehicle.lat!, longitude: vehicle.lon!)
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
@@ -147,6 +150,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         spot.name = "\(vehicle.id)"
         spot.hasAnimated = false
         return spot
+        
     }
     
     //MARK: IBActions
