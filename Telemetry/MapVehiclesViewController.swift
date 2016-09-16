@@ -4,6 +4,8 @@ import UIKit
 import RxSwift
 import SwiftyJSON
 import GoogleMaps
+import CoreGraphics
+import QuartzCore
 
 class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
     
@@ -42,7 +44,28 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         mapView = GMSMapView(frame: self.view.frame)
         mapView!.delegate = self
         self.view.addSubview(mapView!)
-        
+
+//        let path = GMSMutablePath()
+//        path.addCoordinate(CLLocationCoordinate2D(latitude: 30.0, longitude: 40.0))
+//        path.addCoordinate(CLLocationCoordinate2D(latitude: 40.0, longitude: 50.0))
+//        
+//        let polyline = GMSPolyline(path: path)
+//        polyline.strokeColor = UIColor.redColor()
+//        polyline.map = self.mapView
+//        
+//
+////        [CATransaction begin];
+////        [CATransaction setAnimationDuration:kGMUAnimationDuration];
+////        CLLocationCoordinate2D toPosition = toCluster.position;
+////        marker.layer.latitude = toPosition.latitude;
+////        marker.layer.longitude = toPosition.longitude;
+////        [CATransaction commit];
+//        
+//        CATransaction.begin()
+//        CATransaction.setAnimationDuration(1.0)
+//    
+//        CATransaction.commit()
+
         
         print(ApplicationState.sharedInstance().getToken())
         viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))

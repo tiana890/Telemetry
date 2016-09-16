@@ -340,6 +340,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                     userData:item
                                                  clusterIcon:nil
                                                     animated:shouldAnimate];
+                
                 if(item.selected){
                     _mapView.selectedMarker = marker;
                 }
@@ -372,6 +373,36 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     [_renderedClusters addObject:cluster];
 }
 
+/*
+ let path = GMSMutablePath()
+ path.addCoordinate(CLLocationCoordinate2D(latitude: 30.0, longitude: 40.0))
+ path.addCoordinate(CLLocationCoordinate2D(latitude: 40.0, longitude: 50.0))
+ 
+ let polyline = GMSPolyline(path: path)
+ polyline.strokeColor = UIColor.redColor()
+ polyline.map = self.mapView
+ */
+
+- (void) drawPolyline: (CLLocationCoordinate2D)startPosition to:(CLLocationCoordinate2D)endPosition{
+    CLLocationCoordinate2D zeroLocation = CLLocationCoordinate2DMake(0.0, 0.0);
+    if(![self isEqualToZero:startPosition] && ![self isEqualToZero:endPosition]){
+        
+        GMSMutablePath *path = [[GMSMutablePath alloc] init];
+        [path addCoordinate:startPosition];
+        [path addCoordinate:endPosition];
+        
+        GMSPolyline *polyline = [[GMSPolyline alloc] init];
+        polyline.path = path;
+        polyline.strokeColor = [UIColor redColor];
+        polyline.map = _mapView;
+    }
+}
+
+- (BOOL) isEqualToZero:(CLLocationCoordinate2D) coord{
+    if(coord.latitude == 0.0 && coord.longitude == 0.0) return YES;
+    return NO;
+    
+}
 
 - (GMSMarker *)markerWithPosition:(CLLocationCoordinate2D)position
                              from:(CLLocationCoordinate2D)from
@@ -410,8 +441,14 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
   if (animated) {
     [CATransaction begin];
     [CATransaction setAnimationDuration:kGMUAnimationDuration];
+    
+    if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+        [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position];
+    }
+      
     marker.layer.latitude = position.latitude;
     marker.layer.longitude = position.longitude;
+    
       [CATransaction setCompletionBlock:^{
           if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
 //              if((NSString *)[marker.userData valueForKey:@"prevLat"]!=nil &&

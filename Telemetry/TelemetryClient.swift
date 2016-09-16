@@ -73,14 +73,27 @@ class TelemetryClient: NSObject {
                     }
                 }
                 return (vehicles, APIError(errType: .UNKNOWN))
-            
-        }).subscribeNext({ (veh, err) in
-            if(err.errType == APIErrorType.NONE){
-                self.vehObservable.on(.Next(veh))
-            } else {
-                self.vehObservable.onError(err)
-            }
-        }).addDisposableTo(self.disposeBag)
+
+                }).subscribe(onNext: { (veh, err) in
+                    if(err.errType == APIErrorType.NONE){
+                        self.vehObservable.on(.Next(veh))
+                    } else {
+                        self.vehObservable.onError(err)
+                    }
+                    }, onError: { (err) in
+                        print((err as NSError).description)
+                    }, onCompleted: { 
+                        print("Completed")
+                    }, onDisposed: { 
+                        print("disposed")
+                }).addDisposableTo(self.disposeBag)
+//        }).subscribeNext({ (veh, err) in
+//            if(err.errType == APIErrorType.NONE){
+//                self.vehObservable.on(.Next(veh))
+//            } else {
+//                self.vehObservable.onError(err)
+//            }
+//        }).addDisposableTo(self.disposeBag)
         
         self.webSocket?.rx_didFailWithError
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
