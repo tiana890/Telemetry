@@ -4,13 +4,18 @@
 target 'Telemetry' do
   # Comment this line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
-
+  
   # Pods for Telemetry
-  pod 'SocketRocket'
+  pod 'SocketRocket', '~> 0.5.1'
   pod 'GoogleMaps'
-  pod 'RxSwift'
-  pod 'RxBlocking'
-  pod 'RxCocoa'
+  pod 'RxSwift', '~> 2.6.0'
+  pod 'RxBlocking', '~> 2.6.0'
+  pod 'RxCocoa', '~> 2.6.0'
+  pod 'SwiftyJSON', '~> 2.3.2'
+  pod 'RxAlamofire', '~> 2.5'
+  pod 'Fabric'
+  pod 'Crashlytics'
+  
   target 'TelemetryTests' do
     inherit! :search_paths
 

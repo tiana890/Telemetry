@@ -8,16 +8,24 @@
 
 import UIKit
 import GoogleMaps
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    let AUTH_CONTROLLER_ID = "authorizationControllerID"
+    let CONTAINER_CONTROLLER_ID = "containerControllerID"
 
     var window: UIWindow?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        Fabric.with([Crashlytics.self])
         // Override point for customization after application launch.
         initializeServices()
+        setAppearanceForUIElements()
+        setInitialVC()
         return true
     }
 
@@ -46,7 +54,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     //MARK: Functions
     func initializeServices(){
         // Override point for customization after application launch.
-        GMSServices.provideAPIKey("AIzaSyAXRJHf2TXLFXVKL-qmUuOsz_iJdJGekSw")
+        GMSServices.provideAPIKey("AIzaSyA5s150KB5KFgRFS5XgR_-ag3taHccOXkE")
+    }
+    
+    func setAppearanceForUIElements(){
+        UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar"), forBarMetrics: UIBarMetrics.Default)
+        UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
+        
+    }
+    
+    func setInitialVC(){
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        if let _ = ApplicationState.sharedInstance().getToken(){
+            let containerVC = mainStoryboard.instantiateViewControllerWithIdentifier(CONTAINER_CONTROLLER_ID) as! ContainerViewController
+            self.window?.rootViewController = containerVC
+        } else {
+            let authVC = mainStoryboard.instantiateViewControllerWithIdentifier(AUTH_CONTROLLER_ID) as! AuthorizationViewController
+            self.window?.rootViewController = authVC
+        }
+        self.window?.makeKeyAndVisible()
+
+    }
+    
+    func exit(){
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let authVC = mainStoryboard.instantiateViewControllerWithIdentifier(AUTH_CONTROLLER_ID) as! AuthorizationViewController
+        if let currentRootVC = self.window?.rootViewController{
+            currentRootVC.dismissViewControllerAnimated(true, completion: nil)
+        }
+        self.window?.rootViewController = authVC
+        self.window?.makeKeyAndVisible()
+        ApplicationState.sharedInstance().deleteToken()
     }
 }
 

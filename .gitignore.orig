@@ -1,0 +1,10 @@
+/Pods
+<<<<<<< HEAD
+Telemetry.xcodeproj/xcuserdata
+Telemetry.xcworkspace/xcuserdata
+=======
+/frameworks/GoogleMaps.framework
+Telemetry.xcodeproj/xcuserdata
+Telemetry.xcworkspace/xcuserdata
+
+>>>>>>> feature/track
