@@ -2,3 +2,4 @@
 /frameworks/GoogleMaps.framework
 Telemetry.xcodeproj/xcuserdata
 Telemetry.xcworkspace/xcuserdata
+*.xcuserstate
