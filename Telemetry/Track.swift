@@ -26,15 +26,15 @@ import SwiftyJSON
  */
 
 struct TrackItem{
-    var lat: Int64?
-    var lon: Int64?
+    var lat: Double?
+    var lon: Double?
     var speed: Int64?
     var azimut: Int?
     var time: Int64?
     
     init(json: JSON){
-        self.lat = json["lat"].int64
-        self.lon = json["lon"].int64
+        self.lat = json["lat"].double
+        self.lon = json["lon"].double
         self.speed = json["speed"].int64
         self.azimut = json["azimut"].int
         self.time = json["time"].int64

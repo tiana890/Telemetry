@@ -28,7 +28,6 @@ class AutosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
         self.viewModel = AutosViewModel(autosClient: autosClient!)
         
