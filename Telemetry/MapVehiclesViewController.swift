@@ -7,7 +7,7 @@ import GoogleMaps
 import CoreGraphics
 import QuartzCore
 
-class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
+class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
     
     let FILTER_STORYBOARD_ID = "FilterStoryboardID"
 
@@ -27,6 +27,8 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     let dispBag = DisposeBag()
     
+    var ifNeedLoadAutos = true
+    
     var autosDict: [Int64: Auto]?{
         return ApplicationState.sharedInstance().autosDict
     }
@@ -40,35 +42,14 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         mapView = GMSMapView(frame: self.view.frame)
         mapView!.delegate = self
         self.view.addSubview(mapView!)
-
-//        let path = GMSMutablePath()
-//        path.addCoordinate(CLLocationCoordinate2D(latitude: 30.0, longitude: 40.0))
-//        path.addCoordinate(CLLocationCoordinate2D(latitude: 40.0, longitude: 50.0))
-//        
-//        let polyline = GMSPolyline(path: path)
-//        polyline.strokeColor = UIColor.redColor()
-//        polyline.map = self.mapView
-//        
-//
-////        [CATransaction begin];
-////        [CATransaction setAnimationDuration:kGMUAnimationDuration];
-////        CLLocationCoordinate2D toPosition = toCluster.position;
-////        marker.layer.latitude = toPosition.latitude;
-////        marker.layer.longitude = toPosition.longitude;
-////        [CATransaction commit];
-//        
-//        CATransaction.begin()
-//        CATransaction.setAnimationDuration(1.0)
-//    
-//        CATransaction.commit()
-
         
         print(ApplicationState.sharedInstance().getToken())
-        viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
+        //viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
         
         // Set up the cluster manager with default icon generator and renderer.
         let iconGenerator = GMUDefaultClusterIconGenerator()
@@ -79,12 +60,27 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
         clusterManager.setDelegate(self, mapDelegate: self)
         
-        AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
-        .observeOn(ConcurrentDispatchQueueScheduler(queue: mapQueue))
-        .subscribeNext { (autosDictResponse) in
-            ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
-            print(autosDictResponse.autosDict)
-        }.addDisposableTo(self.dispBag)
+        self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
+        
+        
+        if(self.ifNeedLoadAutos){
+            print(self.mapView?.frame)
+            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
+            progressHUD.tag = 1234
+            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
+            progressHUD.center = self.view.center
+            self.view.addSubview(progressHUD)
+            self.view.userInteractionEnabled = false
+            
+            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
+            .observeOn(MainScheduler.instance)
+            .subscribeNext { (autosDictResponse) in
+                ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
+                progressHUD.removeFromSuperview()
+                self.view.userInteractionEnabled = true
+                self.addBindsToViewModel()
+            }.addDisposableTo(self.dispBag)
+        }
         
         self.updateBtn
             .rx_tap
@@ -94,14 +90,14 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                 self.addBindsToViewModel()
                 
         }.addDisposableTo(self.dispBag)
-        
+
     
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.addBindsToViewModel()
+        //self.addBindsToViewModel()
     }
     
     
@@ -114,13 +110,17 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         
         let sub = viewModel?
             .vehicles
-            .observeOn(MainScheduler.instance)
+            //.observeOn(MainScheduler.instance)
+            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
             .debug()
             .subscribe(onNext: { [unowned self](vehicles) in
                 
                 self.appendMarkersOnMap(vehicles.array)
-                self.clusterManager.cluster()
-                self.indicator.hidden = true
+                
+                dispatch_async(dispatch_get_main_queue(), { 
+                    self.clusterManager.cluster()
+                    self.indicator.hidden = true
+                })
                 
             }, onError: { [unowned self](errType) in
                 
@@ -138,9 +138,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                     
             }, onDisposed: {
                     
-        })
-        
-        addSubscription(sub!)
+        }).addDisposableTo(self.dispBag)
     }
 
     func appendMarkersOnMap(array: [Vehicle]){
@@ -156,7 +154,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                 if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon && value.vehicle.azimut! == veh.azimut){
                     
                 } else {
-                    self.clusterManager.removeItem(value.spot)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.clusterManager.removeItem(value.spot)
+                    })
                     
                     let spot = addMarkerAndCreateSpot(veh)
                     spot.prevLon = String(value.spot.position.longitude)
@@ -166,7 +166,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                         spot.selected = value.spot.selected
                     }
                     dict[veh.id!] = (vehicle: veh, spot: spot)
-                    self.clusterManager.addItem(spot)
+                    dispatch_async(dispatch_get_main_queue(), {
+                        self.clusterManager.addItem(spot)
+                    })
                 }
                 
             } else {
@@ -175,7 +177,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
                 spot.prevLon = nil
                 spot.hasAnimated = true
                 dict[veh.id!] = (vehicle: veh, spot: spot)
-                self.clusterManager.addItem(spot)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.clusterManager.addItem(spot)
+                })
             }
         }
     }
@@ -186,7 +190,7 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
-        if let regNumber = self.autosDict?[vehicle.id!]{
+        if let regNumber = self.autosDict?[vehicle.id!]?.registrationNumber{
             spot.regNumber = "\(regNumber)"
         }
         if let azm = vehicle.azimut{
@@ -226,9 +230,9 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
         }
         
         if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
-            markerView.company.text = auto.organization
-            markerView.regNumber.text = auto.registrationNumber
-            markerView.model.text = auto.model
+            markerView.company.text = auto.organization ?? ""
+            markerView.regNumber.text = auto.registrationNumber ?? ""
+            markerView.model.text = auto.model ?? ""
 
             if let lastUpdate = auto.lastUpdate{
                 let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
@@ -238,6 +242,8 @@ class MapVehiclesViewController: BaseViewController, GMUClusterManagerDelegate, 
             } else {
                 markerView.lastUpdate.text = ""
             }
+            
+            return markerView
         }
         return nil
     }

@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxAlamofire
 import SwiftyJSON
+import JASON
 
 class AutosClient: NSObject {
     
@@ -29,7 +30,7 @@ class AutosClient: NSObject {
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> AutosResponse in
-                let js = JSON(object)
+                let js = SwiftyJSON.JSON(object)
                 print(js)
                 let autosResponse = AutosResponse(json: js)
                 return autosResponse
@@ -37,15 +38,14 @@ class AutosClient: NSObject {
     }
     
     func autosDictObservable() -> Observable<AutosDictResponse>{
-        
-        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
 
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
             .map({ (response, object) -> AutosDictResponse in
-                let js = JSON(object)
-                print(js)
+                print(response)
+                
+                let js = JASON.JSON(object)
                 let autosDictResponse = AutosDictResponse(json: js)
                 return autosDictResponse
             })

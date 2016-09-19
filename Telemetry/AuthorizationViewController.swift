@@ -94,6 +94,10 @@ class AuthorizationViewController: UIViewController {
         self.presentViewController(alert, animated: true, completion: nil)
             
     }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        print("")
+    }
         
 
 }

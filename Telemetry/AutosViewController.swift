@@ -28,16 +28,30 @@ class AutosViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
-        self.viewModel = AutosViewModel(autosClient: autosClient!)
+//        autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+//        self.viewModel = AutosViewModel(autosClient: autosClient!)
         
-        addBindsToViewModel()
-        addCollectionBinds()
     }
     
-    func addBindsToViewModel(){
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        self.viewModel?.autos
+        addCollectionBinds()
+        
+//        let autosDict = ApplicationState.sharedInstance().autosDict
+//        if(autosDict?.count >= 0){
+//            let publishSubject = PublishSubject<[Auto]>()
+//            addBindsToViewModel(publishSubject)
+//            publishSubject.onNext(Array(autosDict!.values))
+//        } else {
+//            addBindsToViewModel(self.viewModel!.autos)
+//        }
+        
+    }
+    
+    func addBindsToViewModel(publishSubject: PublishSubject<[Auto]>){
+        
+            publishSubject
             .observeOn(MainScheduler.instance)
             .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
                 let indexPath = NSIndexPath(forItem: row, inSection: 0)

@@ -22,7 +22,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
 
     @IBOutlet var mapView: GMSMapView!
     
-    let disposeBag = DisposeBag()
+    var disposeBag: DisposeBag? = DisposeBag()
 
     
     override func viewDidLoad() {
@@ -39,27 +39,27 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        let track = Track()
-        
-        var trackItem1 = TrackItem(json: JSON(data:"{ \"lat\": 55.75222, \"lon\": 37.61556, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-        
-        var trackItem2 = TrackItem(json: JSON(data:"{ \"lat\": 55.7722, \"lon\": 37.78, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-        
-        var trackItem3 = TrackItem(json: JSON(data:"{ \"lat\": 55.7922, \"lon\": 37.61600, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-        track.trackArray = []
-        track.trackArray?.append(trackItem1)
-        track.trackArray?.append(trackItem2)
-        track.trackArray?.append(trackItem3)
-        self.showTrackOnMap(track)
-        //addBindsToViewModel()
+//        
+//        let track = Track()
+//        
+//        var trackItem1 = TrackItem(json: JSON(data:"{ \"lat\": 55.75222, \"lon\": 37.61556, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+//        
+//        var trackItem2 = TrackItem(json: JSON(data:"{ \"lat\": 55.7722, \"lon\": 37.78, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+//        
+//        var trackItem3 = TrackItem(json: JSON(data:"{ \"lat\": 55.7922, \"lon\": 37.61600, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+//        track.trackArray = []
+//        track.trackArray?.append(trackItem1)
+//        track.trackArray?.append(trackItem2)
+//        track.trackArray?.append(trackItem3)
+//        self.showTrackOnMap(track)
+        addBindsToViewModel()
     }
     
     func addBindsToViewModel(){
         
         self.viewModel!.track.observeOn(MainScheduler.instance)
             .subscribe(onNext: { (tr) in
-                    print(tr)
+                    self.showTrackOnMap(tr)
                 }, onError: { (err) in
                     print(err)
                 }, onCompleted: { 
@@ -67,7 +67,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                 }, onDisposed: { 
                     print("disposed")
             })
-            .addDisposableTo(self.disposeBag)
+            .addDisposableTo(self.disposeBag!)
         
     }
     
@@ -86,20 +86,27 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         if trackArray.count > 0 {
             let trackItem = trackArray[0]
             if(trackItem.lat != nil && trackItem.lon != nil){
-                marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!), longitude: Double(trackItem.lon!))
+                marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
                 self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
             }
         }
         
-        //let timer = NSTimer(timeInterval: 3, target: self, selector: #selector(TrackViewController.moveMarker), userInfo: <#T##AnyObject?#>, repeats: <#T##Bool#>)
+        //let timer = NSTimer(timeInterval: 3, target: self, selector: #selector(TrackViewController.moveMarker), userInfo: trackArray, repeats: true)
 //        let observableInt = Observable<Int>.interval(3, scheduler: MainScheduler.instance).asObservable()
 //        let observableTrackItems = self.createObservableFromArray(trackArray).asObservable()
 //        
-//        
-//        Observable<Int>.timer(3, period: Double(trackArray.count), scheduler: MainScheduler.instance)
-//            .subscribeNext { (val) in
-//                print(val)
-//        }.addDisposableTo(self.disposeBag)
+        print("Track array count = \(trackArray.count)")
+        Observable<Int>.timer(0, period: 0.1, scheduler: MainScheduler.instance)
+            .take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
+            .subscribeNext { [unowned self](val) in
+                if(trackArray.count >= val){
+                    let trackItem = trackArray[val]
+                    if(trackItem.lat != nil && trackItem.lon != nil){
+                        marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
+                    }
+                }
+                print(val)
+        }.addDisposableTo(self.disposeBag!)
         
         
 //        Observable<Int>.interval(3, scheduler: MainScheduler.instance)
@@ -179,6 +186,16 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             return markerView
         }
         return nil
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.disposeBag = nil
+    }
+    
+    deinit{
+        print("DEINIT")
     }
 
 }
