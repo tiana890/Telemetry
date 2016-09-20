@@ -27,10 +27,10 @@ class CompanyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        companyClient = CompanyClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _companyId: companyId ?? 0)
-        self.viewModel = CompanyViewModel(companyClient: companyClient!)
+        //companyClient = CompanyClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _companyId: companyId ?? 0)
+        //self.viewModel = CompanyViewModel(companyClient: companyClient!)
         
-        addBindsToViewModel()
+        //addBindsToViewModel()
         
     }
     

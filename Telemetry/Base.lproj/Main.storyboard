@@ -25,6 +25,7 @@
             <string>HelveticaNeueCyr-Roman</string>
             <string>HelveticaNeueCyr-Roman</string>
             <string>HelveticaNeueCyr-Roman</string>
+            <string>HelveticaNeueCyr-Roman</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
             <string>HelveticaNeue-Light</string>
@@ -1398,7 +1399,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ВЫХОД" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HsO-0n-DhH">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="СПРАВОЧНИКИ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HsO-0n-DhH">
                                     <rect key="frame" x="20" y="17" width="283" height="11"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="283" id="UUa-FP-WcI"/>
@@ -1418,8 +1419,90 @@
                         <sections>
                             <tableViewSection id="kez-RA-9D1">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="filterCell" rowHeight="48" id="AQw-Lo-qhx" customClass="CommonCell" customModule="Telemetry" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="filterCell" rowHeight="48" id="G3D-xX-hq5" customClass="CommonCell" customModule="Telemetry" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="44" width="600" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G3D-xX-hq5" id="6jh-bI-Zfi">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Обновить справочник ТС" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QpW-kJ-CG6">
+                                                    <rect key="frame" x="19" y="14" width="200" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="ttg-In-Vvc"/>
+                                                        <constraint firstAttribute="width" constant="200" id="wt1-Jw-9U2"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeueCyr-Roman" family="HelveticaNeueCyr" pointSize="16"/>
+                                                    <color key="textColor" red="0.25098039220000001" green="0.25098039220000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="user_card_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="H3G-SW-ybk">
+                                                    <rect key="frame" x="573" y="17" width="7" height="13"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="7" id="CZE-93-63f"/>
+                                                        <constraint firstAttribute="height" constant="13" id="gQf-Ho-u9z"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sJw-s9-nQN" userLabel="separator">
+                                                    <rect key="frame" x="20" y="46" width="580" height="1"/>
+                                                    <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="1" id="Yv0-pc-4bw"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="QpW-kJ-CG6" firstAttribute="leading" secondItem="6jh-bI-Zfi" secondAttribute="leading" constant="19" id="0RP-6t-eZ7"/>
+                                                <constraint firstAttribute="bottom" secondItem="sJw-s9-nQN" secondAttribute="bottom" id="13t-T1-hZ9"/>
+                                                <constraint firstItem="sJw-s9-nQN" firstAttribute="leading" secondItem="6jh-bI-Zfi" secondAttribute="leading" constant="20" id="D1t-la-0IG"/>
+                                                <constraint firstAttribute="trailing" secondItem="sJw-s9-nQN" secondAttribute="trailing" id="FOc-tt-ofi"/>
+                                                <constraint firstAttribute="trailing" secondItem="H3G-SW-ybk" secondAttribute="trailing" constant="20" id="Hi7-AD-1bY"/>
+                                                <constraint firstItem="QpW-kJ-CG6" firstAttribute="centerY" secondItem="6jh-bI-Zfi" secondAttribute="centerY" id="fMt-dL-Sqe"/>
+                                                <constraint firstItem="H3G-SW-ybk" firstAttribute="centerY" secondItem="6jh-bI-Zfi" secondAttribute="centerY" id="tKp-VN-jR6"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="mainText" destination="QpW-kJ-CG6" id="l0l-xo-XVL"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="filterCell" rowHeight="48" id="bGh-Jg-S8f" customClass="CommonCell" customModule="Telemetry" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bGh-Jg-S8f" id="JcQ-NI-XOd">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Crb-kY-NC7">
+                                                    <rect key="frame" x="0.0" y="2" width="600" height="44"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ВЫХОД" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x2k-uu-AbX">
+                                                            <rect key="frame" x="20" y="17" width="283" height="11"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="11" id="Jb6-r6-w9F"/>
+                                                                <constraint firstAttribute="width" constant="283" id="xnl-ag-Kmw"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="9"/>
+                                                            <color key="textColor" red="0.6705882353" green="0.6705882353" blue="0.6705882353" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstItem="x2k-uu-AbX" firstAttribute="leading" secondItem="Crb-kY-NC7" secondAttribute="leading" constant="20" id="E7t-Lg-Cnc"/>
+                                                        <constraint firstItem="x2k-uu-AbX" firstAttribute="centerY" secondItem="Crb-kY-NC7" secondAttribute="centerY" id="dij-Ip-ZGi"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Crb-kY-NC7" firstAttribute="top" secondItem="JcQ-NI-XOd" secondAttribute="topMargin" constant="-6" id="Ey6-mQ-Q9Y"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="Crb-kY-NC7" secondAttribute="bottom" constant="-7" id="Qzb-Fn-Icq"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Crb-kY-NC7" secondAttribute="trailing" constant="-8" id="U8C-Dz-nNs"/>
+                                                <constraint firstItem="Crb-kY-NC7" firstAttribute="leading" secondItem="JcQ-NI-XOd" secondAttribute="leadingMargin" constant="-8" id="ltc-J4-QX1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="filterCell" rowHeight="48" id="AQw-Lo-qhx" customClass="CommonCell" customModule="Telemetry" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="140" width="600" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AQw-Lo-qhx" id="LPS-xJ-Fh3">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
@@ -1502,7 +1585,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t4i-wl-QY6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-806" y="3309"/>
+            <point key="canvasLocation" x="-806" y="3300"/>
         </scene>
         <!--Транспортное средство-->
         <scene sceneID="6hI-wr-rtm">

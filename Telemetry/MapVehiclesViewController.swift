@@ -27,7 +27,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     let dispBag = DisposeBag()
     
-    var ifNeedLoadAutos = true
+    var ifNeedLoadAutos = false
     
     var autosDict: [Int64: Auto]?{
         return ApplicationState.sharedInstance().autosDict

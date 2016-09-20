@@ -36,7 +36,7 @@ class AutosViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        addCollectionBinds()
+        //addCollectionBinds()
         
 //        let autosDict = ApplicationState.sharedInstance().autosDict
 //        if(autosDict?.count >= 0){
