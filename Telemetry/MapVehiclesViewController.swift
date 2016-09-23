@@ -27,7 +27,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     let dispBag = DisposeBag()
     
-    var ifNeedLoadAutos = false
+    var ifNeedLoadAutos = true
     
     var autosDict: [Int64: Auto]?{
         return ApplicationState.sharedInstance().autosDict
@@ -61,26 +61,25 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         clusterManager.setDelegate(self, mapDelegate: self)
         
         self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
-        
-        
-        if(self.ifNeedLoadAutos){
-            print(self.mapView?.frame)
-            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
-            progressHUD.tag = 1234
-            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
-            progressHUD.center = self.view.center
-            self.view.addSubview(progressHUD)
-            self.view.userInteractionEnabled = false
-            
-            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
-            .observeOn(MainScheduler.instance)
-            .subscribeNext { (autosDictResponse) in
-                ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
-                progressHUD.removeFromSuperview()
-                self.view.userInteractionEnabled = true
-                self.addBindsToViewModel()
-            }.addDisposableTo(self.dispBag)
-        }
+        self.addBindsToViewModel()
+//        if(self.ifNeedLoadAutos){
+//            print(self.mapView?.frame)
+//            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
+//            progressHUD.tag = 1234
+//            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
+//            progressHUD.center = self.view.center
+//            self.view.addSubview(progressHUD)
+//            self.view.userInteractionEnabled = false
+//            
+//            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
+//            .observeOn(MainScheduler.instance)
+//            .subscribeNext { (autosDictResponse) in
+//                ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
+//                progressHUD.removeFromSuperview()
+//                self.view.userInteractionEnabled = true
+//                self.addBindsToViewModel()
+//            }.addDisposableTo(self.dispBag)
+//        }
         
         self.updateBtn
             .rx_tap

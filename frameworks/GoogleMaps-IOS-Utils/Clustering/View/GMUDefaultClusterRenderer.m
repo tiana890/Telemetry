@@ -426,6 +426,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 //      }
         if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
             POIItem *item = (POIItem *)marker.userData;
+            marker.icon = [UIImage imageNamed:@"anyImageName"];
             MarkerIcon* markerView = (MarkerIcon *)[[NSBundle mainBundle] loadNibNamed:@"MarkerIcon" owner:marker options:nil][0];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0) , ^{
                  markerView.carImage.transform = CGAffineTransformMakeRotation(DegreesToRadians(item.azimut.floatValue));
@@ -433,8 +434,6 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
             markerView.registrationNumber.text = (item.regNumber != nil) ? item.regNumber : @"???";
             marker.iconView = markerView;
         }
-
-      
   }
   marker.map = _mapView;
 
@@ -442,7 +441,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     [CATransaction begin];
     [CATransaction setAnimationDuration:kGMUAnimationDuration];
     
-    if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+      if([[marker.userData class] isSubclassOfClass:[POIItem class]] && ![marker.icon isEqual: clusterIcon]){
         [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position];
     }
       

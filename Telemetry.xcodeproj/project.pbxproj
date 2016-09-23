@@ -98,6 +98,7 @@
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */; };
+		88CFC59F1D92F64F00D8C58D /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59E1D92F64F00D8C58D /* RealmManager.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
 		88EDFA9A1D544EE3005ACA54 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA991D544EE3005ACA54 /* APIError.swift */; };
 		88EDFA9C1D547B4E005ACA54 /* MarkerWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */; };
@@ -291,6 +292,7 @@
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		88CFC59E1D92F64F00D8C58D /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
 		88EDFA991D544EE3005ACA54 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerWindow.xib; sourceTree = "<group>"; };
@@ -605,6 +607,7 @@
 		4C6DEDB11D2FC06A001B5502 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				88CFC59D1D92F60E00D8C58D /* Realm */,
 				88263E811D5374E000688708 /* Statuses and Errors */,
 				88263E7C1D53555900688708 /* Filter */,
 				4C5B24371D3645CC00AC310E /* Responses */,
@@ -845,6 +848,14 @@
 				88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */,
 			);
 			name = "Custom views";
+			sourceTree = "<group>";
+		};
+		88CFC59D1D92F60E00D8C58D /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				88CFC59E1D92F64F00D8C58D /* RealmManager.swift */,
+			);
+			name = Realm;
 			sourceTree = "<group>";
 		};
 		88F99DA51D49C8AD0031A645 /* Organizations */ = {
@@ -1249,6 +1260,7 @@
 				886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
 				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
+				88CFC59F1D92F64F00D8C58D /* RealmManager.swift in Sources */,
 				885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */,
 				88F99DA91D49DC2F0031A645 /* CompaniesClient.swift in Sources */,
 				88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */,

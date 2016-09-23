@@ -44,6 +44,9 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
         
     }
     
+    
+    
+    
 
 }
 
@@ -60,9 +63,6 @@ extension SRWebSocket{
     public var rx_didOpen: Observable<Bool>{
         let proxy = RxSocketManagerDelegateProxy.proxyForObject(self)
         return proxy.didOpenSubject
-//        return rx_delegate.observe(#selector(SRWebSocketDelegate.webSocketDidOpen(_:))).map({ (obj) -> Bool in
-//            return true
-//        })
     }
     
     public var rx_didFailWithError: Observable<NSError>{
