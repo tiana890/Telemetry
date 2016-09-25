@@ -27,11 +27,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     let dispBag = DisposeBag()
     
-    var ifNeedLoadAutos = true
+    var ifNeedLoadAutos = false
     
-    var autosDict: [Int64: Auto]?{
-        return ApplicationState.sharedInstance().autosDict
-    }
+
     //MARK: IBOutlets
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -62,24 +60,23 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         
         self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
         self.addBindsToViewModel()
-//        if(self.ifNeedLoadAutos){
-//            print(self.mapView?.frame)
-//            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
-//            progressHUD.tag = 1234
-//            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
-//            progressHUD.center = self.view.center
-//            self.view.addSubview(progressHUD)
-//            self.view.userInteractionEnabled = false
-//            
-//            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
-//            .observeOn(MainScheduler.instance)
-//            .subscribeNext { (autosDictResponse) in
-//                ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
-//                progressHUD.removeFromSuperview()
-//                self.view.userInteractionEnabled = true
-//                self.addBindsToViewModel()
-//            }.addDisposableTo(self.dispBag)
-//        }
+        if(self.ifNeedLoadAutos){
+            print(self.mapView?.frame)
+            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
+            progressHUD.tag = 1234
+            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
+            progressHUD.center = self.view.center
+            self.view.addSubview(progressHUD)
+            self.view.userInteractionEnabled = false
+            
+            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
+            .observeOn(MainScheduler.instance)
+            .subscribeNext { (autosDictResponse) in
+                progressHUD.removeFromSuperview()
+                self.view.userInteractionEnabled = true
+                self.addBindsToViewModel()
+            }.addDisposableTo(self.dispBag)
+        }
         
         self.updateBtn
             .rx_tap
@@ -89,7 +86,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 self.addBindsToViewModel()
                 
         }.addDisposableTo(self.dispBag)
-
     
     }
     
@@ -99,6 +95,10 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         //self.addBindsToViewModel()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        print(self.mapView?.frame)
+    }
     
     func addBindsToViewModel(){
         self.indicator.hidden = false
@@ -122,16 +122,17 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 })
                 
             }, onError: { [unowned self](errType) in
-                
-                self.indicator.hidden = true
-                self.updateBtn.image = UIImage(named: "update_icon")
-                self.updateBtn.enabled = true
-                
-                if let error = errType as? APIError{
-                    self.showAlert("", msg: error.getReason())
-                } else {
-                    self.showAlert("", msg: "Произошла ошибка")
-                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.indicator.hidden = true
+                    self.updateBtn.image = UIImage(named: "update_icon")
+                    self.updateBtn.enabled = true
+                    
+                    if let error = errType as? APIError{
+                        self.showAlert("", msg: error.getReason())
+                    } else {
+                        self.showAlert("", msg: "Произошла ошибка")
+                    }
+                })
                 
             }, onCompleted: {
                     
@@ -189,9 +190,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
-        if let regNumber = self.autosDict?[vehicle.id!]?.registrationNumber{
-            spot.regNumber = "\(regNumber)"
-        }
+//        if let regNumber = self.autosDict?[vehicle.id!]?.registrationNumber{
+//            spot.regNumber = "\(regNumber)"
+//        }
         if let azm = vehicle.azimut{
             spot.azimut = NSNumber(double: azm)
         }
@@ -224,26 +225,26 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         item.selected = true
         
         let vehicleId = item.vehicleId.longLongValue
-        guard let auto = self.autosDict?[vehicleId] else {
-            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
-        }
-        
-        if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
-            markerView.company.text = auto.organization ?? ""
-            markerView.regNumber.text = auto.registrationNumber ?? ""
-            markerView.model.text = auto.model ?? ""
-
-            if let lastUpdate = auto.lastUpdate{
-                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-                markerView.lastUpdate.text = dateFormatter.stringFromDate(date)
-            } else {
-                markerView.lastUpdate.text = ""
-            }
-            
-            return markerView
-        }
+//        guard let auto = self.autosDict?[vehicleId] else {
+//            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
+//        }
+//        
+//        if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
+//            markerView.company.text = auto.organization ?? ""
+//            markerView.regNumber.text = auto.registrationNumber ?? ""
+//            markerView.model.text = auto.model ?? ""
+//
+//            if let lastUpdate = auto.lastUpdate{
+//                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+//                let dateFormatter = NSDateFormatter()
+//                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+//                markerView.lastUpdate.text = dateFormatter.stringFromDate(date)
+//            } else {
+//                markerView.lastUpdate.text = ""
+//            }
+//            
+//            return markerView
+//        }
         return nil
     }
     

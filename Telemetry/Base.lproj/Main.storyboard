@@ -26,6 +26,7 @@
             <string>HelveticaNeueCyr-Roman</string>
             <string>HelveticaNeueCyr-Roman</string>
             <string>HelveticaNeueCyr-Roman</string>
+            <string>HelveticaNeueCyr-Roman</string>
         </mutableArray>
         <mutableArray key="HelveticaNeueLights.ttc">
             <string>HelveticaNeue-Light</string>
@@ -1314,7 +1315,7 @@
                                             <outlet property="companyName" destination="MkI-VL-ItZ" id="vbb-Rs-eYi"/>
                                             <outlet property="group" destination="NAw-cO-aal" id="LN9-LU-pzF"/>
                                             <outlet property="lastUpdate" destination="xta-yW-5Ip" id="YAv-ee-oV7"/>
-                                            <outlet property="model" destination="8F6-Nl-siJ" id="2xv-bB-BZ1"/>
+                                            <outlet property="model" destination="8F6-Nl-siJ" id="MpV-pe-F45"/>
                                             <outlet property="modelName" destination="aqw-DW-8Pb" id="lpI-aq-ZWE"/>
                                             <outlet property="registrationNumber" destination="bwi-zU-oEa" id="mtH-aX-1Hl"/>
                                         </connections>
@@ -1334,12 +1335,43 @@
                                     </constraints>
                                 </collectionReusableView>
                             </collectionView>
+                            <view hidden="YES" alpha="0.44999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L64-ki-pPz">
+                                <rect key="frame" x="0.0" y="490" width="600" height="49"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Применены параметры фильтра" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rki-QB-e61">
+                                        <rect key="frame" x="190" y="14" width="221" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="9V7-h4-gyv"/>
+                                            <constraint firstAttribute="width" constant="221" id="o1Z-yF-zFN"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeueCyr-Roman" family="HelveticaNeueCyr" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9g-yQ-nLV">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Rki-QB-e61" firstAttribute="centerX" secondItem="L64-ki-pPz" secondAttribute="centerX" id="2kv-GQ-o6P"/>
+                                    <constraint firstItem="u9g-yQ-nLV" firstAttribute="height" secondItem="L64-ki-pPz" secondAttribute="height" id="5LR-rE-g5z"/>
+                                    <constraint firstItem="Rki-QB-e61" firstAttribute="centerY" secondItem="L64-ki-pPz" secondAttribute="centerY" id="Knc-d4-ngm"/>
+                                    <constraint firstItem="u9g-yQ-nLV" firstAttribute="width" secondItem="L64-ki-pPz" secondAttribute="width" id="Z5j-z9-UHa"/>
+                                    <constraint firstAttribute="height" constant="49" id="lvI-6X-cta"/>
+                                    <constraint firstItem="u9g-yQ-nLV" firstAttribute="centerY" secondItem="L64-ki-pPz" secondAttribute="centerY" id="m9Y-zn-d3M"/>
+                                    <constraint firstItem="u9g-yQ-nLV" firstAttribute="centerX" secondItem="L64-ki-pPz" secondAttribute="centerX" id="vN4-JY-f4M"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="oZq-SS-2ff" firstAttribute="top" secondItem="U8t-Lc-tFm" secondAttribute="bottom" id="1qT-E2-u7k"/>
                             <constraint firstItem="oZq-SS-2ff" firstAttribute="leading" secondItem="RVh-ay-j2K" secondAttribute="leadingMargin" constant="-20" id="EKn-eC-NAX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oZq-SS-2ff" secondAttribute="trailing" constant="-20" id="LmR-g7-G4a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="L64-ki-pPz" secondAttribute="trailing" constant="-20" id="OBG-Tw-Kak"/>
+                            <constraint firstItem="L64-ki-pPz" firstAttribute="leading" secondItem="RVh-ay-j2K" secondAttribute="leadingMargin" constant="-20" id="SLO-54-j96"/>
+                            <constraint firstItem="Xxm-6u-1Xc" firstAttribute="top" secondItem="L64-ki-pPz" secondAttribute="bottom" constant="-3" id="bZd-tV-uur"/>
                             <constraint firstItem="Xxm-6u-1Xc" firstAttribute="top" secondItem="oZq-SS-2ff" secondAttribute="bottom" id="o3V-2p-8tr"/>
                         </constraints>
                     </view>
@@ -1359,6 +1391,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collection" destination="oZq-SS-2ff" id="kyo-4L-Tok"/>
+                        <outlet property="filterView" destination="L64-ki-pPz" id="OyX-Fy-84D"/>
                         <segue destination="w3w-ve-fLM" kind="show" identifier="autoDetailSegue" id="1kB-oy-15t"/>
                     </connections>
                 </viewController>
@@ -1385,7 +1418,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8n4-I7-9HY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1778" y="3300"/>
+            <point key="canvasLocation" x="-1674" y="3300"/>
         </scene>
         <!--Настройки-->
         <scene sceneID="8n8-Qt-Urb">

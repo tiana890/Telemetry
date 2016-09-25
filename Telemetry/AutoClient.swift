@@ -32,6 +32,7 @@ class AutoClient: NSObject {
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> AutoDetailResponse in
+                print()
                 let js = JSON(object)
                 print(js)
                 let autoResponse = AutoDetailResponse(json: js)

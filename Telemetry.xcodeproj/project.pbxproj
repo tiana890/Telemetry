@@ -99,6 +99,7 @@
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */; };
 		88CFC59F1D92F64F00D8C58D /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59E1D92F64F00D8C58D /* RealmManager.swift */; };
+		88CFC5A21D97E29200D8C58D /* AutoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC5A11D97E29200D8C58D /* AutoEntity.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
 		88EDFA9A1D544EE3005ACA54 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA991D544EE3005ACA54 /* APIError.swift */; };
 		88EDFA9C1D547B4E005ACA54 /* MarkerWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */; };
@@ -293,6 +294,7 @@
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		88CFC59E1D92F64F00D8C58D /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		88CFC5A11D97E29200D8C58D /* AutoEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoEntity.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
 		88EDFA991D544EE3005ACA54 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerWindow.xib; sourceTree = "<group>"; };
@@ -854,6 +856,7 @@
 			isa = PBXGroup;
 			children = (
 				88CFC59E1D92F64F00D8C58D /* RealmManager.swift */,
+				88CFC5A11D97E29200D8C58D /* AutoEntity.swift */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1241,6 +1244,7 @@
 				886BC1DD1D5B007A00C7C7B9 /* NSDate+dateFromFormat.swift in Sources */,
 				886BC1E11D5B2D0800C7C7B9 /* TrackClient.swift in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
+				88CFC5A21D97E29200D8C58D /* AutoEntity.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,

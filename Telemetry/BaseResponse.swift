@@ -15,6 +15,10 @@ class BaseResponse: NSObject {
     var status: Status?
     var reason: String?
     
+    override init(){
+        super.init()
+    }
+    
     init(_status: String?, _reason: String?) {
         super.init()
         

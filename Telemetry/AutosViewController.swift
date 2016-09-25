@@ -15,6 +15,7 @@ class AutosViewController: UIViewController {
     
     //MARK: IBOutlets
     @IBOutlet var collection:  UICollectionView!
+    @IBOutlet var filterView: UIView!
     
     let FILTER_STORYBOARD_ID = "FilterStoryboardID"
     
@@ -23,63 +24,69 @@ class AutosViewController: UIViewController {
     
     var viewModel:AutosViewModel?
     var autosClient:AutosClient?
+    var publishSubject = PublishSubject<[Auto]>()
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
-//        self.viewModel = AutosViewModel(autosClient: autosClient!)
-        
+        addCollectionBinds()
+        autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+        autosClient?.local = true
+        self.viewModel = AutosViewModel(_autosClient: autosClient!)
+        addBindsToViewModel()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
-        //addCollectionBinds()
-        
-//        let autosDict = ApplicationState.sharedInstance().autosDict
-//        if(autosDict?.count >= 0){
-//            let publishSubject = PublishSubject<[Auto]>()
-//            addBindsToViewModel(publishSubject)
-//            publishSubject.onNext(Array(autosDict!.values))
-//        } else {
-//            addBindsToViewModel(self.viewModel!.autos)
-//        }
+        loadAutos()
+    }
+    
+    func loadAutos(){
+        self.viewModel?
+        .getAutosObservable()
+        .doOnError({ (errType) in
+            
+        })
+        .subscribeNext({ (autosArray) in
+            self.publishSubject.onNext(autosArray)
+        })
+        .addDisposableTo(self.disposeBag)
+    }
+    
+    func addBindsToViewModel(){
+        self.publishSubject
+        .observeOn(MainScheduler.instance)
+        .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
+            let indexPath = NSIndexPath(forItem: row, inSection: 0)
+            let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
+            cell.registrationNumber.text = element.registrationNumber ?? ""
+            cell.companyName.text = element.organization ?? ""
+            cell.model.text = element.model ?? ""
+            cell.modelName.text = element.type ?? ""
+            
+            if let lastUpdate = element.lastUpdate{
+                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+                cell.lastUpdate.text = dateFormatter.stringFromDate(date)
+            } else {
+                cell.lastUpdate.text = ""
+            }
+            
+            return cell
+        }.addDisposableTo(self.disposeBag)
         
     }
     
-    func addBindsToViewModel(publishSubject: PublishSubject<[Auto]>){
-        
-            publishSubject
-            .observeOn(MainScheduler.instance)
-            .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
-                let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
-                cell.registrationNumber.text = element.registrationNumber ?? ""
-                cell.companyName.text = element.organization ?? ""
-                cell.model.text = element.model ?? ""
-                
-                if let lastUpdate = element.lastUpdate{
-                    let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-                    let dateFormatter = NSDateFormatter()
-                    dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-                    cell.lastUpdate.text = dateFormatter.stringFromDate(date)
-                } else {
-                    cell.lastUpdate.text = ""
-                }
-                
-                return cell
-            }.addDisposableTo(self.disposeBag)
-        
-    }
+    
     
     func addCollectionBinds(){
         self.collection.rx_modelSelected(Auto)
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self](auto) in
                 if let autoId = auto.id{
-                    self.performSegueWithIdentifier(self.AUTO_DETAIL_SEGUE, sender: NSNumber(longLong: autoId))
+                    self.performSegueWithIdentifier(self.AUTO_DETAIL_SEGUE, sender: NSNumber(long: autoId))
                 }
         }.addDisposableTo(self.disposeBag)
         

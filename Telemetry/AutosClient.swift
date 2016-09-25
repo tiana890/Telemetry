@@ -16,6 +16,7 @@ class AutosClient: NSObject {
     
     var token: String?
     let AUTOS_URL = "http://gbutelemob.agentum.org/api/v1/vehicles"
+    var local: Bool = false
     
     init(_token: String) {
         super.init()
@@ -38,17 +39,27 @@ class AutosClient: NSObject {
     }
     
     func autosDictObservable() -> Observable<AutosDictResponse>{
-
-        return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
-            .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
-            .map({ (response, object) -> AutosDictResponse in
-                print(response)
-                
-                let js = JASON.JSON(object)
-                let autosDictResponse = AutosDictResponse(json: js)
-                return autosDictResponse
-            })
+        if(!self.local){
+            return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+                .debug()
+                .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+                .map({ (response, object) -> AutosDictResponse in
+                    print(response)
+                    print(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
+                    let js = JASON.JSON(object)
+                    let autosDictResponse = AutosDictResponse(json: js)
+                    
+                    for(val) in autosDictResponse.autosDict!.values{
+                        RealmManager.saveAuto(val)
+                    }
+                    
+                    return autosDictResponse
+                })
+        } else {
+            let autosDictResponse = AutosDictResponse()
+            autosDictResponse.autosDict = RealmManager.getAutos()
+            return Observable.just(autosDictResponse)
+        }
     }
     
 }

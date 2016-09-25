@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class TelemetryClient: NSObject {
     
-    let SERVER_URL = "ws://esmc.info/stk//api/v1/telemetry/socket_server"
+    let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
     var token: String?
@@ -34,6 +34,7 @@ class TelemetryClient: NSObject {
         self.webSocket!.rx_didOpen
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .catchError({ (err)  -> Observable<Bool> in
+                print((err as NSError).description)
                 self.vehObservable.onError(APIError(errType: .NETWORK))
                 return Observable.just(false)
             })
@@ -98,6 +99,7 @@ class TelemetryClient: NSObject {
         self.webSocket?.rx_didFailWithError
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .subscribeNext({ (error) in
+                print((error as NSError).description)
                 self.vehObservable.onError(APIError(errType: .NETWORK))
             }).addDisposableTo(self.disposeBag)
         

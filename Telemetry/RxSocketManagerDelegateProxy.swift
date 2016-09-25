@@ -41,13 +41,9 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
     
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         didFailWithErrorSubject.on(.Next(error))
-        
     }
     
     
-    
-    
-
 }
 
 extension SRWebSocket{

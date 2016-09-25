@@ -23,7 +23,7 @@ import JASON
  
  } */
 struct Auto {
-    var id: Int64?
+    var id: Int?
     var registrationNumber: String?
     var model: String?
     var organization: String?
@@ -35,7 +35,7 @@ struct Auto {
         
     }
     init(json: SwiftyJSON.JSON){
-        self.id = json["id"].int64
+        self.id = json["id"].int
         self.registrationNumber = json["registrationNumber"].string
         self.model = json["model"].string
         self.organization = json["organization"].string
@@ -45,7 +45,7 @@ struct Auto {
     }
     
     init(json: JASON.JSON){
-        self.id = Int64(json["id"].int ?? 0)
+        self.id = json["id"].int ?? 0
         self.registrationNumber = json["registrationNumber"].string
         self.model = json["model"].string
         self.organization = json["organization"].string

@@ -33,25 +33,25 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         self.view.addSubview(mapView!)
         self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 14, bearing: 0, viewingAngle: 0)
         
-        trackClient = TrackClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
-        viewModel = TrackViewModel(trackClient: trackClient!)
+//        trackClient = TrackClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
+//        viewModel = TrackViewModel(trackClient: trackClient!)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        
-//        let track = Track()
-//        
-//        var trackItem1 = TrackItem(json: JSON(data:"{ \"lat\": 55.75222, \"lon\": 37.61556, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        
-//        var trackItem2 = TrackItem(json: JSON(data:"{ \"lat\": 55.7722, \"lon\": 37.78, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        
-//        var trackItem3 = TrackItem(json: JSON(data:"{ \"lat\": 55.7922, \"lon\": 37.61600, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        track.trackArray = []
-//        track.trackArray?.append(trackItem1)
-//        track.trackArray?.append(trackItem2)
-//        track.trackArray?.append(trackItem3)
-//        self.showTrackOnMap(track)
+        
+        let track = Track()
+        
+        var trackItem1 = TrackItem(json: JSON(data:"{ \"lat\": 55.75222, \"lon\": 37.61556, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+        
+        var trackItem2 = TrackItem(json: JSON(data:"{ \"lat\": 55.7722, \"lon\": 37.78, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+        
+        var trackItem3 = TrackItem(json: JSON(data:"{ \"lat\": 55.7922, \"lon\": 37.61600, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
+        track.trackArray = []
+        track.trackArray?.append(trackItem1)
+        track.trackArray?.append(trackItem2)
+        track.trackArray?.append(trackItem3)
+        self.showTrackOnMap(track)
         addBindsToViewModel()
     }
     

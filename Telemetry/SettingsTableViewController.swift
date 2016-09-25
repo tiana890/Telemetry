@@ -55,7 +55,6 @@ class SettingsTableViewController: UITableViewController {
             AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
                 .observeOn(MainScheduler.instance)
                 .subscribeNext { (autosDictResponse) in
-                    ApplicationState.sharedInstance().autosDict = autosDictResponse.autosDict
                     progressHUD.removeFromSuperview()
                     self.view.userInteractionEnabled = true
                 }.addDisposableTo(self.disposeBag)

@@ -27,12 +27,17 @@ import JASON
 
 
 class AutosDictResponse: BaseResponse {
-    var autosDict: [Int64:Auto]?
+    var autosDict: [Int:Auto]?
+    
+    
+    override init(){
+        super.init()
+    }
     
     override init(json: SwiftyJSON.JSON){
         super.init(json: json)
         if let dict = json["vehicles"].dictionary{
-            self.autosDict = [Int64:Auto]()
+            self.autosDict = [Int:Auto]()
             for(js) in dict.values{
                 let auto = Auto(json: js)
                 if let autoId = auto.id{
@@ -45,7 +50,7 @@ class AutosDictResponse: BaseResponse {
     override init(json: JASON.JSON){
         super.init(json: json)
         if let dict = json["vehicles"].jsonDictionary{
-            self.autosDict = [Int64:Auto]()
+            self.autosDict = [Int:Auto]()
             for(js) in dict.values{
                 let auto = Auto(json: js)
                 if let autoId = auto.id{
