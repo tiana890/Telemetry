@@ -224,27 +224,27 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
         item.selected = true
         
-        let vehicleId = item.vehicleId.longLongValue
-//        guard let auto = self.autosDict?[vehicleId] else {
-//            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
-//        }
-//        
-//        if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
-//            markerView.company.text = auto.organization ?? ""
-//            markerView.regNumber.text = auto.registrationNumber ?? ""
-//            markerView.model.text = auto.model ?? ""
-//
-//            if let lastUpdate = auto.lastUpdate{
-//                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-//                let dateFormatter = NSDateFormatter()
-//                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-//                markerView.lastUpdate.text = dateFormatter.stringFromDate(date)
-//            } else {
-//                markerView.lastUpdate.text = ""
-//            }
-//            
-//            return markerView
-//        }
+        let vehicleId = Int(item.vehicleId.intValue)
+        guard let auto = RealmManager.getAutoById(vehicleId) else {
+            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
+        }
+        
+        if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
+            markerView.company.text = auto.organization ?? ""
+            markerView.regNumber.text = auto.registrationNumber ?? ""
+            markerView.model.text = auto.model ?? ""
+
+            if let lastUpdate = auto.lastUpdate{
+                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+                markerView.lastUpdate.text = dateFormatter.stringFromDate(date)
+            } else {
+                markerView.lastUpdate.text = ""
+            }
+            
+            return markerView
+        }
         return nil
     }
     

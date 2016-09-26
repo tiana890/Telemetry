@@ -44,4 +44,22 @@ class RealmManager: NSObject {
         
         return autoModels
     }
+    
+    static func getAutoById(id: Int) -> Auto?{
+        var auto: Auto?
+        
+        let realm = try! Realm()
+        let autos = realm.objects(AutoEntity).filter("id=\(id)")
+        if autos.count > 0{
+            let autoEntity = autos[0]
+            auto = Auto()
+            auto?.id = autoEntity.id
+            auto?.model = autoEntity.model
+            auto?.organization = autoEntity.organization
+            auto?.registrationNumber = autoEntity.regNumber
+            auto?.type = autoEntity.type
+        }
+        
+        return auto
+    }
 }
