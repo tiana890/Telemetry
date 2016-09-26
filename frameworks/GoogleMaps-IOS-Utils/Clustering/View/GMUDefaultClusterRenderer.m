@@ -320,7 +320,8 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                 from:fromPosition
                                             userData:cluster
                                          clusterIcon:icon
-                                            animated:animated];
+                                            animated:animated
+                                            toCluster:YES];
         
         [_markers addObject:marker];
     } else {
@@ -339,7 +340,8 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                         from:fromPosition
                                                     userData:item
                                                  clusterIcon:nil
-                                                    animated:shouldAnimate];
+                                                    animated:shouldAnimate
+                                                    toCluster:YES];
                 
                 if(item.selected){
                     _mapView.selectedMarker = marker;
@@ -353,13 +355,15 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                  from:CLLocationCoordinate2DMake(item.prevLat.doubleValue, item.prevLon.doubleValue)
                                              userData:item
                                           clusterIcon:nil
-                                             animated:true];
+                                             animated:true
+                                            toCluster:NO];
                 } else {
                     marker = [self markerWithPosition:item.position
                                                  from:fromPosition
                                              userData:item
                                           clusterIcon:nil
-                                             animated:shouldAnimate];
+                                             animated:shouldAnimate
+                                            toCluster:NO];
                 }
                 if(item.selected){
                     _mapView.selectedMarker = marker;
@@ -408,14 +412,15 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                              from:(CLLocationCoordinate2D)from
                          userData:(id)userData
                       clusterIcon:(UIImage *)clusterIcon
-                         animated:(BOOL)animated {
+                         animated:(BOOL)animated
+                        toCluster:(BOOL)toCluster{
   CLLocationCoordinate2D initialPosition = animated ? from : position;
   GMSMarker *marker = [GMSMarker markerWithPosition:initialPosition];
   marker.userData = userData;
-  if (clusterIcon != nil) {
-    marker.icon = clusterIcon;
-    marker.groundAnchor = CGPointMake(0.5, 0.5);
-  } else {
+        if (clusterIcon != nil) {
+            marker.icon = clusterIcon;
+            marker.groundAnchor = CGPointMake(0.5, 0.5);
+        } else {
 //      marker.icon = [UIImage imageNamed:@"car"];
 //      marker.groundAnchor = CGPointMake(0.5, 0.5);
 //      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
@@ -441,9 +446,11 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     [CATransaction begin];
     [CATransaction setAnimationDuration:kGMUAnimationDuration];
     
-      if([[marker.userData class] isSubclassOfClass:[POIItem class]] && ![marker.icon isEqual: clusterIcon]){
-        [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position];
-    }
+      if(toCluster == NO){
+          if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+              [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position];
+          }
+      }
       
     marker.layer.latitude = position.latitude;
     marker.layer.longitude = position.longitude;

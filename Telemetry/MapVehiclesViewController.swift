@@ -190,9 +190,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
-//        if let regNumber = self.autosDict?[vehicle.id!]?.registrationNumber{
-//            spot.regNumber = "\(regNumber)"
-//        }
+        if let auto = RealmManager.getAutoById(Int(vehicle.id!)){
+            spot.regNumber = auto.registrationNumber ?? ""
+        }
         if let azm = vehicle.azimut{
             spot.azimut = NSNumber(double: azm)
         }
