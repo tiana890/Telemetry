@@ -22,7 +22,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var viewModel :VehiclesViewModel?
     var token: String?
 
-    var algorithm = GMUGridBasedClusterAlgorithm()
+    var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
     let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
     let dispBag = DisposeBag()

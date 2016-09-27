@@ -133,6 +133,12 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
   for (GMSMarker *marker in markers) {
     // If the marker for the attached userData has just been added, do not perform animation.
     if ([_renderedClusterItems containsObject:marker.userData]) {
+      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            for(GMSPolyline *line in item.polylines){
+                line.map = nil;
+            }
+      }
       marker.map = nil;
       continue;
     }
@@ -154,6 +160,12 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
       }
 
     if (![visibleBounds containsCoordinate:marker.position] || !showMarker) {
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            for(GMSPolyline *line in item.polylines){
+                line.map = nil;
+            }
+        }
         marker.map = nil;
         continue;
     }
@@ -170,8 +182,14 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     }
     // If there is not near by cluster to animate to, do not perform animation.
     if (toCluster == nil) {
-      marker.map = nil;
-      continue;
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            for(GMSPolyline *line in item.polylines){
+                line.map = nil;
+            }
+        }
+        marker.map = nil;
+        continue;
     }
 
     // All is good, perform the animation.
@@ -387,7 +405,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
  polyline.map = self.mapView
  */
 
-- (void) drawPolyline: (CLLocationCoordinate2D)startPosition to:(CLLocationCoordinate2D)endPosition{
+- (void) drawPolyline: (CLLocationCoordinate2D)startPosition to:(CLLocationCoordinate2D)endPosition marker:(GMSMarker*) marker{
     CLLocationCoordinate2D zeroLocation = CLLocationCoordinate2DMake(0.0, 0.0);
     if(![self isEqualToZero:startPosition] && ![self isEqualToZero:endPosition]){
         
@@ -399,6 +417,11 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
         polyline.path = path;
         polyline.strokeColor = [UIColor redColor];
         polyline.map = _mapView;
+        
+        POIItem *item = (POIItem *)marker.userData;
+        item.polylines = [[NSMutableArray alloc] init];
+        [item.polylines removeAllObjects];
+        [item.polylines addObject: polyline];
     }
 }
 
@@ -431,26 +454,36 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 //      }
         if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
             POIItem *item = (POIItem *)marker.userData;
-            marker.icon = [UIImage imageNamed:@"anyImageName"];
             MarkerIcon* markerView = (MarkerIcon *)[[NSBundle mainBundle] loadNibNamed:@"MarkerIcon" owner:marker options:nil][0];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0) , ^{
                  markerView.carImage.transform = CGAffineTransformMakeRotation(DegreesToRadians(item.azimut.floatValue));
             });
             markerView.registrationNumber.text = (item.regNumber != nil) ? item.regNumber : @"???";
             marker.iconView = markerView;
+            marker.groundAnchor = CGPointMake(0.5, 0.5);
         }
   }
   marker.map = _mapView;
+    
+    if(toCluster == YES){
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            for(GMSPolyline *line in item.polylines){
+                line.map = nil;
+            }
+        }
+    }
 
   if (animated) {
     [CATransaction begin];
     [CATransaction setAnimationDuration:kGMUAnimationDuration];
     
-      if(toCluster == NO){
-          if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
-              [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position];
-          }
-      }
+    if(toCluster == NO){
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+
+            [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position marker:marker];
+        }
+    }
       
     marker.layer.latitude = position.latitude;
     marker.layer.longitude = position.longitude;
@@ -520,6 +553,12 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
   for (GMSMarker *marker in markers) {
   
       marker.userData = nil;
+      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+          POIItem *item = (POIItem *)marker.userData;
+          for(GMSPolyline *line in item.polylines){
+              line.map = nil;
+          }
+      }
       marker.map = nil;
     
   }
