@@ -12,6 +12,8 @@ import GoogleMaps
 
 class RxGoogleMapsDelegateProxy: DelegateProxy, DelegateProxyType, GMSMapViewDelegate {
     
+    let didChangeCameraPosition = PublishSubject<GMSCameraPosition>()
+    
     static func currentDelegateFor(object: AnyObject) -> AnyObject?{
         let googleMap: GMSMapView = object as! GMSMapView
         return googleMap.delegate
@@ -22,6 +24,9 @@ class RxGoogleMapsDelegateProxy: DelegateProxy, DelegateProxyType, GMSMapViewDel
         googleMap.delegate = delegate as? GMSMapViewDelegate
     }
     
+    func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
+        didChangeCameraPosition.on(.Next(position))
+    }
 }
 
 extension GMSMapView{
@@ -29,4 +34,8 @@ extension GMSMapView{
         return RxGoogleMapsDelegateProxy.proxyForObject(self)
     }
     
+    public var rx_didChangeCameraPosition: Observable<GMSCameraPosition>{
+        let proxy = RxGoogleMapsDelegateProxy.proxyForObject(self)
+        return proxy.didChangeCameraPosition
+    }
 }

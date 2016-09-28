@@ -95,6 +95,7 @@
 		886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */; };
 		886BC1E71D5B320F00C7C7B9 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */; };
 		886BC1EA1D5CA77C00C7C7B9 /* FollowVehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E91D5CA77C00C7C7B9 /* FollowVehicleViewController.swift */; };
+		889F615B1D9C24EC00B4B531 /* GMSMapView+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
 		88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */; };
@@ -290,6 +291,7 @@
 		886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackResponse.swift; sourceTree = "<group>"; };
 		886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		886BC1E91D5CA77C00C7C7B9 /* FollowVehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowVehicleViewController.swift; sourceTree = "<group>"; };
+		889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GMSMapView+Bounds.swift"; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
@@ -824,6 +826,7 @@
 			isa = PBXGroup;
 			children = (
 				886BC1DC1D5B007900C7C7B9 /* NSDate+dateFromFormat.swift */,
+				889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -1277,6 +1280,7 @@
 				88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */,
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
 				886BC1DA1D5AECE500C7C7B9 /* TrackParamsViewController.swift in Sources */,
+				889F615B1D9C24EC00B4B531 /* GMSMapView+Bounds.swift in Sources */,
 				886BC1EA1D5CA77C00C7C7B9 /* FollowVehicleViewController.swift in Sources */,
 				886BC1CD1D5878E800C7C7B9 /* SelectableCell.swift in Sources */,
 				4CBB2DF71D3F938F000AAE33 /* GMUWrappingDictionaryKey.m in Sources */,

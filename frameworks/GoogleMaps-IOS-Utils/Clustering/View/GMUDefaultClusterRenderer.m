@@ -199,6 +199,15 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     marker.layer.latitude = toPosition.latitude;
     marker.layer.longitude = toPosition.longitude;
     [CATransaction commit];
+      
+      if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+          POIItem *item = (POIItem *)marker.userData;
+          for(GMSPolyline *line in item.polylines){
+              line.map = nil;
+          }
+      }
+      
+
   }
 
   // Clears existing markers after animation has presumably ended.
@@ -331,6 +340,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
             [self overlappingClusterForCluster:cluster itemMap:_itemToOldClusterMap];
             animated = fromCluster != nil;
             fromPosition = fromCluster.position;
+            
         }
         
         UIImage *icon = [_clusterIconGenerator iconForSize:cluster.count];
@@ -340,6 +350,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                          clusterIcon:icon
                                             animated:animated
                                             toCluster:YES];
+        
         
         [_markers addObject:marker];
     } else {
@@ -360,8 +371,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
                                                  clusterIcon:nil
                                                     animated:shouldAnimate
                                                     toCluster:YES];
-                
-                if(item.selected){
+                                if(item.selected){
                     _mapView.selectedMarker = marker;
                 }
                 
@@ -542,13 +552,14 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
 - (void)clearMarkers:(NSArray<GMSMarker *> *)markers {
   for (GMSMarker *marker in markers) {
   
-      marker.userData = nil;
+      
       if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
           POIItem *item = (POIItem *)marker.userData;
           for(GMSPolyline *line in item.polylines){
               line.map = nil;
           }
       }
+      marker.userData = nil;
       marker.map = nil;
     
   }

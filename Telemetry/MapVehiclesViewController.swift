@@ -24,12 +24,13 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
 
     var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
-    let mapQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
-    let dispBag = DisposeBag()
+    let disposeBag = DisposeBag()
     
     var ifNeedLoadAutos = false
     
 
+    var telemetryClient: TelemetryClient?
+    
     //MARK: IBOutlets
     
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -58,8 +59,10 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
         clusterManager.setDelegate(self, mapDelegate: self)
         
-        self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
+        self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
+        self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         self.addBindsToViewModel()
+        
         if(self.ifNeedLoadAutos){
             print(self.mapView?.frame)
             let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
@@ -75,30 +78,29 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 progressHUD.removeFromSuperview()
                 self.view.userInteractionEnabled = true
                 self.addBindsToViewModel()
-            }.addDisposableTo(self.dispBag)
+            }.addDisposableTo(self.disposeBag)
         }
         
         self.updateBtn
             .rx_tap
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
-                self.viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
+                self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
                 self.addBindsToViewModel()
                 
-        }.addDisposableTo(self.dispBag)
+        }.addDisposableTo(self.disposeBag)
     
+//        self.mapView?
+//            .rx_didChangeCameraPosition
+//            .debounce(1.0, scheduler: ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+//            .subscribeNext({ (position) in
+//                //self.telemetryClient?.setVehicles([11531])
+//                //self.telemetryClient!.setBounds(self.mapView!.getBounds())
+//                self.telemetryClient!.sendMessage()
+//            }).addDisposableTo(self.disposeBag)
+//        
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //self.addBindsToViewModel()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        print(self.mapView?.frame)
-    }
     
     func addBindsToViewModel(){
         self.indicator.hidden = false
@@ -138,7 +140,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                     
             }, onDisposed: {
                     
-        }).addDisposableTo(self.dispBag)
+        }).addDisposableTo(self.disposeBag)
     }
 
     func appendMarkersOnMap(array: [Vehicle]){
@@ -262,6 +264,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
     }
     
+
     //MARK: -Alerts
     func showAlert(title: String, msg: String){
         let alert = UIAlertController(title: title,

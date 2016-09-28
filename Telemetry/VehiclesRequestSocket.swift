@@ -10,19 +10,27 @@ import UIKit
 import SwiftyJSON
 
 class VehiclesRequestSocket{
+    /*{"vehicles":"all","auth_token":"token_str", "bounds":[["lat","lon"],["lat","lon"]]} */
     
-    private var vehicles: Bool
-    private var fullData: Bool
-    private var token: String
+    var vehicles = [Int]()
+    var bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))
+    var token: String
 
-    init(_vehicles: Bool, _fullData: Bool, _token: String){
-        self.vehicles = _vehicles
-        self.fullData = _fullData
+    init(_token: String, _bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
         self.token = _token
+        self.bounds = _bounds
     }
     
+    
     func getData() -> NSData?{
-        let json = JSON(dictionaryLiteral: ("vehicles", [6222,5467,7180,3296]), ("auth_token", token))
-        return try! json.rawData()
+        var json: JSON?
+        if(vehicles.count > 0){
+            json = JSON(dictionaryLiteral: ("vehicles", self.vehicles),
+                            ("auth_token", token), ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]]))
+        } else {
+            json = JSON(dictionaryLiteral: ("vehicles", "all"),
+                        ("auth_token", token), ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]]))
+        }
+        return try! json!.rawData()
     }
 }
