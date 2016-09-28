@@ -22,7 +22,7 @@ class VehiclesRequestSocket{
     }
     
     func getData() -> NSData?{
-        let json = JSON(dictionaryLiteral: ("vehicles", "all"), ("auth_token", token))
+        let json = JSON(dictionaryLiteral: ("vehicles", [6222,5467,7180,3296]), ("auth_token", token))
         return try! json.rawData()
     }
 }
