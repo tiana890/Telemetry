@@ -55,7 +55,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         clusterManager.setDelegate(self, mapDelegate: self)
         
         self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
-        //self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         
         if(!PreferencesManager.ifAutosLoaded()){
             self.updateBtn.enabled = false
@@ -91,7 +90,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             .rx_tap
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
-                //self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
                 self.addBindsToViewModel()
                 
         }.addDisposableTo(self.disposeBag)
@@ -232,14 +230,16 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             markerView.company.text = auto.organization ?? ""
             markerView.regNumber.text = auto.registrationNumber ?? ""
             markerView.model.text = auto.model ?? ""
+            markerView.modelName.text = auto.type ?? ""
+            markerView.layer.cornerRadius = 4.0
+            markerView.clipsToBounds = true
+            markerView.regNumber.layer.cornerRadius = 4.0
+            markerView.regNumber.clipsToBounds = true
 
             if let lastUpdate = auto.lastUpdate{
                 let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-                markerView.lastUpdate.text = dateFormatter.stringFromDate(date)
-            } else {
-                markerView.lastUpdate.text = ""
             }
             
             return markerView
