@@ -26,8 +26,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     let disposeBag = DisposeBag()
     
-    var ifNeedLoadAutos = false
-    
 
     var telemetryClient: TelemetryClient?
     
@@ -48,99 +46,98 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.view.addSubview(mapView!)
         
         print(ApplicationState.sharedInstance().getToken())
-        //viewModel = VehiclesViewModel(telemetryClient: TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? ""))
-        
-        // Set up the cluster manager with default icon generator and renderer.
+
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
         clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
         self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
-        
-        // Register self to listen to both GMUClusterManagerDelegate and GMSMapViewDelegate events.
+
         clusterManager.setDelegate(self, mapDelegate: self)
         
         self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
-        self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
-        self.addBindsToViewModel()
+        //self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         
-        if(self.ifNeedLoadAutos){
-            print(self.mapView?.frame)
+        if(!PreferencesManager.ifAutosLoaded()){
+            self.updateBtn.enabled = false
+            
             let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
             progressHUD.tag = 1234
             progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
             progressHUD.center = self.view.center
             self.view.addSubview(progressHUD)
+            
             self.view.userInteractionEnabled = false
             
             AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
             .observeOn(MainScheduler.instance)
+            .doOnError({ (errType) in
+                progressHUD.removeFromSuperview()
+                self.showAlert("Ошибка", msg: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно.")
+                self.view.userInteractionEnabled = true
+                PreferencesManager.setAutosLoaded(false)
+                self.addBindsToViewModel()
+            })
             .subscribeNext { (autosDictResponse) in
                 progressHUD.removeFromSuperview()
                 self.view.userInteractionEnabled = true
+                PreferencesManager.setAutosLoaded(true)
                 self.addBindsToViewModel()
             }.addDisposableTo(self.disposeBag)
+        } else {
+            self.addBindsToViewModel()
         }
         
         self.updateBtn
             .rx_tap
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
-                self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
+                //self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
                 self.addBindsToViewModel()
                 
         }.addDisposableTo(self.disposeBag)
-    
-//        self.mapView?
-//            .rx_didChangeCameraPosition
-//            .debounce(1.0, scheduler: ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
-//            .subscribeNext({ (position) in
-//                //self.telemetryClient?.setVehicles([11531])
-//                //self.telemetryClient!.setBounds(self.mapView!.getBounds())
-//                self.telemetryClient!.sendMessage()
-//            }).addDisposableTo(self.disposeBag)
-//        
-    }
+        }
     
     
     func addBindsToViewModel(){
+        self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
+        
         self.indicator.hidden = false
         self.indicator.startAnimating()
         
         self.updateBtn.enabled = false
         self.updateBtn.image = nil
         
-        let sub = viewModel?
-            .vehicles
-            //.observeOn(MainScheduler.instance)
-            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
-            .debug()
-            .subscribe(onNext: { [unowned self](vehicles) in
+        self.viewModel?
+        .vehicles
+        .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+        .debug()
+        .subscribe(onNext: { [unowned self](vehicles) in
+            
+            self.appendMarkersOnMap(vehicles.array)
+            
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.clusterManager.cluster()
+                self.indicator.hidden = true
+            })
+            
+        }, onError: { [unowned self](errType) in
+            dispatch_async(dispatch_get_main_queue(), {
+                self.indicator.hidden = true
+                self.updateBtn.image = UIImage(named: "update_icon")
+                self.updateBtn.enabled = true
                 
-                self.appendMarkersOnMap(vehicles.array)
+                if let error = errType as? APIError{
+                    self.showAlert("", msg: error.getReason())
+                } else {
+                    self.showAlert("", msg: "Произошла ошибка")
+                }
+            })
+            
+        }, onCompleted: {
                 
-                dispatch_async(dispatch_get_main_queue(), { 
-                    self.clusterManager.cluster()
-                    self.indicator.hidden = true
-                })
+        }, onDisposed: {
                 
-            }, onError: { [unowned self](errType) in
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.indicator.hidden = true
-                    self.updateBtn.image = UIImage(named: "update_icon")
-                    self.updateBtn.enabled = true
-                    
-                    if let error = errType as? APIError{
-                        self.showAlert("", msg: error.getReason())
-                    } else {
-                        self.showAlert("", msg: "Произошла ошибка")
-                    }
-                })
-                
-            }, onCompleted: {
-                    
-            }, onDisposed: {
-                    
-        }).addDisposableTo(self.disposeBag)
+    }).addDisposableTo(self.disposeBag)
     }
 
     func appendMarkersOnMap(array: [Vehicle]){
