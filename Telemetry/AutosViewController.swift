@@ -9,6 +9,7 @@
 import UIKit
 import RxCocoa
 import RxSwift
+import QuartzCore
 
 
 class AutosViewController: UIViewController {
@@ -64,6 +65,12 @@ class AutosViewController: UIViewController {
             cell.companyName.text = element.organization ?? ""
             cell.model.text = element.model ?? ""
             cell.modelName.text = element.type ?? ""
+            
+            cell.contentView.layer.cornerRadius = 8.0
+            cell.contentView.clipsToBounds = true
+            cell.registrationNumber.layer.cornerRadius = 4.0
+            cell.registrationNumber.clipsToBounds = true
+            
             
             if let lastUpdate = element.lastUpdate{
                 let date = NSDate(timeIntervalSince1970: Double(lastUpdate))

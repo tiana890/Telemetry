@@ -25,7 +25,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
     let disposeBag = DisposeBag()
-    
+    var socketBag: DisposeBag?
 
     var telemetryClient: TelemetryClient?
     
@@ -53,8 +53,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
 
         clusterManager.setDelegate(self, mapDelegate: self)
-        
-        self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
         
         if(!PreferencesManager.ifAutosLoaded()){
             self.updateBtn.enabled = false
@@ -91,12 +89,21 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
                 self.addBindsToViewModel()
-                
-        }.addDisposableTo(self.disposeBag)
+            }.addDisposableTo(self.disposeBag)
         }
     
-    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        
+        
+    }
     func addBindsToViewModel(){
+        //self.telemetryClient?.closeSocket()
+        self.socketBag = nil
+        self.socketBag = DisposeBag()
+        
+        self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
         self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         
         self.indicator.hidden = false
@@ -112,13 +119,13 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         .subscribe(onNext: { [unowned self](vehicles) in
             
             self.appendMarkersOnMap(vehicles.array)
-            
             dispatch_async(dispatch_get_main_queue(), { 
                 self.clusterManager.cluster()
                 self.indicator.hidden = true
             })
             
         }, onError: { [unowned self](errType) in
+            
             dispatch_async(dispatch_get_main_queue(), {
                 self.indicator.hidden = true
                 self.updateBtn.image = UIImage(named: "update_icon")
@@ -129,10 +136,13 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 } else {
                     self.showAlert("", msg: "Произошла ошибка")
                 }
+                self.telemetryClient?.closeSocket()
             })
             
-        }, onCompleted: {
-                
+        }, onCompleted: { [unowned self] in
+            self.indicator.hidden = true
+            self.updateBtn.image = UIImage(named: "update_icon")
+            self.updateBtn.enabled = true
         }, onDisposed: {
                 
     }).addDisposableTo(self.disposeBag)
@@ -260,7 +270,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             val.spot.selected = false
         }
     }
-    
 
     //MARK: -Alerts
     func showAlert(title: String, msg: String){
@@ -274,6 +283,11 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         alert.addAction(cancelAction)
         self.presentViewController(alert, animated: true, completion: nil)
         
+    }
+    
+    deinit{
+        print("DEINIT")
+        self.telemetryClient?.closeSocket()
     }
 }
    

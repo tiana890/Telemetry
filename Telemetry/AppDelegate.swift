@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func setAppearanceForUIElements(){
         UINavigationBar.appearance().setBackgroundImage(UIImage(named: "nav_bar"), forBarMetrics: UIBarMetrics.Default)
         UINavigationBar.appearance().titleTextAttributes = [NSFontAttributeName:UIFont(name: "HelveticaNeue-Light", size: 16)!, NSForegroundColorAttributeName: UIColor.whiteColor()]
-        
+        UIApplication.sharedApplication().setStatusBarStyle(.LightContent, animated: false)
     }
     
     func setInitialVC(){

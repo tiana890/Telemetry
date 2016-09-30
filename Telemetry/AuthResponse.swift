@@ -13,6 +13,9 @@ class AuthResponse: BaseResponse {
 
     var token: String?
     
+    override init() {
+        super.init()
+    }
     override init(json: JSON){
         super.init(json: json)
         

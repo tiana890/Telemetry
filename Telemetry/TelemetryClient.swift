@@ -47,9 +47,22 @@ class TelemetryClient: NSObject {
         self.vehiclesRequestSocket?.vehicles = vehicles
     }
     
+    func isSocketOpen() -> Bool{
+        if let state = self.webSocket?.readyState{
+            if state == SRReadyState.OPEN{
+                return true
+            }
+        }
+        return false
+    }
+    
     func sendMessage(){
         self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? NSData())
         print(String(data: self.vehiclesRequestSocket?.getData() ?? NSData(), encoding: NSUTF8StringEncoding))
+    }
+    
+    func closeSocket(){
+        self.webSocket!.close()
     }
     
     func vehiclesObservable() -> Observable<Vehicles>{

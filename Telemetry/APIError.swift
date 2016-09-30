@@ -11,6 +11,7 @@ import UIKit
 enum APIErrorType: String{
     case NETWORK
     case UNKNOWN
+    case CLOSE_SOCKET
     case NONE
 }
 

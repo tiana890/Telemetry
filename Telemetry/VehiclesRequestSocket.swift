@@ -26,10 +26,10 @@ class VehiclesRequestSocket{
         var json: JSON?
         if(vehicles.count > 0){
             json = JSON(dictionaryLiteral: ("vehicles", self.vehicles),
-                            ("auth_token", token), ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]]))
+                            ("auth_token", token)/*, ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]])*/)
         } else {
             json = JSON(dictionaryLiteral: ("vehicles", "all"),
-                        ("auth_token", token), ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]]))
+                        ("auth_token", token)/*, ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]])*/)
         }
         return try! json!.rawData()
     }

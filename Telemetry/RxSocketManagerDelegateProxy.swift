@@ -43,6 +43,13 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
         didFailWithErrorSubject.on(.Next(error))
     }
     
+    func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        print(reason)
+        print(code)
+        //didReceiveMessageSubject.on(.Completed)
+    }
+    
+    
     
 }
 
