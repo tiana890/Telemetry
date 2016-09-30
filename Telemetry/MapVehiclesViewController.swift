@@ -136,7 +136,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 } else {
                     self.showAlert("", msg: "Произошла ошибка")
                 }
-                self.telemetryClient?.closeSocket()
+    
             })
             
         }, onCompleted: { [unowned self] in
@@ -287,7 +287,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     deinit{
         print("DEINIT")
-        self.telemetryClient?.closeSocket()
     }
 }
    
