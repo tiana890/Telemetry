@@ -54,7 +54,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
 
         clusterManager.setDelegate(self, mapDelegate: self)
         
-        if(!PreferencesManager.ifAutosLoaded()){
+        //if(!PreferencesManager.ifAutosLoaded()){
             self.updateBtn.enabled = false
             
             let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
@@ -80,9 +80,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 PreferencesManager.setAutosLoaded(true)
                 self.addBindsToViewModel()
             }.addDisposableTo(self.disposeBag)
-        } else {
-            self.addBindsToViewModel()
-        }
+//        } else {
+//            self.addBindsToViewModel()
+//        }
         
         self.updateBtn
             .rx_tap
