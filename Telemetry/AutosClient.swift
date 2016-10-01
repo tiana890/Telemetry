@@ -49,7 +49,8 @@ class AutosClient: NSObject {
                     
                     print(response)
                     print(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-                    let js = JASON.JSON(object)
+                    let js = SwiftyJSON.JSON(object)
+                    
                     let autosDictResponse = AutosDictResponse(json: js)
                     
                     for(val) in autosDictResponse.autosDict!.values{
@@ -65,19 +66,21 @@ class AutosClient: NSObject {
         }
     }
     
-    func autosDictJSONObservable() -> Observable<[String: SwiftyJSON.JSON]>{
+    func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
         //if(!self.local){
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 
-                let js = JASON.JSON(object)
-                if let dict = js["vehicles"].jsonDictionary{
-                    return Observable.just(dict)
-                } else {
-                    return Observable.just([:])
-                }
+                let js = SwiftyJSON.JSON(object)
+                PreferencesManager.writeAutosDict(js["vehicles"])
+//                if let dict = js["vehicles"].dictionary{
+//                    return dict
+//                } else {
+//                    return [:]
+//                }
+                return [:]
             
             })
 //        } else {

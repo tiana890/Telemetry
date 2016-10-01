@@ -65,21 +65,22 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             
             self.view.userInteractionEnabled = false
             
-            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
-            .observeOn(MainScheduler.instance)
-            .doOnError({ (errType) in
-                progressHUD.removeFromSuperview()
-                self.showAlert("Ошибка", msg: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно.")
-                self.view.userInteractionEnabled = true
-                PreferencesManager.setAutosLoaded(false)
-                self.addBindsToViewModel()
-            })
-            .subscribeNext { (autosDictResponse) in
-                progressHUD.removeFromSuperview()
-                self.view.userInteractionEnabled = true
-                PreferencesManager.setAutosLoaded(true)
-                self.addBindsToViewModel()
-            }.addDisposableTo(self.disposeBag)
+            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+                .autosDictJSONObservable()
+                .observeOn(MainScheduler.instance)
+                .doOnError({ (errType) in
+                    progressHUD.removeFromSuperview()
+                    self.showAlert("Ошибка", msg: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно.")
+                    self.view.userInteractionEnabled = true
+                    PreferencesManager.setAutosLoaded(false)
+                    self.addBindsToViewModel()
+                })
+                .subscribeNext { (autosDictResponse) in
+                    progressHUD.removeFromSuperview()
+                    self.view.userInteractionEnabled = true
+                    PreferencesManager.setAutosLoaded(true)
+                    self.addBindsToViewModel()
+                }.addDisposableTo(self.disposeBag)
 //        } else {
 //            self.addBindsToViewModel()
 //        }
@@ -197,7 +198,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
-        if let auto = RealmManager.getAutoById(Int(vehicle.id!)){
+        /*if let auto = RealmManager.getAutoById(Int(vehicle.id!)){*/
+        if let auto = PreferencesManager.getAutoByID(Int(vehicle.id!)){
             spot.regNumber = auto.registrationNumber ?? ""
         }
         if let azm = vehicle.azimut{
