@@ -38,21 +38,4 @@ class PreferencesManager: NSObject {
         return def.boolForKey("ifAutosLoaded")
     }
     
-    static func writeAutosDict(json: JSON){
-        let def = NSUserDefaults.standardUserDefaults()
-        for (key,subJson):(String, JSON) in json {
-            def.setObject(subJson.rawValue, forKey: key)
-        }
-        def.synchronize()
-    }
-
-    static func getAutoByID(id: Int) -> Auto?{
-        if let string = NSUserDefaults.standardUserDefaults().objectForKey("\(id)"){
-            if let json = JSON(rawValue: string){
-                let auto = Auto(json: json)
-                return auto
-            }
-        }
-        return nil
-    }
 }

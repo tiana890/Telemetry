@@ -54,7 +54,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
 
         clusterManager.setDelegate(self, mapDelegate: self)
         
-        //if(!PreferencesManager.ifAutosLoaded()){
+        if(!PreferencesManager.ifAutosLoaded()){
             self.updateBtn.enabled = false
             
             let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
@@ -81,9 +81,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                     PreferencesManager.setAutosLoaded(true)
                     self.addBindsToViewModel()
                 }.addDisposableTo(self.disposeBag)
-//        } else {
-//            self.addBindsToViewModel()
-//        }
+        } else {
+            self.addBindsToViewModel()
+        }
         
         self.updateBtn
             .rx_tap
@@ -198,8 +198,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let spot = POIItem()
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
-        /*if let auto = RealmManager.getAutoById(Int(vehicle.id!)){*/
-        if let auto = PreferencesManager.getAutoByID(Int(vehicle.id!)){
+        if let auto = RealmManager.getAutoById(Int(vehicle.id!)){
             spot.regNumber = auto.registrationNumber ?? ""
         }
         if let azm = vehicle.azimut{

@@ -67,27 +67,23 @@ class AutosClient: NSObject {
     }
     
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
-        //if(!self.local){
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
-                
                 let js = SwiftyJSON.JSON(object)
-                PreferencesManager.writeAutosDict(js["vehicles"])
-//                if let dict = js["vehicles"].dictionary{
-//                    return dict
-//                } else {
-//                    return [:]
+                let start = NSDate().timeIntervalSince1970
+//                for (key,subJson):(String, SwiftyJSON.JSON) in js["vehicles"] {
+//                    if let key = Int(key){
+//                        RealmManager.saveAutoJSON(key, rawValue: String(subJson.rawValue))
+//                    }
 //                }
+                RealmManager.saveAutoJSONDict(js["vehicles"])
+                let end = NSDate().timeIntervalSince1970 - start
+                print(end)
                 return [:]
-            
             })
-//        } else {
-//            let autosDictResponse = AutosDictResponse()
-//            autosDictResponse.autosDict = RealmManager.getAutos()
-//            return Observable.just(autosDictResponse)
-//        }
+
 
     }
 }

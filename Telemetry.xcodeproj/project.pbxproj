@@ -75,6 +75,7 @@
 		88263E831D53750200688708 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E821D53750200688708 /* Status.swift */; };
 		884098101D427525007FEE7E /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840980F1D427525007FEE7E /* ContainerController.swift */; };
 		884098131D427569007FEE7E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884098121D427569007FEE7E /* BaseViewController.swift */; };
+		885D18AB1DA0DC8500EA0CBB /* AutoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */; };
 		885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C0E1D45E6F7003353FD /* TabBarController.swift */; };
 		885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C111D45E93A003353FD /* ApplicationState.swift */; };
 		885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C131D45EA18003353FD /* DarkAlphaView.swift */; };
@@ -271,6 +272,7 @@
 		88263E821D53750200688708 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		8840980F1D427525007FEE7E /* ContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		884098121D427569007FEE7E /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoJSON.swift; sourceTree = "<group>"; };
 		885F5C0E1D45E6F7003353FD /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		885F5C111D45E93A003353FD /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		885F5C131D45EA18003353FD /* DarkAlphaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkAlphaView.swift; sourceTree = "<group>"; };
@@ -860,6 +862,7 @@
 			children = (
 				88CFC59E1D92F64F00D8C58D /* RealmManager.swift */,
 				88CFC5A11D97E29200D8C58D /* AutoEntity.swift */,
+				885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1238,6 +1241,7 @@
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */,
 				88263E831D53750200688708 /* Status.swift in Sources */,
+				885D18AB1DA0DC8500EA0CBB /* AutoJSON.swift in Sources */,
 				88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
 				88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */,

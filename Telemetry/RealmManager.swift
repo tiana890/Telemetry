@@ -7,6 +7,7 @@
 //
 
 import RealmSwift
+import SwiftyJSON
 
 class RealmManager: NSObject {
 
@@ -46,20 +47,35 @@ class RealmManager: NSObject {
     }
     
     static func getAutoById(id: Int) -> Auto?{
-        var auto: Auto?
         
         let realm = try! Realm()
-        let autos = realm.objects(AutoEntity).filter("id=\(id)")
-        if autos.count > 0{
-            let autoEntity = autos[0]
-            auto = Auto()
-            auto?.id = autoEntity.id
-            auto?.model = autoEntity.model
-            auto?.organization = autoEntity.organization
-            auto?.registrationNumber = autoEntity.regNumber
-            auto?.type = autoEntity.type
+        let autosJSON = realm.objects(AutoJSON).filter("id=\(id)")
+        if autosJSON.count > 0{
+            let autoJSON = autosJSON[0]
+            let json = JSON.parse(autoJSON.rawValue)
+            let auto = Auto(json: json)
+            return auto
         }
         
-        return auto
+        return nil
     }
+    
+    static func saveAutoJSONDict(dict: JSON){
+        let realm = try! Realm()
+        var arr = [AutoJSON]()
+        for (key,subJson):(String, SwiftyJSON.JSON) in dict {
+            if let key = Int(key){
+                let autoJSON = AutoJSON()
+                autoJSON.id = key
+                autoJSON.rawValue = subJson.rawString() ?? ""
+                arr.append(autoJSON)
+            }
+        }
+        try! realm.write() {
+            realm.add(arr, update: true)
+        }
+    }
+    
+    
+
 }

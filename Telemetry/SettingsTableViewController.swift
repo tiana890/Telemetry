@@ -52,7 +52,8 @@ class SettingsTableViewController: UITableViewController {
             self.view.addSubview(progressHUD)
             self.view.userInteractionEnabled = false
             
-            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "").autosDictObservable()
+            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+                .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
                 .subscribeNext { (autosDictResponse) in
                     progressHUD.removeFromSuperview()
