@@ -24,65 +24,59 @@ class AutosViewController: UIViewController {
     let CELL_IDENTIFIER = "autoCollectionCell"
     
     var viewModel:AutosViewModel?
-    var autosClient:AutosClient?
-    var publishSubject = PublishSubject<[JSON]>()
+    var publishSubject = PublishSubject<[Auto]>()
     let disposeBag = DisposeBag()
     
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//        
-//        addCollectionBinds()
-//        autosClient = AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
-//        autosClient?.local = true
-//        self.viewModel = AutosViewModel(_autosClient: autosClient!)
-//        addBindsToViewModel()
-//    }
-//    
-//    override func viewWillAppear(animated: Bool) {
-//        super.viewWillAppear(animated)
-//        loadAutos()
-//    }
-//    
-//    func loadAutos(){
-//        self.autosClient?
-//        .autosDictJSONObservable()
-//        .subscribeNext({ (autosArray) in
-//            self.publishSubject.onNext(autosArray)
-//        })
-//        .addDisposableTo(self.disposeBag)
-//    }
-//    
-//    func addBindsToViewModel(){
-//        self.publishSubject
-//        .observeOn(MainScheduler.instance)
-//        .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
-//            let indexPath = NSIndexPath(forItem: row, inSection: 0)
-//            let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
-//            cell.registrationNumber.text = element.registrationNumber ?? ""
-//            cell.companyName.text = element.organization ?? ""
-//            cell.model.text = element.model ?? ""
-//            cell.modelName.text = element.type ?? ""
-//            
-//            cell.contentView.layer.cornerRadius = 8.0
-//            cell.contentView.clipsToBounds = true
-//            cell.registrationNumber.layer.cornerRadius = 4.0
-//            cell.registrationNumber.clipsToBounds = true
-//            
-//            
-//            if let lastUpdate = element.lastUpdate{
-//                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-//                let dateFormatter = NSDateFormatter()
-//                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-//                cell.lastUpdate.text = dateFormatter.stringFromDate(date)
-//            } else {
-//                cell.lastUpdate.text = ""
-//            }
-//            
-//            return cell
-//        }.addDisposableTo(self.disposeBag)
-//        
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addCollectionBinds()
+        addBindsToViewModel()
+    }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        loadAutos()
+    }
+    
+    func loadAutos(){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                self.publishSubject.onNext(RealmManager.getAutos())
+        })
+        
+    }
+    
+    func addBindsToViewModel(){
+        self.publishSubject
+        .observeOn(MainScheduler.instance)
+        .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
+            let indexPath = NSIndexPath(forItem: row, inSection: 0)
+            let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
+            cell.registrationNumber.text = element.registrationNumber ?? ""
+            cell.companyName.text = element.organization ?? ""
+            cell.model.text = element.model ?? ""
+            cell.modelName.text = element.type ?? ""
+            
+            cell.contentView.layer.cornerRadius = 8.0
+            cell.contentView.clipsToBounds = true
+            cell.registrationNumber.layer.cornerRadius = 4.0
+            cell.registrationNumber.clipsToBounds = true
+            
+            
+            if let lastUpdate = element.lastUpdate{
+                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
+                cell.lastUpdate.text = dateFormatter.stringFromDate(date)
+            } else {
+                cell.lastUpdate.text = ""
+            }
+            
+            return cell
+        }.addDisposableTo(self.disposeBag)
+        
+    }
     
     
     func addCollectionBinds(){

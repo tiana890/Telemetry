@@ -129,7 +129,7 @@ class TelemetryClient: NSObject {
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .subscribeNext({ (error) in
                 print((error as NSError).description)
-                self.vehObservable.onError(APIError(errType: .NETWORK))
+                self.vehObservable.onError(APIError(errType: .SOCKET_INTERRUPTED))
             }).addDisposableTo(self.disposeBag)
         
         dispatch_async(backgrQueue) {

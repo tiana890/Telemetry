@@ -40,32 +40,32 @@ class AutosClient: NSObject {
             })
     }
     
-    func autosDictObservable() -> Observable<AutosDictResponse>{
-        if(!self.local){
-            return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
-                .debug()
-                .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
-                .map({ (response, object) -> AutosDictResponse in
-                    
-                    print(response)
-                    print(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-                    let js = SwiftyJSON.JSON(object)
-                    
-                    let autosDictResponse = AutosDictResponse(json: js)
-                    
-                    for(val) in autosDictResponse.autosDict!.values{
-                        RealmManager.saveAuto(val)
-                    }
-                    
-                    return autosDictResponse
-                })
-        } else {
-            let autosDictResponse = AutosDictResponse()
-            autosDictResponse.autosDict = RealmManager.getAutos()
-            return Observable.just(autosDictResponse)
-        }
-    }
-    
+//    func autosDictObservable() -> Observable<AutosDictResponse>{
+//        if(!self.local){
+//            return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+//                .debug()
+//                .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+//                .map({ (response, object) -> AutosDictResponse in
+//                    
+//                    print(response)
+//                    print(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
+//                    let js = SwiftyJSON.JSON(object)
+//                    
+//                    let autosDictResponse = AutosDictResponse(json: js)
+//                    
+//                    for(val) in autosDictResponse.autosDict!.values{
+//                        RealmManager.saveAuto(val)
+//                    }
+//                    
+//                    return autosDictResponse
+//                })
+//        } else {
+//            let autosDictResponse = AutosDictResponse()
+//            autosDictResponse.autosDict = RealmManager.getAutos()
+//            return Observable.just(autosDictResponse)
+//        }
+//    }
+//    
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()

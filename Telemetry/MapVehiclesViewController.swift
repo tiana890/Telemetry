@@ -101,6 +101,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     }
     func addBindsToViewModel(){
         //self.telemetryClient?.closeSocket()
+        self.clearAllTraysFromMap()
+        
         self.socketBag = nil
         self.socketBag = DisposeBag()
         
@@ -208,6 +210,18 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         spot.hasAnimated = false
         return spot
         
+    }
+    
+    func clearAllTraysFromMap(){
+        for (spot) in Array(self.dict.values){
+            if(spot.spot.polylines != nil){
+                for (line) in spot.spot.polylines{
+                    (line as! GMSPolyline).map = nil
+                }
+            
+                spot.spot.polylines.removeAllObjects()
+            }
+        }
     }
     
     //MARK: IBActions

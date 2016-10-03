@@ -27,20 +27,15 @@ class RealmManager: NSObject {
         }
     }
     
-    static func getAutos() -> [Int:Auto]{
+    static func getAutos() -> [Auto]{
         let realm = try! Realm()
         
-        var autoModels = [Int:Auto]()
-        let autoObjects = realm.objects(AutoEntity)
+        var autoModels = [Auto]()
+        let autoObjects = realm.objects(AutoJSON)
         
         for(a) in autoObjects{
-            var autoModel = Auto()
-            autoModel.id = a.id
-            autoModel.registrationNumber = a.regNumber
-            autoModel.model = a.model
-            autoModel.organization = a.organization
-            autoModel.type = a.type
-            autoModels[a.id] = autoModel
+            let autoModel = Auto(json: JSON.parse(a.rawValue))
+            autoModels.append(autoModel)
         }
         
         return autoModels
@@ -76,6 +71,6 @@ class RealmManager: NSObject {
         }
     }
     
-    
+
 
 }

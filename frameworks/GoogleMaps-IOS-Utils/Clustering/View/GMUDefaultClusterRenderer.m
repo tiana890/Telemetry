@@ -432,6 +432,7 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
         item.polylines = [[NSMutableArray alloc] init];
         [item.polylines removeAllObjects];
         [item.polylines addObject: polyline];
+
     }
 }
 
@@ -480,7 +481,6 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
     
     if(toCluster == NO){
         if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
-
             [self drawPolyline:CLLocationCoordinate2DMake(marker.layer.latitude, marker.layer.longitude) to:position marker:marker];
         }
     }

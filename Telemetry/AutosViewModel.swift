@@ -33,17 +33,17 @@ final class AutosViewModel{
 //            }.bindTo(autos).addDisposableTo(self.disposeBag)
     }
     
-    func getAutosObservable() -> Observable<[Auto]>{
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
-        return autosClient
-            .autosDictObservable()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
-            .map { (autosResponse) -> [Auto] in
-                if let dict = autosResponse.autosDict{
-                    let arr = Array(dict.values)
-                    return arr as [Auto]
-                }
-                return []
-            }
-    }
+//    func getAutosObservable() -> Observable<[Auto]>{
+//        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
+//        return autosClient
+//            .autosDictObservable()
+//            .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
+//            .map { (autosResponse) -> [Auto] in
+//                if let dict = autosResponse.autosDict{
+//                    let arr = Array(dict.values)
+//                    return arr as [Auto]
+//                }
+//                return []
+//            }
+//    }
 }
