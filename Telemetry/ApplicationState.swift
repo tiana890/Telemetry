@@ -19,7 +19,6 @@ class ApplicationState{
     
     //MARK: Support classes
     var filter: Filter?
-    var autosDict: [Int64: Auto]?
     
     weak var leftPanelDelegate: APPLeftPanelIsShown?
     
@@ -27,7 +26,6 @@ class ApplicationState{
         struct Static {
             static var onceToken : dispatch_once_t = 0
             static var instance : ApplicationState? = nil
-            
         }
         
         dispatch_once(&Static.onceToken) {
@@ -58,5 +56,8 @@ class ApplicationState{
         PreferencesManager.deleteToken()
     }
     
+    func isFilterSet() -> Bool{
+        return filter?.filterIsSet() ?? false
+    }
 }
 

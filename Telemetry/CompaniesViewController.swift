@@ -24,28 +24,42 @@ class CompaniesViewController: UIViewController {
     var companiesClient = CompaniesClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
     let disposeBag = DisposeBag()
     
+    var publishSubject = PublishSubject<[Company]>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         companiesClient.filter = ApplicationState.sharedInstance().filter
-        self.viewModel = CompaniesViewModel(companiesClient: companiesClient)
+        self.viewModel = CompaniesViewModel(_companiesClient: companiesClient)
+        
         addBindsToViewModel()
         addTableBinds()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+     
+        self.viewModel?.getCompaniesObservable()
+        .doOnError({ (errType) in
+            
+        })
+        .subscribeNext({ (companies) in
+            self.publishSubject.onNext(companies)
+        })
+        .addDisposableTo(self.disposeBag)
+    }
+    
     func addBindsToViewModel(){
 
-        self.viewModel?.companies
+        self.publishSubject
             .observeOn(MainScheduler.instance)
             .bindTo(table.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
                 let indexPath = NSIndexPath(forItem: row, inSection: 0)
                 let cell = self.table.dequeueReusableCellWithIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! CompanyTableCell
                 cell.name.text = element.name ?? ""
                 return cell
-        }.addDisposableTo(self.disposeBag)
+            }.addDisposableTo(self.disposeBag)
         
-        self.viewModel?.companies.subscribeError({ (errType) in
-            self.showAlert("", msg: "Ошибка")
-        }).addDisposableTo(self.disposeBag)
     }
     
     func addTableBinds(){

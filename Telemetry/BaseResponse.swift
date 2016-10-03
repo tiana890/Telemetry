@@ -8,11 +8,16 @@
 
 import UIKit
 import SwiftyJSON
+import JASON
 
 class BaseResponse: NSObject {
 
     var status: Status?
     var reason: String?
+    
+    override init(){
+        super.init()
+    }
     
     init(_status: String?, _reason: String?) {
         super.init()
@@ -21,7 +26,12 @@ class BaseResponse: NSObject {
         self.reason = _reason
     }
     
-    init(json: JSON) {
+    init(json: SwiftyJSON.JSON) {
+        self.status = Status(rawValue: json["status"].string ?? "error")
+        self.reason = json["reason"].string
+    }
+    
+    init(json: JASON.JSON) {
         self.status = Status(rawValue: json["status"].string ?? "error")
         self.reason = json["reason"].string
     }

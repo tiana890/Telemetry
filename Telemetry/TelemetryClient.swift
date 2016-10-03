@@ -13,34 +13,71 @@ import SwiftyJSON
 
 class TelemetryClient: NSObject {
     
-    let SERVER_URL = "ws://esmc.info/stk//api/v1/telemetry/socket_server"
+    let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
-    var token: String?
+    private var token: String?
+    private var bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))?
+    private var vehicles: [Int]?
+    
     let disposeBag = DisposeBag()
     
     private var vehObservable = PublishSubject<Vehicles>()
     
-    init(token: String){
+    var vehiclesRequestSocket: VehiclesRequestSocket?
+    
+    init(token: String, bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
         super.init()
+        
         self.webSocket = SRWebSocket(URL: NSURL(string: SERVER_URL))
         self.token = token
+        self.bounds = bounds
+        
+        self.vehiclesRequestSocket = VehiclesRequestSocket(_token: token, _bounds: bounds)
+    }
+    
+    //MARK: Modificators
+    func setBounds(bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
+        self.bounds = bounds
+        self.vehiclesRequestSocket?.bounds = self.bounds!
+    }
+    
+    func setVehicles(vehicles: [Int]){
+        self.vehicles = vehicles
+        self.vehiclesRequestSocket?.vehicles = vehicles
+    }
+    
+    func isSocketOpen() -> Bool{
+        if let state = self.webSocket?.readyState{
+            if state == SRReadyState.OPEN{
+                return true
+            }
+        }
+        return false
+    }
+    
+    func sendMessage(){
+        self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? NSData())
+        print(String(data: self.vehiclesRequestSocket?.getData() ?? NSData(), encoding: NSUTF8StringEncoding))
+    }
+    
+    func closeSocket(){
+        self.webSocket!.close()
     }
     
     func vehiclesObservable() -> Observable<Vehicles>{
         let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
         
-        
         self.webSocket!.rx_didOpen
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .catchError({ (err)  -> Observable<Bool> in
+                print((err as NSError).description)
                 self.vehObservable.onError(APIError(errType: .NETWORK))
                 return Observable.just(false)
             })
             .subscribeNext { [unowned self](val) in
                 if(val){
-                    self.webSocket!.send(VehiclesRequestSocket(_vehicles: true, _fullData: true, _token: self.token ?? "").getData() ?? NSData())
-                    print(self.token)
+                    self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? NSData())
                 } else {
                     self.vehObservable.onError(APIError(errType: .UNKNOWN))
                 }
@@ -73,19 +110,26 @@ class TelemetryClient: NSObject {
                     }
                 }
                 return (vehicles, APIError(errType: .UNKNOWN))
-            
-        }).subscribeNext({ (veh, err) in
-            if(err.errType == APIErrorType.NONE){
-                self.vehObservable.on(.Next(veh))
-            } else {
-                self.vehObservable.onError(err)
-            }
-        }).addDisposableTo(self.disposeBag)
+
+                }).subscribe(onNext: { (veh, err) in
+                    if(err.errType == APIErrorType.NONE){
+                        self.vehObservable.on(.Next(veh))
+                    } else {
+                        self.vehObservable.onError(err)
+                    }
+                    }, onError: { (err) in
+                        print((err as NSError).description)
+                    }, onCompleted: { 
+                        print("Completed")
+                    }, onDisposed: { 
+                        print("disposed")
+                }).addDisposableTo(self.disposeBag)
         
         self.webSocket?.rx_didFailWithError
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .subscribeNext({ (error) in
-                self.vehObservable.onError(APIError(errType: .NETWORK))
+                print((error as NSError).description)
+                self.vehObservable.onError(APIError(errType: .SOCKET_INTERRUPTED))
             }).addDisposableTo(self.disposeBag)
         
         dispatch_async(backgrQueue) {

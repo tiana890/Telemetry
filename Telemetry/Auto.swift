@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+import JASON
 
 /*
  {
@@ -22,7 +23,7 @@ import SwiftyJSON
  
  } */
 struct Auto {
-    var id: Int64?
+    var id: Int?
     var registrationNumber: String?
     var model: String?
     var organization: String?
@@ -33,13 +34,22 @@ struct Auto {
     init(){
         
     }
-    init(json: JSON){
-        print(json)
-        self.id = json["id"].int64
+    init(json: SwiftyJSON.JSON){
+        self.id = json["id"].int
         self.registrationNumber = json["registrationNumber"].string
         self.model = json["model"].string
         self.organization = json["organization"].string
         self.lastUpdate = json["lastUpdate"].int64
+        self.speed = json["speed"].double
+        self.type = json["type"].string
+    }
+    
+    init(json: JASON.JSON){
+        self.id = json["id"].int ?? 0
+        self.registrationNumber = json["registrationNumber"].string
+        self.model = json["model"].string
+        self.organization = json["organization"].string
+        self.lastUpdate = Int64(json["lastUpdate"].int ?? 0)
         self.speed = json["speed"].double
         self.type = json["type"].string
     }

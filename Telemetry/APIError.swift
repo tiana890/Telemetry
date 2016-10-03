@@ -11,6 +11,8 @@ import UIKit
 enum APIErrorType: String{
     case NETWORK
     case UNKNOWN
+    case CLOSE_SOCKET
+    case SOCKET_INTERRUPTED
     case NONE
 }
 
@@ -43,6 +45,8 @@ class APIError: ErrorType {
             return "Проверьте сетевое соединение"
         case .UNKNOWN:
             return "Неизвестная ошибка"
+        case .SOCKET_INTERRUPTED:
+            return "Соединение с сервером прервано"
         default:
             return ""
             break

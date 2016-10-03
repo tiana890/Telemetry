@@ -14,19 +14,25 @@ final class CompaniesViewModel{
     
     private let disposeBag = DisposeBag()
     let dataLoader = DataLoader<CompaniesResponse>()
-    
+    private let companiesClient: CompaniesClient
     //output
     var companies = PublishSubject<[Company]>()
     
     //MARK: Set up
-    init(companiesClient: CompaniesClient){
+    init(_companiesClient: CompaniesClient){
+        self.companiesClient = _companiesClient
         
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
 
-        dataLoader.load(companiesClient.companiesObservable()).observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
-            
-            return companiesResponse.companies ?? []
-        }.bindTo(companies).addDisposableTo(self.disposeBag)
-        
+//        dataLoader.load(companiesClient.companiesObservable()).observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (companiesResponse) -> [Company] in
+//            
+//            return companiesResponse.companies ?? []
+//        }.bindTo(companies).addDisposableTo(self.disposeBag)
     }
+    
+    func getCompaniesObservable() -> Observable<[Company]>{
+        return dataLoader.load(companiesClient.companiesObservable()).map { (companiesResponse) -> [Company] in
+            return companiesResponse.companies ?? []
+        }
+    }
+    
 }

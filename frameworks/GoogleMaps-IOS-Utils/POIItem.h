@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import <GoogleMaps/GoogleMaps.h>
 #import "Clustering/GMUClusterItem.h"
 
 @interface POIItem : NSObject<GMUClusterItem>
@@ -19,6 +20,7 @@
 @property (nonatomic) NSString *prevLon;
 @property (nonatomic) NSNumber *azimut;
 @property (nonatomic) NSString *regNumber;
+@property (nonatomic) NSMutableArray *polylines;
 @property (nonatomic) BOOL hasAnimated;
 @property (nonatomic) BOOL selected;
 @end

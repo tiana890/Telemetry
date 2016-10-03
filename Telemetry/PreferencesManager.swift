@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class PreferencesManager: NSObject {
     
@@ -25,4 +26,16 @@ class PreferencesManager: NSObject {
         let def = NSUserDefaults.standardUserDefaults()
         def.removeObjectForKey("token")
     }
+    
+    static func setAutosLoaded(ifLoaded: Bool) {
+        let def = NSUserDefaults.standardUserDefaults()
+        def.setBool(ifLoaded, forKey: "ifAutosLoaded")
+        def.synchronize()
+    }
+    
+    static func ifAutosLoaded() -> Bool{
+        let def = NSUserDefaults.standardUserDefaults()
+        return def.boolForKey("ifAutosLoaded")
+    }
+    
 }

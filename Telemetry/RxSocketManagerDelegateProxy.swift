@@ -41,10 +41,16 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
     
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         didFailWithErrorSubject.on(.Next(error))
-        
     }
     
-
+    func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        print(reason)
+        print(code)
+        //didReceiveMessageSubject.on(.Completed)
+    }
+    
+    
+    
 }
 
 extension SRWebSocket{
@@ -60,9 +66,6 @@ extension SRWebSocket{
     public var rx_didOpen: Observable<Bool>{
         let proxy = RxSocketManagerDelegateProxy.proxyForObject(self)
         return proxy.didOpenSubject
-//        return rx_delegate.observe(#selector(SRWebSocketDelegate.webSocketDidOpen(_:))).map({ (obj) -> Bool in
-//            return true
-//        })
     }
     
     public var rx_didFailWithError: Observable<NSError>{

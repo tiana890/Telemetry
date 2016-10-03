@@ -29,6 +29,10 @@ class AuthClient: NSObject {
                 let authResponse = AuthResponse(json: js)
                 return authResponse
             })
+            .catchError({ (err) -> Observable<AuthResponse> in
+                return Observable.just(AuthResponse())
+            })
+        
     }
     
 }

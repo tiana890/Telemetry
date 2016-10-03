@@ -21,10 +21,10 @@ final class VehiclesViewModel{
     init(telemetryClient: TelemetryClient){
 
         let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
-        
         telemetryClient.vehiclesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .bindTo(vehicles).addDisposableTo(self.disposeBag)
-        
     }
+    
+    
     
 }

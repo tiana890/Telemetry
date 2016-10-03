@@ -23,7 +23,7 @@ class TrackResponse: BaseResponse {
 
     var track: Track?
     
-    init(){
+    override init(){
         super.init(_status: "Err", _reason: "Err")
     }
     

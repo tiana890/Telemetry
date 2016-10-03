@@ -17,4 +17,9 @@ class Filter: NSObject {
     var registrationNumber: String?
     
     var filterDict: FilterDict?
+    
+    func filterIsSet() -> Bool{
+        return (autoModelIds.count > 0 && companyIds.count > 0 && companyName?.characters.count > 0
+                && registrationNumber?.characters.count > 0)
+    }
 }

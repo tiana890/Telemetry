@@ -75,6 +75,7 @@
 		88263E831D53750200688708 /* Status.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88263E821D53750200688708 /* Status.swift */; };
 		884098101D427525007FEE7E /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8840980F1D427525007FEE7E /* ContainerController.swift */; };
 		884098131D427569007FEE7E /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 884098121D427569007FEE7E /* BaseViewController.swift */; };
+		885D18AB1DA0DC8500EA0CBB /* AutoJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */; };
 		885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C0E1D45E6F7003353FD /* TabBarController.swift */; };
 		885F5C121D45E93A003353FD /* ApplicationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C111D45E93A003353FD /* ApplicationState.swift */; };
 		885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 885F5C131D45EA18003353FD /* DarkAlphaView.swift */; };
@@ -95,8 +96,12 @@
 		886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */; };
 		886BC1E71D5B320F00C7C7B9 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */; };
 		886BC1EA1D5CA77C00C7C7B9 /* FollowVehicleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 886BC1E91D5CA77C00C7C7B9 /* FollowVehicleViewController.swift */; };
+		889F615B1D9C24EC00B4B531 /* GMSMapView+Bounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */; };
 		88BC751C1D352EB400E80256 /* MapVehiclesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */; };
 		88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */; };
+		88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */; };
+		88CFC59F1D92F64F00D8C58D /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC59E1D92F64F00D8C58D /* RealmManager.swift */; };
+		88CFC5A21D97E29200D8C58D /* AutoEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CFC5A11D97E29200D8C58D /* AutoEntity.swift */; };
 		88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */; };
 		88EDFA9A1D544EE3005ACA54 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88EDFA991D544EE3005ACA54 /* APIError.swift */; };
 		88EDFA9C1D547B4E005ACA54 /* MarkerWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */; };
@@ -267,6 +272,7 @@
 		88263E821D53750200688708 /* Status.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Status.swift; sourceTree = "<group>"; };
 		8840980F1D427525007FEE7E /* ContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		884098121D427569007FEE7E /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoJSON.swift; sourceTree = "<group>"; };
 		885F5C0E1D45E6F7003353FD /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		885F5C111D45E93A003353FD /* ApplicationState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationState.swift; sourceTree = "<group>"; };
 		885F5C131D45EA18003353FD /* DarkAlphaView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DarkAlphaView.swift; sourceTree = "<group>"; };
@@ -287,8 +293,12 @@
 		886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackResponse.swift; sourceTree = "<group>"; };
 		886BC1E61D5B320F00C7C7B9 /* TrackViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		886BC1E91D5CA77C00C7C7B9 /* FollowVehicleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FollowVehicleViewController.swift; sourceTree = "<group>"; };
+		889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "GMSMapView+Bounds.swift"; sourceTree = "<group>"; };
 		88BC751B1D352EB400E80256 /* MapVehiclesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVehiclesViewController.swift; sourceTree = "<group>"; };
 		88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
+		88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		88CFC59E1D92F64F00D8C58D /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		88CFC5A11D97E29200D8C58D /* AutoEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoEntity.swift; sourceTree = "<group>"; };
 		88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutosDictResponse.swift; sourceTree = "<group>"; };
 		88EDFA991D544EE3005ACA54 /* APIError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		88EDFA9B1D547B4E005ACA54 /* MarkerWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MarkerWindow.xib; sourceTree = "<group>"; };
@@ -545,6 +555,7 @@
 		4C5EFB6F1D2D270F00FE882B /* Telemetry */ = {
 			isa = PBXGroup;
 			children = (
+				88CFC59A1D8EF35F00D8C58D /* Custom views */,
 				886BC1DB1D5B004E00C7C7B9 /* Extensions */,
 				4C0542241D4F837200644A89 /* xibs */,
 				4CA4D8741D3F8F5C0052C490 /* frameworks */,
@@ -602,6 +613,7 @@
 		4C6DEDB11D2FC06A001B5502 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				88CFC59D1D92F60E00D8C58D /* Realm */,
 				88263E811D5374E000688708 /* Statuses and Errors */,
 				88263E7C1D53555900688708 /* Filter */,
 				4C5B24371D3645CC00AC310E /* Responses */,
@@ -816,6 +828,7 @@
 			isa = PBXGroup;
 			children = (
 				886BC1DC1D5B007900C7C7B9 /* NSDate+dateFromFormat.swift */,
+				889F615A1D9C24EC00B4B531 /* GMSMapView+Bounds.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -834,6 +847,24 @@
 				88CAB7DA1D54B93B004829F9 /* SettingsTableViewController.swift */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		88CFC59A1D8EF35F00D8C58D /* Custom views */ = {
+			isa = PBXGroup;
+			children = (
+				88CFC59B1D8EF37C00D8C58D /* ProgressHUD.swift */,
+			);
+			name = "Custom views";
+			sourceTree = "<group>";
+		};
+		88CFC59D1D92F60E00D8C58D /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				88CFC59E1D92F64F00D8C58D /* RealmManager.swift */,
+				88CFC5A11D97E29200D8C58D /* AutoEntity.swift */,
+				885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */,
+			);
+			name = Realm;
 			sourceTree = "<group>";
 		};
 		88F99DA51D49C8AD0031A645 /* Organizations */ = {
@@ -941,6 +972,10 @@
 				4C5EFB891D2D271000FE882B /* Frameworks */,
 				4C5EFB8A1D2D271000FE882B /* Resources */,
 				54F1B01CAF551852314F107B /* [CP] Copy Pods Resources */,
+<<<<<<< HEAD
+=======
+				0B22E667F334030806C60C27 /* [CP] Embed Pods Frameworks */,
+>>>>>>> feature/map_with_filter
 			);
 			buildRules = (
 			);
@@ -1026,6 +1061,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+<<<<<<< HEAD
+=======
+		0B22E667F334030806C60C27 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TelemetryUITests/Pods-TelemetryUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+>>>>>>> feature/map_with_filter
 		35F072D21BFA3B47C88F1A98 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1053,7 +1106,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		54F1B01CAF551852314F107B /* [CP] Copy Pods Resources */ = {
@@ -1083,7 +1136,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		69C6EE3E8CA647BE4BDFC917 /* [CP] Embed Pods Frameworks */ = {
@@ -1156,7 +1209,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1194,14 +1247,17 @@
 				4C9A66831D2FE82F00FCA3F4 /* TelemetryClient.swift in Sources */,
 				885F5C1B1D45EAFD003353FD /* BaseTableViewController.swift in Sources */,
 				88263E831D53750200688708 /* Status.swift in Sources */,
+				885D18AB1DA0DC8500EA0CBB /* AutoJSON.swift in Sources */,
 				88F99DD11D4A4B480031A645 /* AutoViewController.swift in Sources */,
 				4CBB2DF81D3F938F000AAE33 /* GMUClusterManager.m in Sources */,
+				88CFC59C1D8EF37C00D8C58D /* ProgressHUD.swift in Sources */,
 				88EDFA981D53C2BF005ACA54 /* AutosDictResponse.swift in Sources */,
 				4C05421D1D4F4C4300644A89 /* POIItem.m in Sources */,
 				4C0542231D4F589E00644A89 /* PreferencesManager.swift in Sources */,
 				886BC1DD1D5B007A00C7C7B9 /* NSDate+dateFromFormat.swift in Sources */,
 				886BC1E11D5B2D0800C7C7B9 /* TrackClient.swift in Sources */,
 				88F99DC51D4A3FAD0031A645 /* AutosResponse.swift in Sources */,
+				88CFC5A21D97E29200D8C58D /* AutoEntity.swift in Sources */,
 				4C1523621D33EAE8002D0009 /* RxSocketManagerDelegateProxy.swift in Sources */,
 				885F5C141D45EA18003353FD /* DarkAlphaView.swift in Sources */,
 				4C5B24301D36432400AC310E /* AuthClient.swift in Sources */,
@@ -1221,6 +1277,7 @@
 				886BC1E51D5B2F3300C7C7B9 /* TrackResponse.swift in Sources */,
 				4C5B24361D36452200AC310E /* DataLoader.swift in Sources */,
 				88F99DD31D4A4B560031A645 /* AutoViewModel.swift in Sources */,
+				88CFC59F1D92F64F00D8C58D /* RealmManager.swift in Sources */,
 				885F5C0F1D45E6F7003353FD /* TabBarController.swift in Sources */,
 				88F99DA91D49DC2F0031A645 /* CompaniesClient.swift in Sources */,
 				88F99DBE1D4A23B50031A645 /* CompanyResponse.swift in Sources */,
@@ -1233,6 +1290,7 @@
 				88F99DC31D4A3E020031A645 /* AutosClient.swift in Sources */,
 				4C5B24391D3645DE00AC310E /* BaseResponse.swift in Sources */,
 				886BC1DA1D5AECE500C7C7B9 /* TrackParamsViewController.swift in Sources */,
+				889F615B1D9C24EC00B4B531 /* GMSMapView+Bounds.swift in Sources */,
 				886BC1EA1D5CA77C00C7C7B9 /* FollowVehicleViewController.swift in Sources */,
 				886BC1CD1D5878E800C7C7B9 /* SelectableCell.swift in Sources */,
 				4CBB2DF71D3F938F000AAE33 /* GMUWrappingDictionaryKey.m in Sources */,
