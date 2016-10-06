@@ -179,6 +179,13 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
       GMUWrappingDictionaryKey *key =
           [[GMUWrappingDictionaryKey alloc] initWithObject:marker.userData];
       toCluster = [_itemToNewClusterMap objectForKey:key];
+        //**************last added
+        if([[marker.userData class] isSubclassOfClass:[POIItem class]]){
+            POIItem *item = (POIItem *)marker.userData;
+            for(GMSPolyline *line in item.polylines){
+                line.map = nil;
+            }
+        }
     }
     // If there is not near by cluster to animate to, do not perform animation.
     if (toCluster == nil) {

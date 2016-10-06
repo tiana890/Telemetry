@@ -96,9 +96,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        
-        
     }
+    
     func addBindsToViewModel(){
         //self.telemetryClient?.closeSocket()
         self.clearAllTraysFromMap()
