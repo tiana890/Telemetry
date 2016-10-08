@@ -42,6 +42,7 @@ class MapFilterViewController: UIViewController {
     
     func addBindsToViewModel(){
         filterViewModel?.filterDict.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](filtDict) in
+            print(ApplicationState.sharedInstance().filter)
             self.filterDict = filtDict
         }).addDisposableTo(self.disposeBag)
     }
@@ -81,23 +82,20 @@ class MapFilterViewController: UIViewController {
                 if let destVC = segue.destinationViewController as? SelectableTableViewController{
                     if(rowType == RowType.Company){
                         destVC.selectType = .Company
-                        destVC.companies = filterDict!.companies ?? []
-                        destVC.selectedIds = ApplicationState.sharedInstance().filter!.companyIds
+                        destVC.companies = filterDict?.companies ?? []
+                        destVC.selectedIds = ApplicationState.sharedInstance().filter?.companyIds ?? []
                     } else if(rowType == RowType.AutoModel){
                         destVC.selectType = .AutoModel
-                        destVC.autoModels = filterDict!.models ?? []
-                        destVC.selectedIds = ApplicationState.sharedInstance().filter!.autoModelIds
+                        destVC.autoModels = filterDict?.models ?? []
+                        destVC.selectedIds = ApplicationState.sharedInstance().filter?.autoModelIds ?? []
                     }
                 }
             }
         }
      }
     
-    override func unwindForSegue(unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController) {
-        
-    }
+
     //MARK: IBActions
-    
     @IBAction func backBtnPressed(sender: AnyObject) {
         self.navigationController?.popViewControllerAnimated(true)
     }
