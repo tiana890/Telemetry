@@ -19,7 +19,7 @@ class AuthClient: NSObject {
         
         let paramDict = ["login" : login, "password" : "\(login):\(password)".md5]
         let queue = dispatch_queue_create("tasksLoad",nil)
-        
+        print(paramDict)
         return requestJSON(.POST, AUTH_URL, parameters: paramDict, encoding: .URL, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
