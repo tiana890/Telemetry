@@ -16,7 +16,7 @@ class CompanyResponse: BaseResponse {
         super.init(json: json)
         
         self.company = Company()
-        self.company?.id = json["organization"]["id"].int64
+        self.company?.id = json["organization"]["id"].int
         self.company?.name = json["organization"]["name"].string
     }
 }

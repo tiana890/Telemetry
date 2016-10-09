@@ -68,7 +68,7 @@ class CompaniesViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self](company) in
                 if let companyId = company.id{
-                    self.performSegueWithIdentifier(self.COMPANY_DETAIL_SEGUE, sender: NSNumber(longLong: companyId))
+                    self.performSegueWithIdentifier(self.COMPANY_DETAIL_SEGUE, sender: NSNumber(integer: companyId))
                 }
         }.addDisposableTo(self.disposeBag)
         

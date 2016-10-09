@@ -24,26 +24,22 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
 
     var algorithm = GMUNonHierarchicalDistanceBasedAlgorithm()
     
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     var socketBag: DisposeBag?
 
     var telemetryClient: TelemetryClient?
+    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    
     
     //MARK: IBOutlets
-    
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet var updateBtn: UIBarButtonItem!
-    
-    @IBAction func menuPressed(sender: AnyObject) {
-        ApplicationState.sharedInstance().showLeftPanel()
-    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mapView = GMSMapView(frame: self.view.frame)
-        mapView!.delegate = self
-        self.view.addSubview(mapView!)
+        initMap()
         
         print(ApplicationState.sharedInstance().getToken())
 
@@ -73,39 +69,91 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                     self.showAlert("Ошибка", msg: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно.")
                     self.view.userInteractionEnabled = true
                     PreferencesManager.setAutosLoaded(false)
-                    self.addBindsToViewModel()
+                    self.updateMap()
                 })
                 .subscribeNext { (autosDictResponse) in
                     progressHUD.removeFromSuperview()
                     self.view.userInteractionEnabled = true
                     PreferencesManager.setAutosLoaded(true)
-                    self.addBindsToViewModel()
+                    self.updateMap()
                 }.addDisposableTo(self.disposeBag)
         } else {
-            self.addBindsToViewModel()
+            self.updateMap()
         }
         
         self.updateBtn
             .rx_tap
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
-                self.addBindsToViewModel()
+                self.updateMap()
             }.addDisposableTo(self.disposeBag)
         }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+       
+        if let f = self.storedFilter{
+            print(f)
+            print(ApplicationState.sharedInstance().filter)
+            if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
+                self.clearMap()
+                let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+                autosClient.autosIDsObservableWithFilter()
+                .observeOn(MainScheduler.instance)
+                .subscribeNext({ (arr) in
+                    self.updateMap(arr)
+                }).addDisposableTo(self.disposeBag)
+            }
+        }
     }
     
-    func addBindsToViewModel(){
-        //self.telemetryClient?.closeSocket()
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    }
+    
+    func initMap(){
+        mapView = GMSMapView(frame: self.view.frame)
+        mapView!.delegate = self
+        self.view.addSubview(mapView!)
+    }
+    
+    func updateMap(){
+        
+        self.addBindsToViewModel([])
+    }
+    
+    func updateMap(arr: [Int]){
+        if(arr.count == 0){
+            self.showAlert("Внимание", msg: "Нет результатов, соответствующих фильтру")
+            
+            self.updateBtn.enabled = true
+            self.updateBtn.image = UIImage(named: "update_icon")
+            
+        } else {
+            self.addBindsToViewModel(arr)
+        }
+    }
+    
+    func clearMap(){
+        telemetryClient?.closeSocket()
+        self.socketBag = DisposeBag()
+        clearAllTraysFromMap()
+        self.clusterManager.clearItems()
+        self.dict.removeAll()
+    }
+    
+    func addBindsToViewModel(vehicles:[Int]){
+
         self.clearAllTraysFromMap()
+        self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
         
         self.socketBag = nil
         self.socketBag = DisposeBag()
         
         self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
+        self.telemetryClient?.setVehicles(vehicles)
+        
         self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         
         self.indicator.hidden = false
@@ -228,6 +276,10 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @IBAction func menuPressed(sender: AnyObject) {
+        ApplicationState.sharedInstance().showLeftPanel()
     }
     
     //MARK: GMSMapViewDelegate

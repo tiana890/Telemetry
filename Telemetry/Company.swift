@@ -10,14 +10,14 @@ import UIKit
 import SwiftyJSON
 
 struct Company {
-    var id: Int64?
+    var id: Int?
     var name: String?
     
     init(){
         
     }
     init(json: JSON){
-        self.id = json["id"].int64
+        self.id = json["id"].int
         self.name = json["name"].string
     }
 }

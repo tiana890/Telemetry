@@ -24,6 +24,7 @@ class VehiclesRequestSocket{
     
     func getData() -> NSData?{
         var json: JSON?
+       
         if(vehicles.count > 0){
             json = JSON(dictionaryLiteral: ("vehicles", self.vehicles),
                             ("auth_token", token)/*, ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]])*/)

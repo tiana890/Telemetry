@@ -6,7 +6,7 @@ target 'Telemetry' do
   use_frameworks!
   
   # Pods for Telemetry
-  pod 'SocketRocket', '~> 0.5.1'
+  pod 'SocketRocket'
   pod 'GoogleMaps'
   pod 'RxSwift', '~> 2.6.0'
   pod 'RxBlocking', '~> 2.6.0'

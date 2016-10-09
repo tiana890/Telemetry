@@ -1,19 +1,19 @@
 PODS:
-  - Alamofire (3.5.0)
-  - Crashlytics (3.8.1):
+  - Alamofire (3.5.1)
+  - Crashlytics (3.8.2):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.8)
-  - GoogleMaps (2.0.1):
-    - GoogleMaps/Maps (= 2.0.1)
-  - GoogleMaps/Base (2.0.1)
-  - GoogleMaps/Maps (2.0.1):
-    - GoogleMaps/Base (= 2.0.1)
+  - Fabric (1.6.9)
+  - GoogleMaps (2.1.0):
+    - GoogleMaps/Maps (= 2.1.0)
+  - GoogleMaps/Base (2.1.0)
+  - GoogleMaps/Maps (2.1.0):
+    - GoogleMaps/Base (= 2.1.0)
   - JASON (2.2.1)
-  - Realm (1.1.0):
-    - Realm/Headers (= 1.1.0)
-  - Realm/Headers (1.1.0)
-  - RealmSwift (1.1.0):
-    - Realm (= 1.1.0)
+  - Realm (2.0.2):
+    - Realm/Headers (= 2.0.2)
+  - Realm/Headers (2.0.2)
+  - RealmSwift (2.0.2):
+    - Realm (= 2.0.2)
   - RxAlamofire (2.5):
     - RxAlamofire/Core (= 2.5)
   - RxAlamofire/Core (2.5):
@@ -25,7 +25,7 @@ PODS:
     - RxSwift (~> 2.5)
   - RxSwift (2.6.0)
   - SocketRocket (0.5.1)
-  - SwiftyJSON (2.3.2)
+  - SwiftyJSON (2.3.3)
 
 DEPENDENCIES:
   - Crashlytics
@@ -37,24 +37,24 @@ DEPENDENCIES:
   - RxBlocking (~> 2.6.0)
   - RxCocoa (~> 2.6.0)
   - RxSwift (~> 2.6.0)
-  - SocketRocket (~> 0.5.1)
+  - SocketRocket
   - SwiftyJSON (~> 2.3.2)
 
 SPEC CHECKSUMS:
-  Alamofire: b70a7352335f8ea5babd0a923eb7e8eacc67b877
-  Crashlytics: 4391d8df0b125345e9f209c5db6e7f40a6a8435d
-  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
-  GoogleMaps: f09da64fc987c1aa29394567c3cab5a3df83c402
+  Alamofire: 0dfba1184a543e2aa160f4e39cac4e8aba48d223
+  Crashlytics: 27acca95a01b042a8294291dd6dff27f8f6af6d7
+  Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
+  GoogleMaps: 06589b9a38097bce0cd6e90f0fd9b5e4b4a9344c
   JASON: 2fdba956dfbf8663369b81a8176e6fcb225ebf10
-  Realm: ceecf1a4540c4ce9efe196fe73fa9855bce05bd8
-  RealmSwift: 838058b2db95b12cb86bd0cf209df642c33fb60a
+  Realm: 0f5a194af0b7e6158b83db41b4ee1a00be7ddf1a
+  RealmSwift: 0eb5070d851cba7c66e841ca756d83609dc78bc8
   RxAlamofire: b4572a077b6b2410c8732a27266299df4c00736e
   RxBlocking: f2e0a7e74d5e9d3029d2b1118e2af01f583fbdd8
   RxCocoa: 89ab00d5753502520227940e3a0e0a0413683c6b
   RxSwift: 77f3a0b15324baa7a1c9bfa9f199648a82424e26
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
+  SwiftyJSON: 0fd0a115a3c0c09b277d2ab801df154902b942c3
 
-PODFILE CHECKSUM: 349a9d6ffa163741d52e3a9883dc1f91a876017d
+PODFILE CHECKSUM: 857d3391ac93987c837b88663d2d926df17d3c5e
 
 COCOAPODS: 1.1.0.beta.1

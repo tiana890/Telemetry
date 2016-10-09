@@ -16,6 +16,7 @@ class MapFilterViewController: UIViewController {
     
     let SELECT_SEGUE_IDENTIFIER = "selectSegueID"
     
+    @IBOutlet var searchBar: UISearchBar!
     @IBOutlet var table: UITableView!
     
     let disposeBag = DisposeBag()
@@ -24,6 +25,8 @@ class MapFilterViewController: UIViewController {
     var filterViewModel: VehiclesFilterViewModel?
     
     var filterDict: FilterDict?
+    
+    var indicator: UIActivityIndicatorView?
     
     enum RowType: Int{
         case Company = 1
@@ -36,14 +39,45 @@ class MapFilterViewController: UIViewController {
         filterClient = VehiclesFilterClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
         filterViewModel = VehiclesFilterViewModel(filterClient: filterClient!)
         
-        addTableBinds()
-        addBindsToViewModel()
+        adjustSearchBar()
+
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if(self.filterDict == nil){
+            self.indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            self.indicator?.center = self.view.center
+            self.view.addSubview(self.indicator!)
+            self.indicator!.startAnimating()
+            addBindsToViewModel()
+        }
+    }
+    
+    
+    func adjustSearchBar(){
+        self.searchBar.hidden = true
+        self.searchBar.text = ApplicationState.sharedInstance().filter?.registrationNumber ?? ""
+        self.searchBar
+            .rx_text
+            .subscribeNext { (str) in
+                if(str.characters.count > 0){
+                    ApplicationState.sharedInstance().filter?.registrationNumber = str
+                }
+            }.addDisposableTo(self.disposeBag)
     }
     
     func addBindsToViewModel(){
-        filterViewModel?.filterDict.observeOn(MainScheduler.instance).subscribeNext({ [unowned self](filtDict) in
-            print(ApplicationState.sharedInstance().filter)
+        filterViewModel?.filterDict.observeOn(MainScheduler.instance)
+        .doOnError({ (errType) in
+            self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
+        })
+        .subscribeNext({ [unowned self](filtDict) in
             self.filterDict = filtDict
+            self.indicator!.stopAnimating()
+            self.searchBar.hidden = false
+            self.addTableBinds()
         }).addDisposableTo(self.disposeBag)
     }
     
@@ -104,5 +138,36 @@ class MapFilterViewController: UIViewController {
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    @IBOutlet weak var clearFilter: UIBarButtonItem!
+    @IBAction func clearFilter(sender: AnyObject) {
+        let alert = UIAlertController(title: "",
+                                      message: "Очистить параметры фильтра?",
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "Отмена",
+                                         style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        
+        let clearAction = UIAlertAction(title: "ОК", style: .Default) { (action) in
+             ApplicationState.sharedInstance().filter = Filter()
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        alert.addAction(clearAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: Alerts
+    func showAlert(title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.Alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .Cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+    }
+    
 }

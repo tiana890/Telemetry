@@ -40,32 +40,7 @@ class AutosClient: NSObject {
             })
     }
     
-//    func autosDictObservable() -> Observable<AutosDictResponse>{
-//        if(!self.local){
-//            return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
-//                .debug()
-//                .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
-//                .map({ (response, object) -> AutosDictResponse in
-//                    
-//                    print(response)
-//                    print(NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0])
-//                    let js = SwiftyJSON.JSON(object)
-//                    
-//                    let autosDictResponse = AutosDictResponse(json: js)
-//                    
-//                    for(val) in autosDictResponse.autosDict!.values{
-//                        RealmManager.saveAuto(val)
-//                    }
-//                    
-//                    return autosDictResponse
-//                })
-//        } else {
-//            let autosDictResponse = AutosDictResponse()
-//            autosDictResponse.autosDict = RealmManager.getAutos()
-//            return Observable.just(autosDictResponse)
-//        }
-//    }
-//    
+
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
         return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
             .debug()
@@ -73,17 +48,27 @@ class AutosClient: NSObject {
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 let js = SwiftyJSON.JSON(object)
                 let start = NSDate().timeIntervalSince1970
-//                for (key,subJson):(String, SwiftyJSON.JSON) in js["vehicles"] {
-//                    if let key = Int(key){
-//                        RealmManager.saveAutoJSON(key, rawValue: String(subJson.rawValue))
-//                    }
-//                }
                 RealmManager.saveAutoJSONDict(js["vehicles"])
                 let end = NSDate().timeIntervalSince1970 - start
                 print(end)
                 return [:]
             })
-
+    }
+    
+    func autosIDsObservableWithFilter() -> Observable<[Int]>{
+    
+        let filterParams = ApplicationState.sharedInstance().filter?.getJSONString() ?? ""
+        
+        return requestJSON(.POST, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: .URL, headers: nil)
+            .debug()
+            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+            .map({ (response, object) -> [Int] in
+                print(JSON(object))
+                let js = SwiftyJSON.JSON(object)
+                let start = NSDate().timeIntervalSince1970
+                let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
+                return ids
+            })
 
     }
 }

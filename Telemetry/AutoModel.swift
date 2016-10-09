@@ -12,7 +12,7 @@ import SwiftyJSON
 
 
 struct AutoModel {
-    var id: Int64?
+    var id: Int?
     var name: String?
     
     init(){
@@ -20,7 +20,7 @@ struct AutoModel {
     }
     
     init(json: JSON){
-        self.id = json["id"].int64
+        self.id = json["id"].int
         self.name = json["name"].string
        
     }

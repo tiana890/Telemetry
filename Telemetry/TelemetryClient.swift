@@ -18,7 +18,7 @@ class TelemetryClient: NSObject {
     var webSocket: SRWebSocket?
     private var token: String?
     private var bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))?
-    private var vehicles: [Int]?
+    private var vehicles = [Int]()
     
     let disposeBag = DisposeBag()
     
@@ -62,7 +62,8 @@ class TelemetryClient: NSObject {
     }
     
     func closeSocket(){
-        self.webSocket!.close()
+        self.webSocket?.closeWithCode(2222, reason: "")
+        self.webSocket = nil
     }
     
     func vehiclesObservable() -> Observable<Vehicles>{

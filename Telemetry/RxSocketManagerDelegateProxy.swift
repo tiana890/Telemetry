@@ -44,7 +44,6 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
     }
     
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        print(reason)
         print(code)
         //didReceiveMessageSubject.on(.Completed)
     }

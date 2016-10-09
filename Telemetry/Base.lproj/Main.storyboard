@@ -341,11 +341,14 @@
                             </barButtonItem>
                             <barButtonItem image="filter_clear" style="plain" id="bxo-TO-Fmb">
                                 <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <action selector="clearFilter:" destination="9Hb-r5-WZh" id="af9-f4-uof"/>
+                                </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="clearFilter" destination="bxo-TO-Fmb" id="EMi-Oj-LiY"/>
+                        <outlet property="searchBar" destination="2c7-s8-LZz" id="VY7-cp-QNe"/>
                         <outlet property="table" destination="rgw-5W-Wxa" id="gR1-fR-3MZ"/>
                         <segue destination="ehv-yd-qBX" kind="show" identifier="selectSegueID" id="aYA-6M-xMn"/>
                     </connections>
@@ -2109,7 +2112,7 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="HTj-YS-OsM" userLabel="Organization">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="36"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="78"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ОРГАНИЗАЦИЯ ИСПОЛНИТЕЛЬ" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GBd-7s-Lhh">
@@ -2122,17 +2125,29 @@
                                             <color key="textColor" red="0.6705882353" green="0.6705882353" blue="0.6705882353" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="yQX-je-1eA">
+                                            <rect key="frame" x="0.0" y="34" width="600" height="44"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </searchBar>
                                     </subviews>
                                     <color key="backgroundColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="36" id="0dQ-AW-991"/>
-                                        <constraint firstItem="GBd-7s-Lhh" firstAttribute="centerY" secondItem="HTj-YS-OsM" secondAttribute="centerY" id="FRQ-HA-CEr"/>
+                                        <constraint firstItem="GBd-7s-Lhh" firstAttribute="centerY" secondItem="HTj-YS-OsM" secondAttribute="centerY" constant="-21.5" id="FRQ-HA-CEr"/>
+                                        <constraint firstItem="yQX-je-1eA" firstAttribute="leading" secondItem="HTj-YS-OsM" secondAttribute="leading" id="TDu-D4-Z6s"/>
+                                        <constraint firstAttribute="trailing" secondItem="yQX-je-1eA" secondAttribute="trailing" id="iEg-Bp-KZm"/>
                                         <constraint firstItem="GBd-7s-Lhh" firstAttribute="leading" secondItem="HTj-YS-OsM" secondAttribute="leading" constant="18" id="jjg-RU-EEd"/>
+                                        <constraint firstAttribute="bottom" secondItem="yQX-je-1eA" secondAttribute="bottom" id="oIx-7Z-Eud"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="0dQ-AW-991"/>
+                                        </mask>
+                                    </variation>
                                 </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commonCell" rowHeight="48" id="2nQ-69-o86" customClass="SelectableCell" customModule="Telemetry" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="64" width="600" height="48"/>
+                                        <rect key="frame" x="0.0" y="106" width="600" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2nQ-69-o86" id="aHX-WN-QnM">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="47"/>
@@ -2194,6 +2209,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="headerName" destination="GBd-7s-Lhh" id="vnF-RJ-npL"/>
+                        <outlet property="searchBar" destination="yQX-je-1eA" id="yZR-7Y-ddJ"/>
                         <outlet property="table" destination="CPk-XW-BK6" id="Tl0-ZG-AYb"/>
                     </connections>
                 </viewController>

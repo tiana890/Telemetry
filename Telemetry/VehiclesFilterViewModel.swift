@@ -21,7 +21,9 @@ final class VehiclesFilterViewModel{
         
         let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
     
-        filterClient.filterObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (filterResponse) -> FilterDict in
+        filterClient
+            .filterObservable()
+            .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (filterResponse) -> FilterDict in
             return filterResponse.filterDict ?? FilterDict()
         }.bindTo(filterDict).addDisposableTo(self.disposeBag)
 

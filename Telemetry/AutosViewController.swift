@@ -27,6 +27,8 @@ class AutosViewController: UIViewController {
     var publishSubject = PublishSubject<[Auto]>()
     let disposeBag = DisposeBag()
     
+    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,7 +38,18 @@ class AutosViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+//        if let f = self.storedFilter{
+//            print(f)
+//            print(ApplicationState.sharedInstance().filter)
+//            if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
+//                let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+//                autosClient.autosIDsObservableWithFilter()
+//                    .observeOn(MainScheduler.instance)
+//                    .subscribeNext({ (arr) in
+//                        
+//                    }).addDisposableTo(self.disposeBag)
+//            }
+//        }
         loadAutos()
     }
     

@@ -55,11 +55,14 @@ class RealmManager: NSObject {
         return nil
     }
     
-    static func saveAutoJSONDict(dict: JSON){
+    static func saveAutoJSONDict(dict: JSON) -> [Int]{
         let realm = try! Realm()
         var arr = [AutoJSON]()
+        
+        var ids = [Int]()
         for (key,subJson):(String, SwiftyJSON.JSON) in dict {
             if let key = Int(key){
+                ids.append(key)
                 let autoJSON = AutoJSON()
                 autoJSON.id = key
                 autoJSON.rawValue = subJson.rawString() ?? ""
@@ -69,8 +72,23 @@ class RealmManager: NSObject {
         try! realm.write() {
             realm.add(arr, update: true)
         }
+        return ids
     }
     
-
+//    static func getAutoIDsWithModelIds(modelIds: [Int], organizations: [String]) -> [Int]{
+//        let realm = try! Realm()
+//        
+//        var autoModels = [Auto]()
+//        
+//        let predicate = NSPredicate(format: "", argumentArray: <#T##[AnyObject]?#>)
+//        let autosJSON = realm.objects(AutoJSON).filter("rawValue")
+//        
+//        for(a) in autoObjects{
+//            let autoModel = Auto(json: JSON.parse(a.rawValue))
+//            autoModels.append(autoModel)
+//        }
+//        
+//        return autoModels
+//    }
 
 }
