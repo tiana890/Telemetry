@@ -69,7 +69,25 @@ class AutosClient: NSObject {
                 let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
                 return ids
             })
-
     }
+    
+    func autosObservableWithFilter() -> Observable<[Auto]>{
+        
+        let filterParams = ApplicationState.sharedInstance().filter?.getJSONString() ?? ""
+        
+        return requestJSON(.POST, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: .URL, headers: nil)
+            .debug()
+            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+            .map({ (response, object) -> [Auto] in
+                let js = SwiftyJSON.JSON(object)
+                var arr: [Auto] = []
+                for (key,subJson):(String, SwiftyJSON.JSON) in js["vehicles"] {
+                    arr.append(Auto(json: subJson))
+                }
+                return arr
+            })
+    }
+
+    
 }
 

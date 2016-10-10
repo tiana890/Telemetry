@@ -89,6 +89,17 @@ class SelectableTableViewController: UIViewController {
                 self.table.reloadData()
             }).addDisposableTo(self.disposeBag)
         } else {
+            table.rx_modelSelected(AutoModel)
+                .subscribeNext({ (autoModel) in
+                    if let itemId = autoModel.id{
+                        if let index = self.selectedIds.indexOf(itemId){
+                            self.selectedIds.removeAtIndex(index)
+                        } else {
+                            self.selectedIds.append(itemId)
+                        }
+                    }
+                    self.table.reloadData()
+                }).addDisposableTo(self.disposeBag)
             
         }
         

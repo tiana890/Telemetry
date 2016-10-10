@@ -38,25 +38,47 @@ class AutosViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-//        if let f = self.storedFilter{
-//            print(f)
-//            print(ApplicationState.sharedInstance().filter)
-//            if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
-//                let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
-//                autosClient.autosIDsObservableWithFilter()
-//                    .observeOn(MainScheduler.instance)
-//                    .subscribeNext({ (arr) in
-//                        
-//                    }).addDisposableTo(self.disposeBag)
-//            }
-//        }
-        loadAutos()
+        
+        print(self.storedFilter)
+        guard let f = self.storedFilter else {
+            self.loadAutos(false)
+            return
+        }
+        guard f.filterIsSet() else {
+            self.loadAutos(false)
+            return
+        }
+        
+        if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
+            let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+            autosClient.autosIDsObservableWithFilter()
+                .observeOn(MainScheduler.instance)
+                .subscribeNext({ (arr) in
+                    self.loadAutos(true)
+                }).addDisposableTo(self.disposeBag)
+        } 
+        
     }
     
-    func loadAutos(){
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                self.publishSubject.onNext(RealmManager.getAutos())
-        })
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    }
+    
+    func loadAutos(fromFilter: Bool){
+        if(!fromFilter){
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                    self.publishSubject.onNext(RealmManager.getAutos())
+            })
+        } else {
+            let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+            autosClient.autosObservableWithFilter()
+            .observeOn(MainScheduler.instance)
+            .subscribeNext({ (arr) in
+                self.publishSubject.onNext(arr)
+            }).addDisposableTo(self.disposeBag)
+        }
     }
     
     func addBindsToViewModel(){

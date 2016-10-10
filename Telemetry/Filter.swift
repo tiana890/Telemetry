@@ -20,8 +20,8 @@ class Filter: NSObject {
     var filterDict: FilterDict?
     
     func filterIsSet() -> Bool{
-        return (autoModelIds.count > 0 && companyIds.count > 0 && companyName?.characters.count > 0
-                && registrationNumber?.characters.count > 0)
+        return (autoModelIds.count > 0 || companyIds.count > 0 || companyName?.characters.count > 0
+                || registrationNumber?.characters.count > 0)
     }
     
     func isEqualToFilter(filter: Filter?) -> Bool {
