@@ -6,6 +6,7 @@ import SwiftyJSON
 import GoogleMaps
 import CoreGraphics
 import QuartzCore
+import PKHUD
 
 class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
     
@@ -52,28 +53,18 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         
         if(!PreferencesManager.ifAutosLoaded()){
             self.updateBtn.enabled = false
-            
-            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
-            progressHUD.tag = 1234
-            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
-            progressHUD.center = self.view.center
-            self.view.addSubview(progressHUD)
-            
-            self.view.userInteractionEnabled = false
+            HUD.show(.LabeledProgress(title: "Загрузка справочника ТС", subtitle: "Это может занять некоторое время"))
             
             AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
                 .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
                 .doOnError({ (errType) in
-                    progressHUD.removeFromSuperview()
-                    self.showAlert("Ошибка", msg: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно.")
-                    self.view.userInteractionEnabled = true
+                    HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
                     PreferencesManager.setAutosLoaded(false)
                     self.updateMap()
                 })
                 .subscribeNext { (autosDictResponse) in
-                    progressHUD.removeFromSuperview()
-                    self.view.userInteractionEnabled = true
+                    HUD.flash(.Success)
                     PreferencesManager.setAutosLoaded(true)
                     self.updateMap()
                 }.addDisposableTo(self.disposeBag)
@@ -91,18 +82,37 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-       
+        clearAllTraysFromMap()
+        
         if let f = self.storedFilter{
             print(f)
             print(ApplicationState.sharedInstance().filter)
             if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
+
                 self.clearMap()
-                let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
-                autosClient.autosIDsObservableWithFilter()
-                .observeOn(MainScheduler.instance)
-                .subscribeNext({ (arr) in
-                    self.updateMap(arr)
-                }).addDisposableTo(self.disposeBag)
+                if(ApplicationState.sharedInstance().filter?.filterIsSet() ?? false){
+                    HUD.show(.LabeledProgress(title: "Поиск по фильтру", subtitle: ""))
+                    let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+                    autosClient.autosIDsObservableWithFilter()
+                        .observeOn(MainScheduler.instance)
+                        .doOnError({ (errType) in
+                            HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
+                            self.updateMap([])
+                        })
+                        .subscribeNext({ (arr) in
+                            if(arr.count > 0){
+                                HUD.flash(.Label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
+                            } else {
+                                HUD.flash(.Label("Объекты не найдены."), delay: 2, completion: nil)
+                            }
+                            
+                            self.updateMap(arr)
+                        }).addDisposableTo(self.disposeBag)
+                } else {
+                    self.updateMap()
+                }
+                
+                
             }
         }
     }
@@ -125,8 +135,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     func updateMap(arr: [Int]){
         if(arr.count == 0){
-            self.showAlert("Внимание", msg: "Нет результатов, соответствующих фильтру")
-            
             self.updateBtn.enabled = true
             self.updateBtn.image = UIImage(named: "update_icon")
             
@@ -137,6 +145,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     func clearMap(){
         telemetryClient?.closeSocket()
+        self.disposeBag = DisposeBag()
         self.socketBag = DisposeBag()
         clearAllTraysFromMap()
         self.clusterManager.clearItems()

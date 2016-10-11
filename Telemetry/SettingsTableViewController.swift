@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import PKHUD
 
 class SettingsTableViewController: UITableViewController {
     
@@ -45,19 +46,16 @@ class SettingsTableViewController: UITableViewController {
         
         let updateAction = UIAlertAction(title: "OK", style: .Default) { (action) in
 
-            let progressHUD = ProgressHUD(text: "Загрузка справочника ТС. Подождите некоторое время.")
-            progressHUD.tag = 1234
-            progressHUD.frame.size = CGSize(width: 280.0, height: 50.0)
-            progressHUD.center = self.view.center
-            self.view.addSubview(progressHUD)
-            self.view.userInteractionEnabled = false
+            HUD.show(.LabeledProgress(title: "Обновление справочника ТС", subtitle: "Это может занять некоторое время"))
             
             AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
                 .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
+                .doOnError({ (errType) in
+                    HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Не удалось обновить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
+                })
                 .subscribeNext { (autosDictResponse) in
-                    progressHUD.removeFromSuperview()
-                    self.view.userInteractionEnabled = true
+                    HUD.flash(.Success)
                 }.addDisposableTo(self.disposeBag)
 
         }

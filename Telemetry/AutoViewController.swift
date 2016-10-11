@@ -29,10 +29,12 @@ class AutoViewController: UIViewController {
     let disposeBag = DisposeBag()
     var items = Observable<[(cellID:String, name: String)]>.empty()
     
+    weak var autosViewController: AutosViewController?
     
     //MARK: IBOutlets
     @IBOutlet var table: UITableView!
     @IBOutlet var companyName: UILabel!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,6 +111,7 @@ class AutoViewController: UIViewController {
     }
     
     @IBAction func backBtnPressed(sender: AnyObject) {
+        self.autosViewController?.shouldUpdate = false
         self.navigationController?.popViewControllerAnimated(true)
     }
     

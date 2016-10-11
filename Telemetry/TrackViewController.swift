@@ -103,7 +103,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                     let trackItem = trackArray[val]
                     if(trackItem.lat != nil && trackItem.lon != nil){
                         marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
-                        self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
+                        GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
                     }
                 }
                 print(val)

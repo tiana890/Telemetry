@@ -9,6 +9,7 @@ PODS:
   - GoogleMaps/Maps (2.1.0):
     - GoogleMaps/Base (= 2.1.0)
   - JASON (2.2.1)
+  - PKHUD (3.2.1)
   - Realm (2.0.2):
     - Realm/Headers (= 2.0.2)
   - Realm/Headers (2.0.2)
@@ -32,6 +33,7 @@ DEPENDENCIES:
   - Fabric
   - GoogleMaps
   - JASON (~> 2.2)
+  - PKHUD
   - RealmSwift
   - RxAlamofire (~> 2.5)
   - RxBlocking (~> 2.6.0)
@@ -46,6 +48,7 @@ SPEC CHECKSUMS:
   Fabric: bc5bec42cef4bcf1ee3ce0e218fc518e4b44dfbb
   GoogleMaps: 06589b9a38097bce0cd6e90f0fd9b5e4b4a9344c
   JASON: 2fdba956dfbf8663369b81a8176e6fcb225ebf10
+  PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
   Realm: 0f5a194af0b7e6158b83db41b4ee1a00be7ddf1a
   RealmSwift: 0eb5070d851cba7c66e841ca756d83609dc78bc8
   RxAlamofire: b4572a077b6b2410c8732a27266299df4c00736e
@@ -55,6 +58,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: 0fd0a115a3c0c09b277d2ab801df154902b942c3
 
-PODFILE CHECKSUM: 857d3391ac93987c837b88663d2d926df17d3c5e
+PODFILE CHECKSUM: d1f4837f07face930f77df8f9cd7062419a67e08
 
 COCOAPODS: 1.1.0.beta.1

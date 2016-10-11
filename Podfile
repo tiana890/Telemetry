@@ -17,6 +17,7 @@ target 'Telemetry' do
   pod 'Crashlytics'
   pod 'JASON', '~> 2.2'
   pod 'RealmSwift'
+  pod 'PKHUD'
   
   target 'TelemetryTests' do
     inherit! :search_paths

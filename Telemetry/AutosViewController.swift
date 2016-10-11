@@ -11,6 +11,7 @@ import RxCocoa
 import RxSwift
 import QuartzCore
 import SwiftyJSON
+import PKHUD
 
 class AutosViewController: UIViewController {
     
@@ -28,6 +29,7 @@ class AutosViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     var storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    var shouldUpdate = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,24 +41,26 @@ class AutosViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        guard shouldUpdate == true else {
+            shouldUpdate = true
+            return
+        }
+        
         print(self.storedFilter)
         guard let f = self.storedFilter else {
             self.loadAutos(false)
             return
         }
-        guard f.filterIsSet() else {
-            self.loadAutos(false)
-            return
-        }
         
         if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
-            let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
-            autosClient.autosIDsObservableWithFilter()
-                .observeOn(MainScheduler.instance)
-                .subscribeNext({ (arr) in
-                    self.loadAutos(true)
-                }).addDisposableTo(self.disposeBag)
-        } 
+            if(ApplicationState.sharedInstance().filter?.filterIsSet() ?? false){
+                self.loadAutos(true)
+            } else {
+                self.loadAutos(false)
+            }
+        } else {
+            self.loadAutos(false)
+        }
         
     }
     
@@ -67,15 +71,35 @@ class AutosViewController: UIViewController {
     }
     
     func loadAutos(fromFilter: Bool){
+        self.publishSubject.onNext([])
+        
         if(!fromFilter){
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            indicator.center = CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2)
+            indicator.startAnimating()
+            self.collection.addSubview(indicator)
+            
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                    self.publishSubject.onNext(RealmManager.getAutos())
+                    let autos = RealmManager.getAutos()
+                    dispatch_async(dispatch_get_main_queue(), { 
+                        indicator.removeFromSuperview()
+                    })
+                    self.publishSubject.onNext(autos)
             })
         } else {
+            HUD.show(.LabeledProgress(title: "Поиск по фильтру", subtitle: ""))
             let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
             autosClient.autosObservableWithFilter()
             .observeOn(MainScheduler.instance)
+            .doOnError({ (err) in
+                HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
+            })
             .subscribeNext({ (arr) in
+                if(arr.count > 0){
+                    HUD.flash(.Label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
+                } else {
+                    HUD.flash(.Label("Объекты не найдены."), delay: 2, completion: nil)
+                }
                 self.publishSubject.onNext(arr)
             }).addDisposableTo(self.disposeBag)
         }
@@ -128,6 +152,7 @@ class AutosViewController: UIViewController {
         if(segue.identifier == AUTO_DETAIL_SEGUE){
             if let destVC = segue.destinationViewController as? AutoViewController{
                 if let autoId = sender as? NSNumber{
+                    destVC.autosViewController = self
                     destVC.autoId = autoId.longLongValue
                 }
             }
