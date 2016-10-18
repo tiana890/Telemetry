@@ -15,6 +15,8 @@ import PKHUD
 
 class TrackViewController: UIViewController, GMSMapViewDelegate {
     
+    var animationPeriod = 0.5
+    
     var autoId: Int64?
     var trackParams: (startDate: Int64?, endDate: Int64?)?
     
@@ -51,7 +53,6 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     
     func adjustInfoView(){
         self.view.bringSubview(toFront: self.infoView)
-        
     }
     
     func addBindsToViewModel(){
@@ -83,46 +84,44 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         guard let trackArray = track.trackArray else { return }
         
         if trackArray.count > 0 {
-            let trackItem = trackArray[0]
-            if(trackItem.lat != nil && trackItem.lon != nil){
-                marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
-                (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
-                marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
-                self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
-                if let interval = trackItem.time{
-                    self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
-                } else {
-                    self.infoLabel.text = ""
-                }
-            }
+            self.moveMarker(marker, trackItem: trackArray[0], animated: false)
         }
      
-        print("Track array count = \(trackArray.count)")
-        Observable<Int>.timer(0, period: 0.1, scheduler: MainScheduler.instance)
-            .take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
-            .subscribeNext {(val) in
-                if(trackArray.count >= val){
-                    let trackItem = trackArray[val]
-                    if(trackItem.lat != nil && trackItem.lon != nil){
-                        marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
-                        (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
-                        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
-                        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
-                        self.mapView.animate(with: update)
-                        if let interval = trackItem.time{
-                            self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
-                        } else {
-                            self.infoLabel.text = ""
-                        }
-                    }
+        Observable<Int>.timer(0, period: animationPeriod, scheduler: MainScheduler.instance)
+            .take(trackArray.count)
+            //.take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
+            .subscribe {(event) in
+                guard let element = event.element else { return }
+                if(trackArray.count >= element){
+                    self.moveMarker(marker, trackItem: trackArray[element], animated: true)
                 }
-                print(val)
         }.addDisposableTo(self.disposeBag!)
 
     }
     
-    func moveMarker(_ marker: GMSMarker){
+    func moveMarker(_ marker: GMSMarker, trackItem: TrackItem, animated: Bool){
+        guard (trackItem.lat != nil && trackItem.lon != nil) else { return }
         
+        marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
+        (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
+        marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
+        self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
+        if let interval = trackItem.time{
+            self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
+        } else {
+            self.infoLabel.text = ""
+        }
+        
+        guard animated else { return }
+        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
+        self.mapView.animate(with: update)
+        
+        if let interval = trackItem.time{
+            self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
+        } else {
+            self.infoLabel.text = ""
+        }
+
     }
 
     func createObservableFromArray(_ array: [TrackItem]) -> Observable<TrackItem>{
@@ -131,7 +130,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                 observer.on(.next(trackItem))
             }
             observer.on(.completed)
-            return AnonymousDisposable{
+            return Disposables.create{
             }
         })
     }
