@@ -29,6 +29,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     
     var disposeBag: DisposeBag? = DisposeBag()
 
+    var iterationIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +37,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         mapView = GMSMapView(frame: self.view.frame)
         mapView!.delegate = self
         self.view.addSubview(mapView!)
-        self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 14, bearing: 0, viewingAngle: 0)
+        self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
         
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
@@ -56,11 +57,13 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     
     func addBindsToViewModel(){
         
+        HUD.show(.labeledProgress(title: "", subtitle: "Загрузка данных о треке"))
         self.viewModel!.track.observeOn(MainScheduler.instance)
             .subscribe(onNext: { (tr) in
+                    HUD.show(.success)
                     self.showTrackOnMap(tr)
                 }, onError: { (err) in
-                    
+                    HUD.show(.labeledError(title: "Внимание", subtitle: "Произошла ошибка"))
                 }, onCompleted: { 
                     print("completed")
                 }, onDisposed: { 
@@ -71,6 +74,8 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     }
     
     func showTrackOnMap(_ track: Track){
+        
+        self.mapView.clear()
         let marker = GMSMarker()
         marker.map = self.mapView
         
@@ -80,8 +85,14 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             marker.iconView = markerIconView
         }
         
-        guard let trackArray = track.trackArray else { return }
+        guard let trArray = track.trackArray else { return }
         
+        var trackArray = [TrackItem]()
+        trackArray.append(contentsOf: trArray)
+        
+        trackArray.removeSubrange(0 ..< iterationIndex)
+        
+        if iterationIndex != 0 { trackArray.removeSubrange(iterationIndex ..< trackArray.count)}
         if trackArray.count > 0 {
             self.moveMarker(marker, trackItem: trackArray[0], animated: false)
         }
@@ -89,8 +100,9 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         Observable<Int>.timer(0, period: animationPeriod, scheduler: MainScheduler.instance)
             .take(trackArray.count)
             //.take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
-            .subscribe {(event) in
+            .subscribe { [unowned self](event) in
                 guard let element = event.element else { return }
+                self.iterationIndex += 1
                 if(trackArray.count >= element){
                     self.moveMarker(marker, trackItem: trackArray[element], animated: true)
                 }
