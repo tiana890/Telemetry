@@ -15,8 +15,8 @@ class SelectableTableViewController: UIViewController {
     @IBOutlet var searchBar: UISearchBar!
     
     enum SelectType{
-        case Company
-        case AutoModel
+        case company
+        case autoModel
     }
     
     let disposeBag = DisposeBag()
@@ -32,7 +32,7 @@ class SelectableTableViewController: UIViewController {
     
     var selectedIds = [Int]()
     
-    var selectType: SelectType = .Company
+    var selectType: SelectType = .company
     
     let COMMON_CELL_IDENTIFIER = "commonCell"
 
@@ -43,7 +43,7 @@ class SelectableTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        headerName.text = (self.selectType == .Company) ? "Организация" : "Модель ТС"
+        headerName.text = (self.selectType == .company) ? "Организация" : "Модель ТС"
         createObservables()
         addTableBinds()
         adjustSearchBar()
@@ -58,17 +58,17 @@ class SelectableTableViewController: UIViewController {
     }
     
     func createObservables(){
-        if(selectType == .Company){
+        if(selectType == .company){
             self.filterCompanies.asObservable().bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                let cell = self.table.dequeueReusableCellWithIdentifier(self.COMMON_CELL_IDENTIFIER, forIndexPath: indexPath) as! SelectableCell
+                let indexPath = IndexPath(item: row, section: 0)
+                let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
                 cell.mainText.text = element.name
                 return cell
             }.addDisposableTo(self.disposeBag)
-        } else if(selectType == .AutoModel){
+        } else if(selectType == .autoModel){
             self.filterAutoModels.asObservable().bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                let cell = self.table.dequeueReusableCellWithIdentifier(self.COMMON_CELL_IDENTIFIER, forIndexPath: indexPath) as! SelectableCell
+                let indexPath = IndexPath(item: row, section: 0)
+                let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
                 cell.mainText.text = element.name
                 return cell
             }.addDisposableTo(self.disposeBag)
@@ -76,12 +76,12 @@ class SelectableTableViewController: UIViewController {
     }
     
     func addTableBinds(){
-        if(self.selectType == .Company){
-            table.rx_modelSelected(Company)
+        if(self.selectType == .company){
+            table.rx.modelSelected(Company)
             .subscribeNext({ (company) in
                 if let itemId = company.id{
-                    if let index = self.selectedIds.indexOf(itemId){
-                        self.selectedIds.removeAtIndex(index)
+                    if let index = self.selectedIds.index(of: itemId){
+                        self.selectedIds.remove(at: index)
                     } else {
                         self.selectedIds.append(itemId)
                     }
@@ -89,11 +89,11 @@ class SelectableTableViewController: UIViewController {
                 self.table.reloadData()
             }).addDisposableTo(self.disposeBag)
         } else {
-            table.rx_modelSelected(AutoModel)
+            table.rx.modelSelected(AutoModel)
                 .subscribeNext({ (autoModel) in
                     if let itemId = autoModel.id{
-                        if let index = self.selectedIds.indexOf(itemId){
-                            self.selectedIds.removeAtIndex(index)
+                        if let index = self.selectedIds.index(of: itemId){
+                            self.selectedIds.remove(at: index)
                         } else {
                             self.selectedIds.append(itemId)
                         }
@@ -104,9 +104,9 @@ class SelectableTableViewController: UIViewController {
         }
         
         
-        table.rx_willDisplayCell.observeOn(MainScheduler.instance)
+        table.rx.willDisplayCell.observeOn(MainScheduler.instance)
              .subscribeNext { [unowned self](event) in
-                if let itemId = (self.selectType == .Company) ? self.filterCompaniesArray[event.indexPath.row].id :  self.filterAutoModelsArray[event.indexPath.row].id {
+                if let itemId = (self.selectType == .company) ? self.filterCompaniesArray[(event.indexPath as NSIndexPath).row].id :  self.filterAutoModelsArray[(event.indexPath as NSIndexPath).row].id {
                     if(self.selectedIds.contains(itemId)){
                         event.cell.setSelected(true, animated: false)
                     } else {
@@ -118,71 +118,71 @@ class SelectableTableViewController: UIViewController {
     
     func adjustSearchBar(){
         self.searchBar
-        .rx_text
+        .rx.text
         .debounce(0.4, scheduler: MainScheduler.instance)
         .subscribeNext { (str) in
             guard str.characters.count > 0 else {
-                if(self.selectType == .Company){
+                if(self.selectType == .company){
                     self.filterCompaniesArray.removeAll()
-                    self.filterCompaniesArray.appendContentsOf(self.companies)
+                    self.filterCompaniesArray.append(contentsOf: self.companies)
                     self.filterCompanies.onNext(self.companies)
                 } else {
                     self.filterAutoModelsArray.removeAll()
-                    self.filterAutoModelsArray.appendContentsOf(self.autoModels)
+                    self.filterAutoModelsArray.append(contentsOf: self.autoModels)
                     self.filterAutoModels.onNext(self.autoModels)
                 }
                 return
             }
-            if (self.selectType == .Company){
+            if (self.selectType == .company){
                 let arr = self.companies.filter({ (company) -> Bool in
                     if let name = company.name{
-                        if(name.lowercaseString.containsString(str.lowercaseString)){
+                        if(name.lowercased().contains(str.lowercased())){
                             return true
                         }
                     }
                     return false
                 })
                 self.filterCompaniesArray.removeAll()
-                self.filterCompaniesArray.appendContentsOf(arr)
-                self.filterCompanies.on(.Next(arr))
+                self.filterCompaniesArray.append(contentsOf: arr)
+                self.filterCompanies.on(.next(arr))
             } else {
                 let arr = self.autoModels.filter({ (autoModel) -> Bool in
                     if let name = autoModel.name{
-                        if(name.lowercaseString.containsString(str.lowercaseString)){
+                        if(name.lowercased().contains(str.lowercased())){
                             return true
                         }
                     }
                     return false
                 })
                 self.filterAutoModelsArray.removeAll()
-                self.filterAutoModelsArray.appendContentsOf(arr)
-                self.filterAutoModels.on(.Next(arr))
+                self.filterAutoModelsArray.append(contentsOf: arr)
+                self.filterAutoModels.on(.next(arr))
             }
         }.addDisposableTo(self.disposeBag)
     }
     
-    @IBAction func applyFilter(sender: AnyObject) {
-        if(self.selectType == SelectType.Company){
-            ApplicationState.sharedInstance().filter?.companyIds = self.selectedIds
-        } else if(self.selectType == SelectType.AutoModel){
-            ApplicationState.sharedInstance().filter?.autoModelIds = self.selectedIds
+    @IBAction func applyFilter(_ sender: AnyObject) {
+        if(self.selectType == SelectType.company){
+            ApplicationState.sharedInstance.filter?.companyIds = self.selectedIds
+        } else if(self.selectType == SelectType.autoModel){
+            ApplicationState.sharedInstance.filter?.autoModelIds = self.selectedIds
         }
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
 
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     func setObservers(){
         
-        NSNotificationCenter.defaultCenter().rx_notification(UIKeyboardWillShowNotification).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
-            let keyboardFrame: CGRect = (notification.userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).CGRectValue()
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillShow).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
+            let keyboardFrame: CGRect = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
                 self.table.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrame.size.height, 0)
             }.addDisposableTo(self.disposeBag)
         
-        NSNotificationCenter.defaultCenter().rx_notification(UIKeyboardWillHideNotification).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
-                self.table.contentInset = UIEdgeInsetsZero
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillHide).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
+                self.table.contentInset = UIEdgeInsets.zero
             }.addDisposableTo(self.disposeBag)
         
     }

@@ -9,6 +9,7 @@ import RxSwift
 import SocketRocket
 import SwiftyJSON
 import RxAlamofire
+import Alamofire
 
 class VehiclesFilterClient: NSObject {
 
@@ -22,9 +23,9 @@ class VehiclesFilterClient: NSObject {
     
     func filterObservable() -> Observable<VehiclesFilterResponse>{
         
-        let queue = dispatch_queue_create("tasksLoad",nil)
+        let queue = DispatchQueue(label: "tasksLoad",attributes: [])
         
-        return requestJSON(.GET, VEHICLES_FILTER_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.get, VEHICLES_FILTER_URL, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> VehiclesFilterResponse in

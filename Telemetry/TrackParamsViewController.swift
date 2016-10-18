@@ -9,6 +9,17 @@
 import UIKit
 import RxSwift
 import RxCocoa
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -21,7 +32,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     
     let kDatePickerTag = 12345
     let kPickerHeight = 196.0
-    var datePickerIndexPath: NSIndexPath?
+    var datePickerIndexPath: IndexPath?
     
     let kHeaderCellRow = 0
     let kDateStartRow = 1
@@ -39,7 +50,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     //MARK: Segues
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if(identifier == OPEN_TRACK_SEGUE_IDENTIFIER){
             if(trackParams.startDate == nil || trackParams.endDate == nil){
                 self.showAlert("Ошибка", msg: "Укажите период")
@@ -49,35 +60,35 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
         return true
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if let destVC = segue.destinationViewController as? TrackViewController{
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destVC = segue.destination as? TrackViewController{
             destVC.autoId = self.autoId
             destVC.trackParams = self.trackParams
         }
     }
     
     //MARK: UITableViewDelegate & UITableViewDataSource
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (self.indexPathHasPicker(indexPath)){
-            if let cell = tableView.dequeueReusableCellWithIdentifier(DATE_CELL_IDENTIFIER) as? DateCell{
+            if let cell = tableView.dequeueReusableCell(withIdentifier: DATE_CELL_IDENTIFIER) as? DateCell{
                 
                 return cell
             }
         } else {
-            switch(indexPath.row){
+            switch((indexPath as NSIndexPath).row){
             case kHeaderCellRow:
-                if let cell = tableView.dequeueReusableCellWithIdentifier(HEADER_CELL_IDENTIFIER) as? CommonCell{
+                if let cell = tableView.dequeueReusableCell(withIdentifier: HEADER_CELL_IDENTIFIER) as? CommonCell{
                     cell.mainText.text = "ВЫБЕРИТЕ ПЕРИОД ДЛЯ ТРЕКА"
                     return cell
                 }
                 break
             case kDateStartRow:
-                if let cell = tableView.dequeueReusableCellWithIdentifier(START_DATE_CELL_IDENTIFIER) as? DateCell{
+                if let cell = tableView.dequeueReusableCell(withIdentifier: START_DATE_CELL_IDENTIFIER) as? DateCell{
                     return cell
                 }
                 break
             case kDateEndRow:
-                if let cell = tableView.dequeueReusableCellWithIdentifier(END_DATE_CELL_IDENTIFIER) as? DateCell{
+                if let cell = tableView.dequeueReusableCell(withIdentifier: END_DATE_CELL_IDENTIFIER) as? DateCell{
                     return cell
                 }
                 break
@@ -90,15 +101,15 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
         return UITableViewCell()
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if let cell = tableView.cellForRowAtIndexPath(indexPath){
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath){
             if (cell.reuseIdentifier! == START_DATE_CELL_IDENTIFIER || cell.reuseIdentifier! == END_DATE_CELL_IDENTIFIER){
                 self.displayInlineDatePickerForRowAtIndexPath(indexPath)
             }
         }
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(self.hasInlineDatePicker()){
             return 4
         } else {
@@ -106,7 +117,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
         }
     }
     
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if(self.indexPathHasPicker(indexPath)){
             return CGFloat(kPickerHeight)
         } else {
@@ -116,36 +127,36 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     
     //MARK: -Alerts
     
-    func showAlert(title: String, msg: String){
+    func showAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "OK",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     
     //MARK: IBActions
-    @IBAction func dateAction(sender: UIDatePicker){
+    @IBAction func dateAction(_ sender: UIDatePicker){
         if let datePickerIP = self.datePickerIndexPath{
-            let targetedCellIndexPath = NSIndexPath(forRow: datePickerIP.row - 1, inSection: 0)
-            if let cell = self.table.cellForRowAtIndexPath(targetedCellIndexPath) as? DateCell{
+            let targetedCellIndexPath = IndexPath(row: (datePickerIP as NSIndexPath).row - 1, section: 0)
+            if let cell = self.table.cellForRow(at: targetedCellIndexPath) as? DateCell{
                 if(cell.reuseIdentifier! == START_DATE_CELL_IDENTIFIER){
                      self.trackParams.startDate = Int64(sender.date.timeIntervalSince1970)
                 } else if(cell.reuseIdentifier! == END_DATE_CELL_IDENTIFIER){
                     self.trackParams.endDate = Int64(sender.date.timeIntervalSince1970)
                 }
-                cell.dateLabel.text = sender.date.toPickerString().uppercaseString
+                cell.dateLabel.text = sender.date.toPickerString().uppercased()
             }
         }
     }
     
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
 
     
@@ -155,12 +166,12 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
      @param indexPath The indexPath to check if its cell has a UIDatePicker below it.
      */
     
-    func hasPickerForIndexPath(indexPath: NSIndexPath) -> Bool{
+    func hasPickerForIndexPath(_ indexPath: IndexPath) -> Bool{
         
-        var targetedRow = indexPath.row
+        var targetedRow = (indexPath as NSIndexPath).row
         targetedRow += 1
         
-        let checkDatePickerCell = self.table.cellForRowAtIndexPath(NSIndexPath(forRow: targetedRow, inSection: 0))
+        let checkDatePickerCell = self.table.cellForRow(at: IndexPath(row: targetedRow, section: 0))
         if let _ = checkDatePickerCell?.viewWithTag(kDatePickerTag){
             return true
         } else {
@@ -178,46 +189,46 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
      
      @param indexPath The indexPath to check if it represents a cell with the UIDatePicker.
      */
-    func indexPathHasPicker(indexPath: NSIndexPath) -> Bool{
-        return (self.hasInlineDatePicker() == true && (self.datePickerIndexPath?.row == indexPath.row))
+    func indexPathHasPicker(_ indexPath: IndexPath) -> Bool{
+        return (self.hasInlineDatePicker() == true && ((self.datePickerIndexPath as NSIndexPath?)?.row == (indexPath as NSIndexPath).row))
     }
     
     /*! Reveals the date picker inline for the given indexPath, called by "didSelectRowAtIndexPath".
      
      @param indexPath The indexPath to reveal the UIDatePicker.
      */
-    func displayInlineDatePickerForRowAtIndexPath(indexPath: NSIndexPath){
+    func displayInlineDatePickerForRowAtIndexPath(_ indexPath: IndexPath){
         // display the date picker inline with the table content
         self.table.beginUpdates()
         
         var before = false //indicates if the date picker is below "indexPath", help us determine which row to reveal
         
         if(self.hasInlineDatePicker()){
-            before = self.datePickerIndexPath?.row < indexPath.row
+            before = (self.datePickerIndexPath as NSIndexPath?)?.row < (indexPath as NSIndexPath).row
         }
         
         var sameCellClicked = false
         if let pickerIndexPath = self.datePickerIndexPath{
-            sameCellClicked = (pickerIndexPath.row - 1 == indexPath.row)
+            sameCellClicked = ((pickerIndexPath as NSIndexPath).row - 1 == (indexPath as NSIndexPath).row)
         }
         
         // remove any date picker cell if it exists
         if(self.hasInlineDatePicker()){
-            self.table.deleteRowsAtIndexPaths([NSIndexPath(forRow: (self.datePickerIndexPath?.row)!, inSection: 0)], withRowAnimation: .Fade)
+            self.table.deleteRows(at: [IndexPath(row: ((self.datePickerIndexPath as NSIndexPath?)?.row)!, section: 0)], with: .fade)
             self.datePickerIndexPath = nil
         }
         
         if(!sameCellClicked){
             // hide the old date picker and display the new one
-            var rowToReveal = (before ? indexPath.row - 1 : indexPath.row)
-            var indexPathToReveal = NSIndexPath(forRow: rowToReveal, inSection: 0)
+            let rowToReveal = (before ? (indexPath as NSIndexPath).row - 1 : (indexPath as NSIndexPath).row)
+            let indexPathToReveal = IndexPath(row: rowToReveal, section: 0)
             
             self.toggleDatePickerForSelectedIndexPath(indexPathToReveal)
-            self.datePickerIndexPath = NSIndexPath(forRow: indexPathToReveal.row + 1, inSection: 0)
+            self.datePickerIndexPath = IndexPath(row: (indexPathToReveal as NSIndexPath).row + 1, section: 0)
         }
         // always deselect the row containing the start or end date
         
-        self.table.deselectRowAtIndexPath(indexPath, animated: true)
+        self.table.deselectRow(at: indexPath, animated: true)
         self.table.endUpdates()
         
         //UPDATE DATE PICKER
@@ -228,15 +239,15 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
      
      @param indexPath The indexPath to reveal the UIDatePicker.
      */
-    func toggleDatePickerForSelectedIndexPath(indexPath: NSIndexPath){
+    func toggleDatePickerForSelectedIndexPath(_ indexPath: IndexPath){
         self.table.beginUpdates()
         
-        let ip = NSIndexPath(forRow: indexPath.row + 1, inSection: 0)
+        let ip = IndexPath(row: (indexPath as NSIndexPath).row + 1, section: 0)
         // check if 'indexPath' has an attached date picker below it
         if(self.hasPickerForIndexPath(indexPath)){
-            self.table.deleteRowsAtIndexPaths([ip], withRowAnimation: .Fade)
+            self.table.deleteRows(at: [ip], with: .fade)
         } else {
-            self.table.insertRowsAtIndexPaths([ip], withRowAnimation: .Fade)
+            self.table.insertRows(at: [ip], with: .fade)
         }
         
         self.table.endUpdates()
@@ -245,7 +256,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
      */
     func updateDatePicker(){
         if(self.datePickerIndexPath != nil){
-            let associatedDatePickerCell = self.table.cellForRowAtIndexPath(self.datePickerIndexPath!)
+            let associatedDatePickerCell = self.table.cellForRow(at: self.datePickerIndexPath!)
             
             if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as? UIDatePicker{
                 
@@ -276,10 +287,10 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
      
      @param indexPath The indexPath to check if it represents start/end date cell.
      */
-    func indexPathHasDate(indexPath: NSIndexPath) -> Bool{
+    func indexPathHasDate(_ indexPath: IndexPath) -> Bool{
         var hasDate = false
         
-        if(indexPath.row == kDateStartRow || indexPath.row == kDateEndRow || (self.hasInlineDatePicker() && indexPath.row == kDateEndRow + 1)){
+        if((indexPath as NSIndexPath).row == kDateStartRow || (indexPath as NSIndexPath).row == kDateEndRow || (self.hasInlineDatePicker() && (indexPath as NSIndexPath).row == kDateEndRow + 1)){
             hasDate = true
         }
         
@@ -287,7 +298,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     //MARK: DateCellProtocol
-    func dateTableCellProtocolDateChanged(date: NSDate?) {
+    func dateTableCellProtocolDateChanged(_ date: Date?) {
         
     }
 

@@ -13,8 +13,8 @@ import RxCocoa
 class SettingsSelectableViewController: UIViewController {
     
     enum ShowNumber: Int{
-        case RegistrationNumber
-        case GarageNumber
+        case registrationNumber
+        case garageNumber
     }
     
     let disposeBag = DisposeBag()
@@ -39,15 +39,15 @@ class SettingsSelectableViewController: UIViewController {
         
         array.asObservable()
         .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-            let indexPath = NSIndexPath(forItem: row, inSection: 0)
-            let cell = self.table.dequeueReusableCellWithIdentifier(self.COMMON_CELL_IDENTIFIER, forIndexPath: indexPath) as! SelectableCell
+            let indexPath = IndexPath(item: row, section: 0)
+            let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
             cell.mainText.text = element
             return cell
         }.addDisposableTo(disposeBag)
         
-        table.rx_itemSelected
+        table.rx.itemSelected
         .subscribeNext { (indexPath) in
-            if(indexPath.row == ShowNumber.RegistrationNumber.rawValue){
+            if((indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
                 PreferencesManager.setShowGarageNumber(false)
             } else {
                 PreferencesManager.setShowGarageNumber(true)
@@ -55,9 +55,9 @@ class SettingsSelectableViewController: UIViewController {
             self.table.reloadData()
         }.addDisposableTo(self.disposeBag)
         
-        table.rx_willDisplayCell.observeOn(MainScheduler.instance)
+        table.rx.willDisplayCell.observeOn(MainScheduler.instance)
         .subscribeNext { [unowned self](event) in
-            if(event.indexPath.row == ShowNumber.RegistrationNumber.rawValue){
+            if((event.indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
                  event.cell.setSelected(!PreferencesManager.showGarageNumber(), animated: false)
             } else {
                 event.cell.setSelected(PreferencesManager.showGarageNumber(), animated: false)
@@ -66,13 +66,13 @@ class SettingsSelectableViewController: UIViewController {
     }
     
     
-    @IBAction func applyPressed(sender: AnyObject) {
+    @IBAction func applyPressed(_ sender: AnyObject) {
 
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
 

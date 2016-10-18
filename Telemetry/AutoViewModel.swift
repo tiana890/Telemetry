@@ -11,7 +11,7 @@ import RxSwift
 
 final class AutoViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var auto = PublishSubject<AutoDetail>()
@@ -19,7 +19,7 @@ final class AutoViewModel{
     //MARK: Set up
     init(autoClient: AutoClient){
         
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.companies.backgroundQueue", attributes: [])
         
         autoClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (autoResponse) -> AutoDetail in
             return autoResponse.autoDetail ?? AutoDetail()

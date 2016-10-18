@@ -13,13 +13,13 @@ class SelectableCell: UITableViewCell {
     @IBOutlet var additionalText: UILabel!
     @IBOutlet var additionalImg: UIImageView!
 
-    override func setSelected(selected: Bool, animated: Bool) {
+    override func setSelected(_ selected: Bool, animated: Bool) {
         if(!selected){
             self.mainText.font = UIFont(name: "HelveticaNeue", size: 13.0)
-            self.additionalImg.hidden = true
+            self.additionalImg.isHidden = true
         } else {
             self.mainText.font = UIFont(name: "HelveticaNeue-Bold", size: 13.0)
-            self.additionalImg.hidden = false
+            self.additionalImg.isHidden = false
         }
         
     }

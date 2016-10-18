@@ -13,41 +13,42 @@ import SwiftyJSON
 
 class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocketDelegate{
     
-    let didReceiveMessageSubject = PublishSubject<AnyObject>()
+    let didReceiveMessageSubject = PublishSubject<Any>()
     let didOpenSubject = PublishSubject<Bool>()
     let didFailWithErrorSubject = PublishSubject<NSError>()
     
-    static func currentDelegateFor(object: AnyObject) -> AnyObject?{
+    static func currentDelegateFor(_ object: AnyObject) -> AnyObject?{
         let socket: SRWebSocket = object as! SRWebSocket
         return socket.delegate
     }
     
-    static func setCurrentDelegate(delegate: AnyObject?, toObject object: AnyObject) {
+    static func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
         let socket: SRWebSocket = object as! SRWebSocket
         socket.delegate = delegate as? SRWebSocketDelegate
     }
     
-    func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
-        print(JSON(message))
-        didReceiveMessageSubject.on(.Next(message))
-        
-        //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocket(webSocket, didReceiveMessage: message)
-    }
     
-    func webSocketDidOpen(webSocket: SRWebSocket!) {
-        didOpenSubject.on(.Next(true))
+    func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+        didOpenSubject.on(.next(true))
         //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocketDidOpen(webSocket)
     }
     
-    func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
-        didFailWithErrorSubject.on(.Next(error))
+    func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: NSError!) {
+        didFailWithErrorSubject.on(.next(error))
     }
     
-    func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+    func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         print(code)
         //didReceiveMessageSubject.on(.Completed)
     }
     
+    public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+        print(JSON(message))
+        
+        didReceiveMessageSubject.on(.next(message))
+        //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocket(webSocket, didReceiveMessage: message)
+    }
+
     
     
 }
@@ -57,7 +58,7 @@ extension SRWebSocket{
         return RxSocketManagerDelegateProxy.proxyForObject(self)
     }
     
-    public var rx_didReceiveMessage: Observable<AnyObject>{
+    public var rx_didReceiveMessage: Observable<Any>{
         let proxy = RxSocketManagerDelegateProxy.proxyForObject(self)
         return proxy.didReceiveMessageSubject
     }

@@ -16,7 +16,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     var mapView: GMSMapView?
     
-    private var clusterManager: GMUClusterManager!
+    fileprivate var clusterManager: GMUClusterManager!
     
     var dict = [Int64: (vehicle: Vehicle, spot: POIItem)]()
     
@@ -29,7 +29,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var socketBag: DisposeBag?
 
     var telemetryClient: TelemetryClient?
-    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     
     
     //MARK: IBOutlets
@@ -42,7 +42,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         
         initMap()
         
-        print(ApplicationState.sharedInstance().getToken())
+        print(ApplicationState.sharedInstance.getToken())
 
         let iconGenerator = GMUDefaultClusterIconGenerator()
         let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
@@ -52,19 +52,19 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         clusterManager.setDelegate(self, mapDelegate: self)
         
         if(!PreferencesManager.ifAutosLoaded()){
-            self.updateBtn.enabled = false
-            HUD.show(.LabeledProgress(title: "Загрузка справочника ТС", subtitle: "Это может занять некоторое время"))
+            self.updateBtn.isEnabled = false
+            HUD.show(.labeledProgress(title: "Загрузка справочника ТС", subtitle: "Это может занять некоторое время"))
             
-            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+            AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
                 .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
-                .doOnError({ (errType) in
-                    HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
+                .doOnError(onError: { (errType) in
+                    HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
                     PreferencesManager.setAutosLoaded(false)
                     self.updateMap()
                 })
                 .subscribeNext { (autosDictResponse) in
-                    HUD.flash(.Success)
+                    HUD.flash(.success)
                     PreferencesManager.setAutosLoaded(true)
                     self.updateMap()
                 }.addDisposableTo(self.disposeBag)
@@ -73,37 +73,37 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
         
         self.updateBtn
-            .rx_tap
+            .rx.tap
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self]() in
                 self.updateMap()
             }.addDisposableTo(self.disposeBag)
         }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         clearAllTraysFromMap()
         
         if let f = self.storedFilter{
             print(f)
-            print(ApplicationState.sharedInstance().filter)
-            if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
+            print(ApplicationState.sharedInstance.filter)
+            if(!f.isEqualToFilter(ApplicationState.sharedInstance.filter)){
 
                 self.clearMap()
-                if(ApplicationState.sharedInstance().filter?.filterIsSet() ?? false){
-                    HUD.show(.LabeledProgress(title: "Поиск по фильтру", subtitle: ""))
+                if(ApplicationState.sharedInstance.filter?.filterIsSet() ?? false){
+                    HUD.show(.labeledProgress(title: "Поиск по фильтру", subtitle: ""))
                     let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
                     autosClient.autosIDsObservableWithFilter()
                         .observeOn(MainScheduler.instance)
-                        .doOnError({ (errType) in
-                            HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
+                        .doOnError(onError: { (errType) in
+                            HUD.flash(.labeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
                             self.updateMap([])
                         })
                         .subscribeNext({ (arr) in
                             if(arr.count > 0){
-                                HUD.flash(.Label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
+                                HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                             } else {
-                                HUD.flash(.Label("Объекты не найдены."), delay: 2, completion: nil)
+                                HUD.flash(.label("Объекты не найдены."), delay: 2, completion: nil)
                             }
                             
                             self.updateMap(arr)
@@ -117,9 +117,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     }
     
     func initMap(){
@@ -133,9 +133,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.addBindsToViewModel([])
     }
     
-    func updateMap(arr: [Int]){
+    func updateMap(_ arr: [Int]){
         if(arr.count == 0){
-            self.updateBtn.enabled = true
+            self.updateBtn.isEnabled = true
             self.updateBtn.image = UIImage(named: "update_icon")
             
         } else {
@@ -152,7 +152,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.dict.removeAll()
     }
     
-    func addBindsToViewModel(vehicles:[Int]){
+    func addBindsToViewModel(_ vehicles:[Int]){
 
         self.clearAllTraysFromMap()
         self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
@@ -160,35 +160,35 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.socketBag = nil
         self.socketBag = DisposeBag()
         
-        self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance().getToken() ?? "", bounds: self.mapView!.getBounds())
+        self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance.getToken() ?? "", bounds: self.mapView!.getBounds())
         self.telemetryClient?.setVehicles(vehicles)
         
         self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)
         
-        self.indicator.hidden = false
+        self.indicator.isHidden = false
         self.indicator.startAnimating()
         
-        self.updateBtn.enabled = false
+        self.updateBtn.isEnabled = false
         self.updateBtn.image = nil
         
         self.viewModel?
         .vehicles
-        .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+        .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
         .debug()
         .subscribe(onNext: { [unowned self](vehicles) in
             
             self.appendMarkersOnMap(vehicles.array)
-            dispatch_async(dispatch_get_main_queue(), { 
+            DispatchQueue.main.async(execute: { 
                 self.clusterManager.cluster()
-                self.indicator.hidden = true
+                self.indicator.isHidden = true
             })
             
         }, onError: { [unowned self](errType) in
             
-            dispatch_async(dispatch_get_main_queue(), {
-                self.indicator.hidden = true
+            DispatchQueue.main.async(execute: {
+                self.indicator.isHidden = true
                 self.updateBtn.image = UIImage(named: "update_icon")
-                self.updateBtn.enabled = true
+                self.updateBtn.isEnabled = true
                 
                 if let error = errType as? APIError{
                     self.showAlert("", msg: error.getReason())
@@ -199,15 +199,15 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             })
             
         }, onCompleted: { [unowned self] in
-            self.indicator.hidden = true
+            self.indicator.isHidden = true
             self.updateBtn.image = UIImage(named: "update_icon")
-            self.updateBtn.enabled = true
+            self.updateBtn.isEnabled = true
         }, onDisposed: {
                 
     }).addDisposableTo(self.disposeBag)
     }
 
-    func appendMarkersOnMap(array: [Vehicle]){
+    func appendMarkersOnMap(_ array: [Vehicle]){
 
         //Find current markers in dict
         for(veh) in array{
@@ -220,8 +220,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 if(value.vehicle.lat! == veh.lat && value.vehicle.lon! == veh.lon && value.vehicle.azimut! == veh.azimut){
                     
                 } else {
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.clusterManager.removeItem(value.spot)
+                    DispatchQueue.main.async(execute: {
+                        self.clusterManager.remove(value.spot)
                     })
                     
                     let spot = addMarkerAndCreateSpot(veh)
@@ -232,8 +232,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                         spot.selected = value.spot.selected
                     }
                     dict[veh.id!] = (vehicle: veh, spot: spot)
-                    dispatch_async(dispatch_get_main_queue(), {
-                        self.clusterManager.addItem(spot)
+                    DispatchQueue.main.async(execute: {
+                        self.clusterManager.add(spot)
                     })
                 }
                 
@@ -243,24 +243,24 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 spot.prevLon = nil
                 spot.hasAnimated = true
                 dict[veh.id!] = (vehicle: veh, spot: spot)
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.clusterManager.addItem(spot)
+                DispatchQueue.main.async(execute: {
+                    self.clusterManager.add(spot)
                 })
             }
         }
     }
     
-    func addMarkerAndCreateSpot(vehicle: Vehicle) -> POIItem{
+    func addMarkerAndCreateSpot(_ vehicle: Vehicle) -> POIItem{
         
         let pos = CLLocationCoordinate2D(latitude: vehicle.lat!, longitude: vehicle.lon!)
         let spot = POIItem()
-        spot.vehicleId = NSNumber(longLong: vehicle.id!)
+        spot.vehicleId = NSNumber(value: vehicle.id! as Int64)
         spot.position = pos
         if let auto = RealmManager.getAutoById(Int(vehicle.id!)){
             spot.regNumber = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
         }
         if let azm = vehicle.azimut{
-            spot.azimut = NSNumber(double: azm)
+            spot.azimut = NSNumber(value: azm as Double)
         }
         spot.name = "\(vehicle.id)"
         spot.hasAnimated = false
@@ -281,18 +281,18 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     }
     
     //MARK: IBActions
-    @IBAction func filter(sender: AnyObject) {
+    @IBAction func filter(_ sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
+        let vc = storyboard.instantiateViewController(withIdentifier: FILTER_STORYBOARD_ID)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @IBAction func menuPressed(sender: AnyObject) {
-        ApplicationState.sharedInstance().showLeftPanel()
+    @IBAction func menuPressed(_ sender: AnyObject) {
+        ApplicationState.sharedInstance.showLeftPanel()
     }
     
     //MARK: GMSMapViewDelegate
-    func mapView(mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         guard let item = marker.userData as? POIItem else {
             mapView.selectedMarker = nil
             for(val) in self.dict.values{
@@ -306,12 +306,12 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
         item.selected = true
         
-        let vehicleId = Int(item.vehicleId.intValue)
+        let vehicleId = Int(item.vehicleId.int32Value)
         guard let auto = RealmManager.getAutoById(vehicleId) else {
-            return NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow
+            return Bundle.main.loadNibNamed("MarkerWindow", owner: self, options: nil)?[0] as? MarkerWindow
         }
         
-        if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
+        if let markerView = Bundle.main.loadNibNamed("MarkerWindow", owner: self, options: nil)?[0] as? MarkerWindow{
             markerView.company.text = auto.organization ?? ""
             markerView.regNumber.text = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
             markerView.model.text = auto.model ?? ""
@@ -322,8 +322,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             markerView.regNumber.clipsToBounds = true
 
             if let lastUpdate = auto.lastUpdate{
-                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-                let dateFormatter = NSDateFormatter()
+                let date = Date(timeIntervalSince1970: Double(lastUpdate))
+                let dateFormatter = DateFormatter()
                 dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
             }
             
@@ -332,14 +332,14 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         return nil
     }
     
-    func mapView(mapView: GMSMapView, didTapOverlay overlay: GMSOverlay) {
+    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
         mapView.selectedMarker = nil
         for(val) in self.dict.values{
             val.spot.selected = false
         }
     }
     
-    func mapView(mapView: GMSMapView, didTapAtCoordinate coordinate: CLLocationCoordinate2D) {
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         mapView.selectedMarker = nil
         for(val) in self.dict.values{
             val.spot.selected = false
@@ -347,16 +347,16 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     }
 
     //MARK: -Alerts
-    func showAlert(title: String, msg: String){
+    func showAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "OK",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     

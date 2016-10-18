@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxAlamofire
 import SwiftyJSON
+import Alamofire
 
 class AutoClient: NSObject {
     
@@ -26,9 +27,9 @@ class AutoClient: NSObject {
     
     func companyObservable() -> Observable<AutoDetailResponse>{
         
-        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
+        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
 
-        return requestJSON(.GET, AUTO_URL + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.get, AUTO_URL + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> AutoDetailResponse in

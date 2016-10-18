@@ -16,20 +16,20 @@ class TelemetryClient: NSObject {
     let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
-    private var token: String?
-    private var bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))?
-    private var vehicles = [Int]()
+    fileprivate var token: String?
+    fileprivate var bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))?
+    fileprivate var vehicles = [Int]()
     
     let disposeBag = DisposeBag()
     
-    private var vehObservable = PublishSubject<Vehicles>()
+    fileprivate var vehObservable = PublishSubject<Vehicles>()
     
     var vehiclesRequestSocket: VehiclesRequestSocket?
     
     init(token: String, bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
         super.init()
         
-        self.webSocket = SRWebSocket(URL: NSURL(string: SERVER_URL))
+        self.webSocket = SRWebSocket(url: URL(string: SERVER_URL))
         self.token = token
         self.bounds = bounds
         
@@ -37,12 +37,12 @@ class TelemetryClient: NSObject {
     }
     
     //MARK: Modificators
-    func setBounds(bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
+    func setBounds(_ bounds: (first:(lat: String, lon: String), second: (lat: String, lon: String))){
         self.bounds = bounds
         self.vehiclesRequestSocket?.bounds = self.bounds!
     }
     
-    func setVehicles(vehicles: [Int]){
+    func setVehicles(_ vehicles: [Int]){
         self.vehicles = vehicles
         self.vehiclesRequestSocket?.vehicles = vehicles
     }
@@ -57,17 +57,17 @@ class TelemetryClient: NSObject {
     }
     
     func sendMessage(){
-        self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? NSData())
-        print(String(data: self.vehiclesRequestSocket?.getData() ?? NSData(), encoding: NSUTF8StringEncoding))
+        self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? Data())
+        print(String(data: self.vehiclesRequestSocket?.getData() as Data? ?? Data(), encoding: String.Encoding.utf8))
     }
     
     func closeSocket(){
-        self.webSocket?.closeWithCode(2222, reason: "")
+        self.webSocket?.close(withCode: 2222, reason: "")
         self.webSocket = nil
     }
     
     func vehiclesObservable() -> Observable<Vehicles>{
-        let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.backgroundQueue", attributes: [])
         
         self.webSocket!.rx_didOpen
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
@@ -78,7 +78,7 @@ class TelemetryClient: NSObject {
             })
             .subscribeNext { [unowned self](val) in
                 if(val){
-                    self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? NSData())
+                    self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? Data())
                 } else {
                     self.vehObservable.onError(APIError(errType: .UNKNOWN))
                 }
@@ -87,7 +87,7 @@ class TelemetryClient: NSObject {
         
         self.webSocket?.rx_didReceiveMessage
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
-            .catchError({ (err) -> Observable<AnyObject> in
+            .catchError({ (err) -> Observable<Any> in
                 return Observable.just(APIError(errType: .NETWORK))
             })
             .map({ (object) -> (Vehicles, APIError) in
@@ -114,7 +114,7 @@ class TelemetryClient: NSObject {
 
                 }).subscribe(onNext: { (veh, err) in
                     if(err.errType == APIErrorType.NONE){
-                        self.vehObservable.on(.Next(veh))
+                        self.vehObservable.on(.next(veh))
                     } else {
                         self.vehObservable.onError(err)
                     }
@@ -133,7 +133,7 @@ class TelemetryClient: NSObject {
                 self.vehObservable.onError(APIError(errType: .SOCKET_INTERRUPTED))
             }).addDisposableTo(self.disposeBag)
         
-        dispatch_async(backgrQueue) {
+        backgrQueue.async {
             self.webSocket!.open()
         }
         

@@ -10,7 +10,7 @@ import RxSwift
 
 final class TrackViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var track = PublishSubject<Track>()
@@ -18,7 +18,7 @@ final class TrackViewModel{
     //MARK: Set up
     init(trackClient: TrackClient){
         
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.companies.backgroundQueue", attributes: [])
         
         trackClient.trackObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (trackResponse) -> Track in
             return trackResponse.track ?? Track()

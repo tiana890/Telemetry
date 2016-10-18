@@ -38,7 +38,7 @@ class AutoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        autoClient = AutoClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _autoId: autoId ?? 0)
+        autoClient = AutoClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0)
         self.viewModel = AutoViewModel(autoClient: autoClient!)
         
         addBindsToViewModel()
@@ -46,14 +46,14 @@ class AutoViewController: UIViewController {
     }
     
     func addBindsToViewModel(){
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-        indicator.center = CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2)
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
         indicator.startAnimating()
         self.view.addSubview(indicator)
         
         self.viewModel?.auto
             .observeOn(MainScheduler.instance)
-            .doOnError({ (errType) in
+            .doOnError(onError: { (errType) in
                 indicator.removeFromSuperview()
             })
             .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
@@ -61,8 +61,8 @@ class AutoViewController: UIViewController {
                 return Observable.just(self.createItemsArrayFromAutoModel(auto))
             })
             .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
+                let indexPath = IndexPath(item: row, section: 0)
+                let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                 cell.mainText.text = element.name
                 
                 return cell
@@ -74,7 +74,7 @@ class AutoViewController: UIViewController {
         
     }
     
-    func createItemsArrayFromAutoModel(auto: AutoDetail) -> [(cellID:String, name: String)]{
+    func createItemsArrayFromAutoModel(_ auto: AutoDetail) -> [(cellID:String, name: String)]{
         var array = [(cellID:String, name: String)]()
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Модель ТС"))
@@ -96,11 +96,11 @@ class AutoViewController: UIViewController {
         }
         
         if let lastUpdate = auto.lastUpdate{
-            let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-            let dateFormatter = NSDateFormatter()
+            let date = Date(timeIntervalSince1970: Double(lastUpdate))
+            let dateFormatter = DateFormatter()
             dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
             array.append((self.HEADER_CELL_IDENTIFIER, "Дата последнего обновления"))
-            array.append((self.COMMON_CELL_IDENTIFIER, dateFormatter.stringFromDate(date)))
+            array.append((self.COMMON_CELL_IDENTIFIER, dateFormatter.string(from: date)))
         }
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
@@ -119,15 +119,15 @@ class AutoViewController: UIViewController {
         return array
     }
     
-    @IBAction func backBtnPressed(sender: AnyObject) {
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
         self.autosViewController?.shouldUpdate = false
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == SHOW_TRACK_SEGUE_IDENTIFIER){
-            if let destVC = segue.destinationViewController as? TrackParamsViewController{
+            if let destVC = segue.destination as? TrackParamsViewController{
                 destVC.autoId = self.autoId
             }
         }

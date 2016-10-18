@@ -8,32 +8,32 @@
 
 import UIKit
 
-extension NSDate
+extension Date
 {
-    convenience
+    
     init(dateString:String) {
-        let dateStringFormatter = NSDateFormatter()
+        let dateStringFormatter = DateFormatter()
         dateStringFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        let d = dateStringFormatter.dateFromString(dateString)!
-        self.init(timeInterval:0, sinceDate:d)
+        dateStringFormatter.locale = Locale(identifier: "en_US_POSIX")
+        let d = dateStringFormatter.date(from: dateString)!
+        self.init(timeInterval:0, since:d)
     }
     
-    convenience init(dateString: String, formatString: String){
-        let dateStringFormatter = NSDateFormatter()
+    init(dateString: String, formatString: String){
+        let dateStringFormatter = DateFormatter()
         dateStringFormatter.dateFormat = formatString
-        dateStringFormatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-        let d = dateStringFormatter.dateFromString(dateString)!
-        self.init(timeInterval:0, sinceDate:d)
+        dateStringFormatter.locale = Locale(identifier: "en_US_POSIX")
+        let d = dateStringFormatter.date(from: dateString)!
+        self.init(timeInterval:0, since:d)
         
     }
     
     func toString() -> String
     {
         //Get Short Time String
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM HH:mm"
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short Time String
         return str
@@ -42,9 +42,9 @@ extension NSDate
     func toPickerString() -> String
     {
         //Get Short Time String
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM yyyy HH:mm"
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short Time String
         return str
@@ -53,9 +53,9 @@ extension NSDate
     func toPickerStringWithTime() -> String
     {
         //Get Short Time String
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "dd MMM yyyy HH:mm"
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short Time String
         return str
@@ -63,18 +63,18 @@ extension NSDate
     
     func toRussianString() -> String{
         //Get Short Time String
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm dd.MM.yyyy"
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short Time String
         return str
     }
     
-    func toStringWithFormat(format: String) -> String{
-        let formatter = NSDateFormatter()
+    func toStringWithFormat(_ format: String) -> String{
+        let formatter = DateFormatter()
         formatter.dateFormat = format
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short Time String
         return str
@@ -83,9 +83,9 @@ extension NSDate
     func toFileName() -> String
     {
         //Get Short Time String
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "_yyyy_MM_dd_HH_mm_ss"
-        let str = formatter.stringFromDate(self)
+        let str = formatter.string(from: self)
         
         //Return Short T
         return str
@@ -94,36 +94,36 @@ extension NSDate
     func day() -> Int
     {
         //Get Hour
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Hour, fromDate: self)
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components(.hour, from: self)
         let day = components.day
         
         //Return Hour
-        return day
+        return day!
     }
     
     
     func hour() -> Int
     {
         //Get Hour
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Hour, fromDate: self)
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components(.hour, from: self)
         let hour = components.hour
         
         //Return Hour
-        return hour
+        return hour!
     }
     
     
     func minute() -> Int
     {
         //Get Minute
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components(.Minute, fromDate: self)
+        let calendar = Calendar.current
+        let components = (calendar as NSCalendar).components(.minute, from: self)
         let minute = components.minute
         
         //Return Minute
-        return minute
+        return minute!
     }
     
 }

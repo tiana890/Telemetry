@@ -50,7 +50,7 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ApplicationState.sharedInstance().containerViewController = self
+        ApplicationState.sharedInstance.containerViewController = self
         setInitialState()
         
         
@@ -59,18 +59,18 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
         dAlphaView.leftContainer = leftContainer
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeObservers()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setObservers()
     }
     
     func setObservers(){
-        self.leftLeadingContainerConstraint.addObserver(self, forKeyPath: "constant", options: NSKeyValueObservingOptions.New, context: nil)
+        self.leftLeadingContainerConstraint.addObserver(self, forKeyPath: "constant", options: NSKeyValueObservingOptions.new, context: nil)
     }
     
     func removeObservers(){
@@ -78,9 +78,9 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if(keyPath == "constant"){
-            if let new = change?["new"] as? CGFloat{
+            if let new = change?[NSKeyValueChangeKey.newKey] as? CGFloat{
                 let alpha = (1 - fabs(new/CONTAINER_OFFSET_VALUE))*0.5
                 darkAlphaView.alpha = CGFloat(round(Float(alpha)*Float(100.0))/Float(100.0))
                 if(new == 0.0){
@@ -98,22 +98,22 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
         centerContainer.addGestureRecognizer(self.gestureRecognizer ?? UIGestureRecognizer())
     }
     
-    func panRecognizerHandler(recognizer: UIPanGestureRecognizer){
-        func deltaXFromPreviousPoint(point: CGPoint, toCurrent currentPoint: CGPoint) -> CGFloat{
+    func panRecognizerHandler(_ recognizer: UIPanGestureRecognizer){
+        func deltaXFromPreviousPoint(_ point: CGPoint, toCurrent currentPoint: CGPoint) -> CGFloat{
             return currentPoint.x - point.x
         }
         
-        if(gestureRecognizer.state == UIGestureRecognizerState.Began){
-            translation = recognizer.locationInView(self.centerContainer)
+        if(gestureRecognizer.state == UIGestureRecognizerState.began){
+            translation = recognizer.location(in: self.centerContainer)
             
-        } else if(gestureRecognizer.state == UIGestureRecognizerState.Changed){
+        } else if(gestureRecognizer.state == UIGestureRecognizerState.changed){
             
-            let newTranslation = recognizer.locationInView(self.centerContainer)
+            let newTranslation = recognizer.location(in: self.centerContainer)
             moveLeftPanelFromCurrentPositionToX(deltaXFromPreviousPoint(translation!, toCurrent: newTranslation))
             translation = newTranslation
-            velocity = recognizer.velocityInView(self.centerContainer)
+            velocity = recognizer.velocity(in: self.centerContainer)
             
-        } else if(gestureRecognizer.state == UIGestureRecognizerState.Ended){
+        } else if(gestureRecognizer.state == UIGestureRecognizerState.ended){
             if let vel = velocity{
                 if(vel.x > 0){
                     animatedLeftMoveViewToRightEdge()
@@ -124,7 +124,7 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    func moveLeftPanelFromCurrentPositionToX(value: CGFloat){
+    func moveLeftPanelFromCurrentPositionToX(_ value: CGFloat){
         let newX = self.leftLeadingContainerConstraint.constant + value
         if(newX > -CONTAINER_OFFSET_VALUE && newX < 0){
             self.leftLeadingContainerConstraint.constant = newX
@@ -147,7 +147,7 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
         self.leftPanelOpen = false
     }
     
-    func animatedLeftPanelMoveToX(value: CGFloat){
+    func animatedLeftPanelMoveToX(_ value: CGFloat){
         UIView.setAnimationDuration(1.0)
         self.view.layoutIfNeeded()
         
@@ -157,23 +157,23 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
         UIView.commitAnimations()
     }
     
-    func setUserInteractionEnabledForTabBarControllers(value: Bool){
+    func setUserInteractionEnabledForTabBarControllers(_ value: Bool){
         if let tabBarViewControllers = self.centerTabBarController?.viewControllers{
             for vc in tabBarViewControllers{
                 for(childController) in (vc as! UINavigationController).childViewControllers{
-                    childController.view.userInteractionEnabled = value
+                    childController.view.isUserInteractionEnabled = value
                 }
             }
         }
     }
     
     //MARK: -Gesture Recognizers Delegate
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         //It must be performed on the right edge of UIView
         if(leftPanelOpen){
             return true
         } else {
-            let location = gestureRecognizer.locationInView(self.centerContainer)
+            let location = gestureRecognizer.location(in: self.centerContainer)
             if(location.x < GESTURE_RECOGNIZER_SCOPE){
                 return true
             } else {
@@ -183,9 +183,9 @@ class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
     }
     
     //MARK: Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == CENTER_EMBED_SEGUE_IDENTIFIER){
-            if let tabBarController =  segue.destinationViewController as? TabBarViewController{
+            if let tabBarController =  segue.destination as? TabBarViewController{
                 self.centerTabBarController = tabBarController
             }
         }

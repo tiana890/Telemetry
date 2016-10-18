@@ -13,7 +13,7 @@ import SwiftyJSON
 
 final class AuthorizationViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var authModel:Observable<Auth>?
@@ -27,14 +27,14 @@ final class AuthorizationViewModel{
     
     }
 
-    func authorize(login: String, password: String) -> Observable<Auth>{
+    func authorize(_ login: String, password: String) -> Observable<Auth>{
         return authClient.authObservable(login, password: password)
             .map({ (authResponse) -> Auth in
                 return self.convertAuthResponseToAuthModel(authResponse)
             })
     }
 
-    func convertAuthResponseToAuthModel(authResponse: AuthResponse) -> Auth{
+    func convertAuthResponseToAuthModel(_ authResponse: AuthResponse) -> Auth{
         var authModel = Auth()
         authModel.token = authResponse.token
         authModel.reason = authResponse.reason

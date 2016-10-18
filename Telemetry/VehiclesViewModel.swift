@@ -12,7 +12,7 @@ import RxSwift
 
 final class VehiclesViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var vehicles = PublishSubject<Vehicles>()
@@ -20,7 +20,7 @@ final class VehiclesViewModel{
     //MARK: Set up
     init(telemetryClient: TelemetryClient){
 
-        let backgrQueue = dispatch_queue_create("com.Telemetry.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.backgroundQueue", attributes: [])
         telemetryClient.vehiclesObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .bindTo(vehicles).addDisposableTo(self.disposeBag)
     }

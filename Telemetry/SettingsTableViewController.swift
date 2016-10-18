@@ -19,7 +19,7 @@ class SettingsTableViewController: UITableViewController {
     
     let disposeBag = DisposeBag()
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         if(PreferencesManager.showGarageNumber()){
@@ -29,73 +29,73 @@ class SettingsTableViewController: UITableViewController {
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if(indexPath.row == 0){
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if((indexPath as NSIndexPath).row == 0){
             self.showAlert("Вы действительно хотите обновить справочники ТС?", msg: "Это займет некоторое время")
-        } else if(indexPath.row == 4){
+        } else if((indexPath as NSIndexPath).row == 4){
             self.showExitAlert("Вы действительно хотите выйти из приложения?", msg: "")
         }
     }
     
     //MARK: -IBActions
     
-    @IBAction func menuPressed(sender: AnyObject) {
-         ApplicationState.sharedInstance().showLeftPanel()
+    @IBAction func menuPressed(_ sender: AnyObject) {
+         ApplicationState.sharedInstance.showLeftPanel()
     }
     
     //MARK: -Alerts
     
-    func showAlert(title: String, msg: String){
+    func showAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "Отмена",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
         
-        let updateAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+        let updateAction = UIAlertAction(title: "OK", style: .default) { (action) in
 
-            HUD.show(.LabeledProgress(title: "Обновление справочника ТС", subtitle: "Это может занять некоторое время"))
+            HUD.show(.labeledProgress(title: "Обновление справочника ТС", subtitle: "Это может занять некоторое время"))
             
-            AutosClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+            AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
                 .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
-                .doOnError({ (errType) in
-                    HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Не удалось обновить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
+                .doOnError(onError: { (errType) in
+                    HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось обновить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
                 })
                 .subscribeNext { (autosDictResponse) in
-                    HUD.flash(.Success)
+                    HUD.flash(.success)
                 }.addDisposableTo(self.disposeBag)
 
         }
         
         alert.addAction(updateAction)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     
-    func showExitAlert(title: String, msg: String){
+    func showExitAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "Отмена",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
         
-        let exitAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate{
+        let exitAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate{
                 appDelegate.exit()
             }
         }
         
         alert.addAction(exitAction)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
 

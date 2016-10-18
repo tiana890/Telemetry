@@ -29,25 +29,25 @@ class MapFilterViewController: UIViewController {
     var indicator: UIActivityIndicatorView?
     
     enum RowType: Int{
-        case Company = 1
-        case AutoModel = 3
+        case company = 1
+        case autoModel = 3
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        filterClient = VehiclesFilterClient(_token: ApplicationState.sharedInstance().getToken() ?? "")
+        filterClient = VehiclesFilterClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
         filterViewModel = VehiclesFilterViewModel(filterClient: filterClient!)
         
         adjustSearchBar()
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if(self.filterDict == nil){
-            self.indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+            self.indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
             self.indicator?.center = self.view.center
             self.view.addSubview(self.indicator!)
             self.indicator!.startAnimating()
@@ -57,26 +57,26 @@ class MapFilterViewController: UIViewController {
     
     
     func adjustSearchBar(){
-        self.searchBar.hidden = true
-        self.searchBar.text = ApplicationState.sharedInstance().filter?.registrationNumber ?? ""
+        self.searchBar.isHidden = true
+        self.searchBar.text = ApplicationState.sharedInstance.filter?.registrationNumber ?? ""
         self.searchBar
-            .rx_text
+            .rx.text
             .subscribeNext { (str) in
                 if(str.characters.count > 0){
-                    ApplicationState.sharedInstance().filter?.registrationNumber = str
+                    ApplicationState.sharedInstance.filter?.registrationNumber = str
                 }
             }.addDisposableTo(self.disposeBag)
     }
     
     func addBindsToViewModel(){
         filterViewModel?.filterDict.observeOn(MainScheduler.instance)
-        .doOnError({ (errType) in
+        .doOnError(onError: { (errType) in
             self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
         })
         .subscribeNext({ [unowned self](filtDict) in
             self.filterDict = filtDict
             self.indicator!.stopAnimating()
-            self.searchBar.hidden = false
+            self.searchBar.isHidden = false
             self.addTableBinds()
         }).addDisposableTo(self.disposeBag)
     }
@@ -91,37 +91,37 @@ class MapFilterViewController: UIViewController {
         
         items.observeOn(MainScheduler.instance)
             .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
+                let indexPath = IndexPath(item: row, section: 0)
+                let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                 cell.mainText.text = element.name
                 return cell
             }.addDisposableTo(self.disposeBag)
         
-        table.rx_itemSelected.observeOn(MainScheduler.instance)
+        table.rx.itemSelected.observeOn(MainScheduler.instance)
         .subscribeNext { [unowned self](indexPath) in
             if (self.filterDict != nil){
-                if(indexPath.row == RowType.Company.rawValue){
-                    self.performSegueWithIdentifier(self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(integer:RowType.Company.rawValue))
-                } else if(indexPath.row == RowType.AutoModel.rawValue){
-                    self.performSegueWithIdentifier(self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(integer:RowType.AutoModel.rawValue))
+                if((indexPath as NSIndexPath).row == RowType.company.rawValue){
+                    self.performSegue(withIdentifier: self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(value: RowType.company.rawValue as Int))
+                } else if((indexPath as NSIndexPath).row == RowType.autoModel.rawValue){
+                    self.performSegue(withIdentifier: self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(value: RowType.autoModel.rawValue as Int))
                 }
             }
         }.addDisposableTo(self.disposeBag)
     }
     
     //MARK: Segues
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == SELECT_SEGUE_IDENTIFIER){
-            if let rowType = RowType(rawValue: (sender as! NSNumber).integerValue){
-                if let destVC = segue.destinationViewController as? SelectableTableViewController{
-                    if(rowType == RowType.Company){
-                        destVC.selectType = .Company
+            if let rowType = RowType(rawValue: (sender as! NSNumber).intValue){
+                if let destVC = segue.destination as? SelectableTableViewController{
+                    if(rowType == RowType.company){
+                        destVC.selectType = .company
                         destVC.companies = filterDict?.companies ?? []
-                        destVC.selectedIds = ApplicationState.sharedInstance().filter?.companyIds ?? []
-                    } else if(rowType == RowType.AutoModel){
-                        destVC.selectType = .AutoModel
+                        destVC.selectedIds = ApplicationState.sharedInstance.filter?.companyIds ?? []
+                    } else if(rowType == RowType.autoModel){
+                        destVC.selectType = .autoModel
                         destVC.autoModels = filterDict?.models ?? []
-                        destVC.selectedIds = ApplicationState.sharedInstance().filter?.autoModelIds ?? []
+                        destVC.selectedIds = ApplicationState.sharedInstance.filter?.autoModelIds ?? []
                     }
                 }
             }
@@ -130,43 +130,43 @@ class MapFilterViewController: UIViewController {
     
 
     //MARK: IBActions
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func applyFilter(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func applyFilter(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func clearFilter(sender: AnyObject) {
+    @IBAction func clearFilter(_ sender: AnyObject) {
         let alert = UIAlertController(title: "",
                                       message: "Очистить параметры фильтра?",
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "Отмена",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
         
-        let clearAction = UIAlertAction(title: "ОК", style: .Default) { (action) in
-             ApplicationState.sharedInstance().filter = Filter()
-            self.navigationController?.popViewControllerAnimated(true)
+        let clearAction = UIAlertAction(title: "ОК", style: .default) { (action) in
+             ApplicationState.sharedInstance.filter = Filter()
+            self.navigationController?.popViewController(animated: true)
         }
         alert.addAction(clearAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     //MARK: Alerts
-    func showAlert(title: String, msg: String){
+    func showAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "OK",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     

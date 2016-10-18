@@ -12,7 +12,7 @@ import RxSwift
 
 final class CompanyViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var company = PublishSubject<Company>()
@@ -20,7 +20,7 @@ final class CompanyViewModel{
     //MARK: Set up
     init(companyClient: CompanyClient){
         
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.companies.backgroundQueue", attributes: [])
         
         companyClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (compResponse) -> Company in
             return compResponse.company ?? Company()

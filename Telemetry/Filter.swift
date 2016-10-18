@@ -8,6 +8,26 @@
 
 import UIKit
 import SwiftyJSON
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class Filter: NSObject {
     
@@ -24,12 +44,12 @@ class Filter: NSObject {
                 || registrationNumber?.characters.count > 0)
     }
     
-    func isEqualToFilter(filter: Filter?) -> Bool {
+    func isEqualToFilter(_ filter: Filter?) -> Bool {
         if let f = filter{
-            if(autoModelIds.elementsEqual(f.autoModelIds, isEquivalent: {
+            if(autoModelIds.elementsEqual(f.autoModelIds, by: {
                 return ($0 == $1) ? true : false
             })){
-                if(companyIds.elementsEqual(f.companyIds, isEquivalent: {
+                if(companyIds.elementsEqual(f.companyIds, by: {
                     return ($0 == $1) ? true : false
                 })){
                     if(registrationNumber == f.registrationNumber){
@@ -41,21 +61,21 @@ class Filter: NSObject {
         return false
     }
     
-    static func createCopy(filter: Filter?) -> Filter?{
+    static func createCopy(_ filter: Filter?) -> Filter?{
         if(filter != nil){
             let f = Filter()
             f.autoModelIds = [Int]()
             f.companyIds = [Int]()
             
-            f.autoModelIds.appendContentsOf(filter!.autoModelIds)
-            f.companyIds.appendContentsOf(filter!.companyIds)
+            f.autoModelIds.append(contentsOf: filter!.autoModelIds)
+            f.companyIds.append(contentsOf: filter!.companyIds)
             
             if(filter!.companyName != nil){
-                f.companyName = String(UTF8String: filter!.companyName!)
+                f.companyName = String(validatingUTF8: filter!.companyName!)
             }
             
             if(filter!.registrationNumber != nil){
-                f.registrationNumber = String(UTF8String: filter!.registrationNumber!)
+                f.registrationNumber = String(validatingUTF8: filter!.registrationNumber!)
             }
             return f
         }
@@ -89,20 +109,20 @@ class Filter: NSObject {
         
         var dict = [String: AnyObject]()
         //dict["token"] = PreferencesManager.getToken() ?? ""
-        dict["modelIds"] = autoModelIds
-        dict["organizationIds"] = companyIds
+        dict["modelIds"] = autoModelIds as AnyObject?
+        dict["organizationIds"] = companyIds as AnyObject?
         
         if(!PreferencesManager.showGarageNumber()){
-            dict["registrationNumber"] = self.registrationNumber ?? ""
+            dict["registrationNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
         } else {
-            dict["garageNumber"] = self.registrationNumber ?? ""
+            dict["garageNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
         }
         
         print(dict)
-        var dat = NSData()
+        var dat = Data()
         do{
-            try dat = NSJSONSerialization.dataWithJSONObject(dict, options: .PrettyPrinted)
-            if let jsonString = NSString.init(data: dat, encoding: NSUTF8StringEncoding){
+            try dat = JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+            if let jsonString = NSString.init(data: dat, encoding: String.Encoding.utf8.rawValue){
                 print(jsonString)
                 return jsonString as String
             }

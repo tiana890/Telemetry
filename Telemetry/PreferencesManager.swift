@@ -11,41 +11,41 @@ import SwiftyJSON
 
 class PreferencesManager: NSObject {
     
-    static func saveToken(token: String){
-        let def = NSUserDefaults.standardUserDefaults()
-        def.setObject(token, forKey: "token")
+    static func saveToken(_ token: String){
+        let def = UserDefaults.standard
+        def.set(token, forKey: "token")
         def.synchronize()
     }
     
     static func getToken() -> String?{
-        let def = NSUserDefaults.standardUserDefaults()
-        return def.objectForKey("token") as? String
+        let def = UserDefaults.standard
+        return def.object(forKey: "token") as? String
     }
     
     static func deleteToken(){
-        let def = NSUserDefaults.standardUserDefaults()
-        def.removeObjectForKey("token")
+        let def = UserDefaults.standard
+        def.removeObject(forKey: "token")
     }
     
-    static func setAutosLoaded(ifLoaded: Bool) {
-        let def = NSUserDefaults.standardUserDefaults()
-        def.setBool(ifLoaded, forKey: "ifAutosLoaded")
+    static func setAutosLoaded(_ ifLoaded: Bool) {
+        let def = UserDefaults.standard
+        def.set(ifLoaded, forKey: "ifAutosLoaded")
         def.synchronize()
     }
     
     static func ifAutosLoaded() -> Bool{
-        let def = NSUserDefaults.standardUserDefaults()
-        return def.boolForKey("ifAutosLoaded")
+        let def = UserDefaults.standard
+        return def.bool(forKey: "ifAutosLoaded")
     }
     
     static func showGarageNumber() -> Bool{
-        let def = NSUserDefaults.standardUserDefaults()
-        return def.boolForKey("showStateNumber")
+        let def = UserDefaults.standard
+        return def.bool(forKey: "showStateNumber")
     }
     
-    static func setShowGarageNumber(value: Bool){
-        let def = NSUserDefaults.standardUserDefaults()
-        def.setBool(value, forKey: "showStateNumber")
+    static func setShowGarageNumber(_ value: Bool){
+        let def = UserDefaults.standard
+        def.set(value, forKey: "showStateNumber")
         def.synchronize()
     }
     

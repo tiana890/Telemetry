@@ -13,14 +13,14 @@ import RxCocoa
 class BaseCollectionViewController: UICollectionViewController {
     var disposeBag : DisposeBag?
     
-    func addSubscription(subscription: Disposable){
+    func addSubscription(_ subscription: Disposable){
         if(self.disposeBag == nil){
             self.disposeBag = DisposeBag()
         }
         disposeBag?.addDisposable(subscription)
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.disposeBag = nil
     }

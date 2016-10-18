@@ -9,6 +9,7 @@ import RxAlamofire
 import RxSwift
 import RxCocoa
 import SwiftyJSON
+import Alamofire
 
 class TrackClient: NSObject {
 
@@ -29,7 +30,7 @@ class TrackClient: NSObject {
     
     func trackObservable() -> Observable<TrackResponse>{
         
-        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
+        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
         
         let parameters = ["token": self.token ?? "",
                           "startTime": self.startTime ?? "",
@@ -38,11 +39,11 @@ class TrackClient: NSObject {
 
        
         
-        return requestJSON(.GET, TRACK_URL + "\(autoId ?? 0)", parameters: parameters, encoding: .URL, headers: nil)
+        return requestJSON(.get, TRACK_URL + "\(autoId ?? 0)", parameters: parameters, encoding: URLEncoding.default, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .catchError({ (errType) -> Observable<(NSHTTPURLResponse, AnyObject)> in
+            .catchError({ (errType) -> Observable<(HTTPURLResponse, Any)> in
                 print(errType)
-                return Observable.just((NSHTTPURLResponse(coder: NSCoder())!, ""))
+                return Observable.just((HTTPURLResponse(coder: NSCoder())!, ""))
             })
             .map({ (response, object) -> TrackResponse in
                 print(response)

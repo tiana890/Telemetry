@@ -11,6 +11,7 @@ import RxSwift
 import RxAlamofire
 import SwiftyJSON
 import JASON
+import Alamofire
 
 class AutosClient: NSObject {
     
@@ -25,9 +26,9 @@ class AutosClient: NSObject {
     
     func autosObservable() -> Observable<AutosResponse>{
         
-        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
+        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
 
-        return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.get, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
             .map({ (response, object) -> AutosResponse in
@@ -42,14 +43,14 @@ class AutosClient: NSObject {
     
 
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
-        return requestJSON(.GET, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.get, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 let js = SwiftyJSON.JSON(object)
-                let start = NSDate().timeIntervalSince1970
+                let start = Date().timeIntervalSince1970
                 RealmManager.saveAutoJSONDict(js["vehicles"])
-                let end = NSDate().timeIntervalSince1970 - start
+                let end = Date().timeIntervalSince1970 - start
                 print(end)
                 return [:]
             })
@@ -57,15 +58,15 @@ class AutosClient: NSObject {
     
     func autosIDsObservableWithFilter() -> Observable<[Int]>{
     
-        let filterParams = ApplicationState.sharedInstance().filter?.getJSONString() ?? ""
+        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
         
-        return requestJSON(.POST, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.post, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Int] in
                 print(JSON(object))
                 let js = SwiftyJSON.JSON(object)
-                let start = NSDate().timeIntervalSince1970
+                let start = Date().timeIntervalSince1970
                 let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
                 return ids
             })
@@ -73,11 +74,11 @@ class AutosClient: NSObject {
     
     func autosObservableWithFilter() -> Observable<[Auto]>{
         
-        let filterParams = ApplicationState.sharedInstance().filter?.getJSONString() ?? ""
+        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
         
-        return requestJSON(.POST, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.post, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(globalConcurrentQueueQOS: .Background))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Auto] in
                 let js = SwiftyJSON.JSON(object)
                 var arr: [Auto] = []

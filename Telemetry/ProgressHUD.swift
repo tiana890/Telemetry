@@ -16,20 +16,20 @@ class ProgressHUD: UIVisualEffectView {
             label.text = text
         }
     }
-    let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.White)
+    let activityIndictor: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
     let label: UILabel = UILabel()
-    let blurEffect = UIBlurEffect(style: .Dark)
+    let blurEffect = UIBlurEffect(style: .dark)
     var vibrancyView: UIVisualEffectView
     
     init(text: String) {
         self.text = text
-        self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
+        self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         super.init(effect: blurEffect)
         self.setup()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(forBlurEffect: blurEffect))
+        self.vibrancyView = UIVisualEffectView(effect: UIVibrancyEffect(blurEffect: blurEffect))
         super.init(coder: aDecoder)
         self.text = ""
         self.setup()
@@ -49,34 +49,34 @@ class ProgressHUD: UIVisualEffectView {
             
             let width: CGFloat = 280.0 //2.3
             let height: CGFloat = 60.0
-            self.frame = CGRectMake(superview.frame.size.width / 2 - width / 2,
-                                    superview.frame.height / 2 - height / 2,
-                                    width,
-                                    height)
+            self.frame = CGRect(x: superview.frame.size.width / 2 - width / 2,
+                                    y: superview.frame.height / 2 - height / 2,
+                                    width: width,
+                                    height: height)
             vibrancyView.frame = self.bounds
             
             let activityIndicatorSize: CGFloat = 40
-            activityIndictor.frame = CGRectMake(5, height / 2 - activityIndicatorSize / 2,
-                                                activityIndicatorSize,
-                                                activityIndicatorSize)
+            activityIndictor.frame = CGRect(x: 5, y: height / 2 - activityIndicatorSize / 2,
+                                                width: activityIndicatorSize,
+                                                height: activityIndicatorSize)
             
             layer.cornerRadius = 8.0
             layer.masksToBounds = true
             label.text = text
             label.numberOfLines = 0
-            label.lineBreakMode = .ByWordWrapping
-            label.textAlignment = NSTextAlignment.Center
-            label.frame = CGRectMake(activityIndicatorSize + 5, 0, width - activityIndicatorSize - 15, height)
-            label.textColor = UIColor.whiteColor()
-            label.font = UIFont.boldSystemFontOfSize(12)
+            label.lineBreakMode = .byWordWrapping
+            label.textAlignment = NSTextAlignment.center
+            label.frame = CGRect(x: activityIndicatorSize + 5, y: 0, width: width - activityIndicatorSize - 15, height: height)
+            label.textColor = UIColor.white
+            label.font = UIFont.boldSystemFont(ofSize: 12)
         }
     }
     
     func show() {
-        self.hidden = false
+        self.isHidden = false
     }
     
     func hide() {
-        self.hidden = true
+        self.isHidden = true
     }
 }

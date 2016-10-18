@@ -12,9 +12,9 @@ import RxSwift
 
 final class CompaniesViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     let dataLoader = DataLoader<CompaniesResponse>()
-    private let companiesClient: CompaniesClient
+    fileprivate let companiesClient: CompaniesClient
     //output
     var companies = PublishSubject<[Company]>()
     

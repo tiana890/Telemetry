@@ -24,32 +24,32 @@ class MenuTableViewController: BaseTableViewController{
     
     @IBOutlet weak var numberOfMyTasks: UILabel!
     enum MenuItemIndex: Int{
-        case Profile = 0, Maps = 1, Company = 2, Vehicles = 3, Settings = 4, Exit = 5
+        case profile = 0, maps = 1, company = 2, vehicles = 3, settings = 4, exit = 5
     }
     
     //MARK: UIViewController methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sub = self.table.rx_itemSelected.subscribeNext { [unowned self](indexPath) in
-            switch (indexPath.row){
-            case MenuItemIndex.Profile.rawValue:
+        let sub = self.table.rx.itemSelected.subscribeNext { [unowned self](indexPath) in
+            switch ((indexPath as NSIndexPath).row){
+            case MenuItemIndex.profile.rawValue:
                 //NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
                 break
-            case MenuItemIndex.Maps.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Maps.rawValue))
+            case MenuItemIndex.maps.rawValue:
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Maps.rawValue))
                 break
-            case MenuItemIndex.Company.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Company.rawValue))
+            case MenuItemIndex.company.rawValue:
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Company.rawValue))
                 break
-            case MenuItemIndex.Vehicles.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Vehicles.rawValue))
+            case MenuItemIndex.vehicles.rawValue:
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Vehicles.rawValue))
                 break
-            case MenuItemIndex.Exit.rawValue:
+            case MenuItemIndex.exit.rawValue:
                 //self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
                 break
-            case MenuItemIndex.Settings.rawValue:
-                NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Settings.rawValue))
+            case MenuItemIndex.settings.rawValue:
+                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Settings.rawValue))
                 break
             default:
                 break
@@ -60,25 +60,25 @@ class MenuTableViewController: BaseTableViewController{
 
     //MARK: -Alerts
     
-    func showAlert(title: String, msg: String){
+    func showAlert(_ title: String, msg: String){
         let alert = UIAlertController(title: title,
                                       message: msg,
-                                      preferredStyle: UIAlertControllerStyle.Alert)
+                                      preferredStyle: UIAlertControllerStyle.alert)
         
         let cancelAction = UIAlertAction(title: "Отмена",
-                                         style: .Cancel, handler: nil)
+                                         style: .cancel, handler: nil)
         
         alert.addAction(cancelAction)
         
-        let exitAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate{
+        let exitAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate{
                 appDelegate.exit()
             }
         }
         
         alert.addAction(exitAction)
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
         
     }
     

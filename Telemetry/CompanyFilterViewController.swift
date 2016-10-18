@@ -22,10 +22,10 @@ class CompanyFilterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        searchBar.text = ApplicationState.sharedInstance().filter?.companyName ?? ""
-        searchBar.rx_text.observeOn(MainScheduler.instance)
+        searchBar.text = ApplicationState.sharedInstance.filter?.companyName ?? ""
+        searchBar.rx.text.observeOn(MainScheduler.instance)
             .subscribeNext { (str) in
-                ApplicationState.sharedInstance().filter?.companyName = str
+                ApplicationState.sharedInstance.filter?.companyName = str
         }.addDisposableTo(self.disposeBag)
         
         let items = Observable.just([
@@ -38,15 +38,15 @@ class CompanyFilterViewController: UIViewController {
     }
 
     //MARK: IBActions
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func applyFilter(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func applyFilter(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func clearFilter(sender: AnyObject) {
+    @IBAction func clearFilter(_ sender: AnyObject) {
         self.searchBar.text = ""
     }
 }

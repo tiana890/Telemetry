@@ -16,8 +16,8 @@ enum APIErrorType: String{
     case NONE
 }
 
-class APIError: ErrorType {
-    private var reason: String?
+class APIError: Error {
+    fileprivate var reason: String?
     var errorCode: Int?
     var errType: APIErrorType = .UNKNOWN
     

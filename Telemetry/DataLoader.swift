@@ -12,7 +12,7 @@ import RxSwift
 
 class DataLoader<E: BaseResponse> {
 
-    func load(observable: Observable<E>) -> Observable<E>{
+    func load(_ observable: Observable<E>) -> Observable<E>{
         return observable
                 .catchError({ (errType) -> Observable<E> in
                     return Observable.error(APIError(errType: .NETWORK))

@@ -9,7 +9,7 @@
 #ifndef BridgingHeader_h
 #define BridgingHeader_h
 
-#import "GoogleMaps/GoogleMaps.h"
+#import <GoogleMaps/GoogleMaps.h>
 #import <SocketRocket/SRWebSocket.h>
 #import <CommonCrypto/CommonCrypto.h>
 

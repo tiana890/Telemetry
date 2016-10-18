@@ -14,6 +14,11 @@ protocol APPLeftPanelIsShown: class{
 
 class ApplicationState{
     
+//    private static var __once: () = {
+//            self =  ApplicationState()
+//            self.filter = Filter()
+//        }()
+    
     //MARK: Controllers
     weak var containerViewController: ContainerViewController?
     
@@ -22,18 +27,21 @@ class ApplicationState{
     
     weak var leftPanelDelegate: APPLeftPanelIsShown?
     
-    static func sharedInstance() -> ApplicationState{
-        struct Static {
-            static var onceToken : dispatch_once_t = 0
-            static var instance : ApplicationState? = nil
-        }
-        
-        dispatch_once(&Static.onceToken) {
-            Static.instance = ApplicationState()
-            Static.instance?.filter = Filter()
-        }
-        return Static.instance!
-    }
+    static let sharedInstance : ApplicationState = {
+        let instance = ApplicationState()
+        instance.filter = Filter()
+        return instance
+    }()
+    
+//    static func sharedInstance() -> ApplicationState{
+//        struct Static {
+//            static var onceToken : Int = 0
+//            static var instance : ApplicationState? = nil
+//        }
+//        
+//        _ = ApplicationState.__once
+//        return __once!
+//    }
     
     func showLeftPanel(){
         containerViewController?.animatedLeftMoveViewToRightEdge()
@@ -44,7 +52,7 @@ class ApplicationState{
         containerViewController?.animatedLeftMoveViewToLeftEdge()
     }
     
-    func saveToken(token: String){
+    func saveToken(_ token: String){
         PreferencesManager.saveToken(token)
     }
     

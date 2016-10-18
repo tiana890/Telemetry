@@ -15,14 +15,14 @@ class TabBarViewController: UITabBarController{
     var subscription: Disposable?
     
     enum TabBarItem: Int{
-        case Profile, Map, Company, Vehicles, Settings, Exit
+        case profile, map, company, vehicles, settings, exit
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.selectedViewController = self.viewControllers![TabBarItem.Map.rawValue]
+        self.selectedViewController = self.viewControllers![TabBarItem.map.rawValue]
         
-        subscription = NSNotificationCenter.defaultCenter().rx_notification(NotificationManager.MenuItemSelectedNotification).subscribeNext { (notification) in
+        subscription = NotificationCenter.default.rx.notification(Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification)).subscribeNext { (notification) in
             if let value = notification.object as? String{
                 if let menuItem = MenuItem(rawValue: value){
                     switch(menuItem){
@@ -50,37 +50,37 @@ class TabBarViewController: UITabBarController{
         subscription?.addDisposableTo(self.disposeBag)
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBar.hidden = true
+        self.tabBar.isHidden = true
         
-        ApplicationState.sharedInstance().containerViewController?.centerTabBarController = self
+        ApplicationState.sharedInstance.containerViewController?.centerTabBarController = self
     }
     
     //MARK: Menu functions
     func showMap(){
-        ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Map.rawValue
+        ApplicationState.sharedInstance.hideLeftPanel()
+        self.selectedIndex = TabBarItem.map.rawValue
     }
 
     func showProfile() {
-        ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Profile.rawValue
+        ApplicationState.sharedInstance.hideLeftPanel()
+        self.selectedIndex = TabBarItem.profile.rawValue
     }
 
     func showVehicles(){
-        ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Vehicles.rawValue
+        ApplicationState.sharedInstance.hideLeftPanel()
+        self.selectedIndex = TabBarItem.vehicles.rawValue
     }
     
     func showSettings(){
-        ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Settings.rawValue
+        ApplicationState.sharedInstance.hideLeftPanel()
+        self.selectedIndex = TabBarItem.settings.rawValue
     }
     
     func showCompanies(){
-        ApplicationState.sharedInstance().hideLeftPanel()
-        self.selectedIndex = TabBarItem.Company.rawValue
+        ApplicationState.sharedInstance.hideLeftPanel()
+        self.selectedIndex = TabBarItem.company.rawValue
     }
     
     deinit{

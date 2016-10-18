@@ -11,7 +11,7 @@ import UIKit
 
 final class VehiclesFilterViewModel{
     
-    private let disposeBag = DisposeBag()
+    fileprivate let disposeBag = DisposeBag()
     
     //output
     var filterDict = PublishSubject<FilterDict>()
@@ -19,7 +19,7 @@ final class VehiclesFilterViewModel{
     //MARK: Set up
     init(filterClient: VehiclesFilterClient){
         
-        let backgrQueue = dispatch_queue_create("com.Telemetry.companies.backgroundQueue", nil)
+        let backgrQueue = DispatchQueue(label: "com.Telemetry.companies.backgroundQueue", attributes: [])
     
         filterClient
             .filterObservable()

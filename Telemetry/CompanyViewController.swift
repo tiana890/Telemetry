@@ -27,7 +27,7 @@ class CompanyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        companyClient = CompanyClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _companyId: companyId ?? 0)
+        companyClient = CompanyClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _companyId: companyId ?? 0)
         self.viewModel = CompanyViewModel(companyClient: companyClient!)
         
         addBindsToViewModel()
@@ -41,15 +41,15 @@ class CompanyViewController: UIViewController {
             .flatMap({ [unowned self](company) -> Observable<[(cellID:String, name: String)]> in
                 return Observable.just(self.createItemsArrayFromCompanyModel(company))
             }).bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
-                    let indexPath = NSIndexPath(forItem: row, inSection: 0)
-                    let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
+                    let indexPath = IndexPath(item: row, section: 0)
+                    let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                     cell.mainText.text = element.name
                     return cell
             }.addDisposableTo(self.disposeBag)
         
     }
     
-    func createItemsArrayFromCompanyModel(company: Company) -> [(cellID:String, name: String)]{
+    func createItemsArrayFromCompanyModel(_ company: Company) -> [(cellID:String, name: String)]{
         var array = [(cellID:String, name: String)]()
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Название"))
@@ -61,11 +61,11 @@ class CompanyViewController: UIViewController {
     }
     
     //MARK: IBActions
-    @IBAction func menuPressed(sender: AnyObject) {
-        ApplicationState.sharedInstance().showLeftPanel()
+    @IBAction func menuPressed(_ sender: AnyObject) {
+        ApplicationState.sharedInstance.showLeftPanel()
     }
     
-    @IBAction func backBtnPressed(sender: AnyObject) {
-        self.navigationController?.popViewControllerAnimated(true)
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
 }

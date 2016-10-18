@@ -14,18 +14,18 @@ class RxGoogleMapsDelegateProxy: DelegateProxy, DelegateProxyType, GMSMapViewDel
     
     let didChangeCameraPosition = PublishSubject<GMSCameraPosition>()
     
-    static func currentDelegateFor(object: AnyObject) -> AnyObject?{
+    static func currentDelegateFor(_ object: AnyObject) -> AnyObject?{
         let googleMap: GMSMapView = object as! GMSMapView
         return googleMap.delegate
     }
     
-    static func setCurrentDelegate(delegate: AnyObject?, toObject object: AnyObject) {
+    static func setCurrentDelegate(_ delegate: AnyObject?, toObject object: AnyObject) {
         let googleMap: GMSMapView = object as! GMSMapView
         googleMap.delegate = delegate as? GMSMapViewDelegate
     }
     
-    func mapView(mapView: GMSMapView, didChangeCameraPosition position: GMSCameraPosition) {
-        didChangeCameraPosition.on(.Next(position))
+    func mapView(_ mapView: GMSMapView, didChange position: GMSCameraPosition) {
+        didChangeCameraPosition.on(.next(position))
     }
 }
 

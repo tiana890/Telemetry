@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxAlamofire
 import SwiftyJSON
+import Alamofire
 
 class CompanyClient: NSObject {
     
@@ -26,13 +27,13 @@ class CompanyClient: NSObject {
     
     func companyObservable() -> Observable<CompanyResponse>{
         
-        let queue = dispatch_queue_create("com.Telemetry.backgroundQueue",nil)
+        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
         print(self.token)
         print(COMPANY_URL + "\(companyId ?? 0)")
-        return requestJSON(.GET, COMPANY_URL + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: .URL, headers: nil)
+        return requestJSON(.get, COMPANY_URL + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .doOnError({ (errType) in
+            .doOnError(onError: { (errType) in
                 print(errType)
             })
             .map({ (response, object) -> CompanyResponse in

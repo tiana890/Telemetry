@@ -10,19 +10,20 @@ import UIKit
 import RxSwift
 import RxAlamofire
 import SwiftyJSON
+import Alamofire
 
 class AuthClient: NSObject {
     
     let AUTH_URL = "http://gbutelemob.agentum.org/api/v1/auth"
     
-    func authObservable(login: String, password: String) -> Observable<AuthResponse>{
+    func authObservable(_ login: String, password: String) -> Observable<AuthResponse>{
         
         let paramDict = ["login" : login, "password" : "\(login):\(password)".md5]
-        let queue = dispatch_queue_create("tasksLoad",nil)
+        let queue = DispatchQueue(label: "tasksLoad",attributes: [])
         print(paramDict)
-        return requestJSON(.POST, AUTH_URL, parameters: paramDict, encoding: .URL, headers: nil)
+        return requestJSON(.post, AUTH_URL, parameters: paramDict, encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> AuthResponse in
                 let js = JSON(object)
                 print(js)

@@ -28,7 +28,7 @@ class AutosViewController: UIViewController {
     var publishSubject = PublishSubject<[Auto]>()
     let disposeBag = DisposeBag()
     
-    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+    var storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     var shouldUpdate = true
     
     override func viewDidLoad() {
@@ -38,7 +38,7 @@ class AutosViewController: UIViewController {
         addBindsToViewModel()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         guard shouldUpdate == true else {
@@ -52,8 +52,8 @@ class AutosViewController: UIViewController {
             return
         }
         
-        if(!f.isEqualToFilter(ApplicationState.sharedInstance().filter)){
-            if(ApplicationState.sharedInstance().filter?.filterIsSet() ?? false){
+        if(!f.isEqualToFilter(ApplicationState.sharedInstance.filter)){
+            if(ApplicationState.sharedInstance.filter?.filterIsSet() ?? false){
                 self.loadAutos(true)
             } else {
                 self.loadAutos(false)
@@ -64,41 +64,41 @@ class AutosViewController: UIViewController {
         
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance().filter)
+        self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     }
     
-    func loadAutos(fromFilter: Bool){
+    func loadAutos(_ fromFilter: Bool){
         self.publishSubject.onNext([])
         
         if(!fromFilter){
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
-            indicator.center = CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2)
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+            indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
             indicator.startAnimating()
             self.view.addSubview(indicator)
             
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     let autos = RealmManager.getAutos()
-                    dispatch_async(dispatch_get_main_queue(), { 
+                    DispatchQueue.main.async(execute: { 
                         indicator.removeFromSuperview()
                     })
                     self.publishSubject.onNext(autos)
             })
         } else {
-            HUD.show(.LabeledProgress(title: "Поиск по фильтру", subtitle: ""))
+            HUD.show(.labeledProgress(title: "Поиск по фильтру", subtitle: ""))
             let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
             autosClient.autosObservableWithFilter()
             .observeOn(MainScheduler.instance)
-            .doOnError({ (err) in
-                HUD.flash(.LabeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
+            .doOnError(onError: { (err) in
+                HUD.flash(.labeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
             })
             .subscribeNext({ (arr) in
                 if(arr.count > 0){
-                    HUD.flash(.Label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
+                    HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                 } else {
-                    HUD.flash(.Label("Объекты не найдены."), delay: 2, completion: nil)
+                    HUD.flash(.label("Объекты не найдены."), delay: 2, completion: nil)
                 }
                 self.publishSubject.onNext(arr)
             }).addDisposableTo(self.disposeBag)
@@ -109,8 +109,8 @@ class AutosViewController: UIViewController {
         self.publishSubject
         .observeOn(MainScheduler.instance)
         .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
-            let indexPath = NSIndexPath(forItem: row, inSection: 0)
-            let cell = self.collection.dequeueReusableCellWithReuseIdentifier(self.CELL_IDENTIFIER, forIndexPath: indexPath) as! AutoCollectionCell
+            let indexPath = IndexPath(item: row, section: 0)
+            let cell = self.collection.dequeueReusableCell(withReuseIdentifier: self.CELL_IDENTIFIER, for: indexPath) as! AutoCollectionCell
             cell.registrationNumber.text = element.registrationNumber ?? ""
             cell.companyName.text = element.organization ?? ""
             cell.model.text = element.model ?? ""
@@ -123,10 +123,10 @@ class AutosViewController: UIViewController {
             
             
             if let lastUpdate = element.lastUpdate{
-                let date = NSDate(timeIntervalSince1970: Double(lastUpdate))
-                let dateFormatter = NSDateFormatter()
+                let date = Date(timeIntervalSince1970: Double(lastUpdate))
+                let dateFormatter = DateFormatter()
                 dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd HH:mm:ss")
-                cell.lastUpdate.text = dateFormatter.stringFromDate(date)
+                cell.lastUpdate.text = dateFormatter.string(from: date)
             } else {
                 cell.lastUpdate.text = ""
             }
@@ -138,36 +138,36 @@ class AutosViewController: UIViewController {
     
     
     func addCollectionBinds(){
-        self.collection.rx_modelSelected(Auto)
+        self.collection.rx.modelSelected(Auto)
             .observeOn(MainScheduler.instance)
             .subscribeNext { [unowned self](auto) in
                 if let autoId = auto.id{
-                    self.performSegueWithIdentifier(self.AUTO_DETAIL_SEGUE, sender: NSNumber(long: autoId))
+                    self.performSegue(withIdentifier: self.AUTO_DETAIL_SEGUE, sender: NSNumber(value: autoId as Int))
                 }
         }.addDisposableTo(self.disposeBag)
         
     }
     
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == AUTO_DETAIL_SEGUE){
-            if let destVC = segue.destinationViewController as? AutoViewController{
+            if let destVC = segue.destination as? AutoViewController{
                 if let autoId = sender as? NSNumber{
                     destVC.autosViewController = self
-                    destVC.autoId = autoId.longLongValue
+                    destVC.autoId = autoId.int64Value
                 }
             }
         }
     }
     
     //MARK: IBActions
-    @IBAction func menuPressed(sender: AnyObject) {
-        ApplicationState.sharedInstance().showLeftPanel()
+    @IBAction func menuPressed(_ sender: AnyObject) {
+        ApplicationState.sharedInstance.showLeftPanel()
     }
     
    
-    @IBAction func filter(sender: AnyObject) {
+    @IBAction func filter(_ sender: AnyObject) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier(FILTER_STORYBOARD_ID)
+        let vc = storyboard.instantiateViewController(withIdentifier: FILTER_STORYBOARD_ID)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

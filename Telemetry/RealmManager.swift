@@ -11,7 +11,7 @@ import SwiftyJSON
 
 class RealmManager: NSObject {
 
-    static func saveAuto(autoModel: Auto){
+    static func saveAuto(_ autoModel: Auto){
         let autoEntity = AutoEntity()
         
         autoEntity.id = Int(autoModel.id ?? 0)
@@ -42,7 +42,7 @@ class RealmManager: NSObject {
         return autoModels
     }
     
-    static func getAutoById(id: Int) -> Auto?{
+    static func getAutoById(_ id: Int) -> Auto?{
         
         let realm = try! Realm()
         let autosJSON = realm.objects(AutoJSON).filter("id=\(id)")
@@ -56,7 +56,7 @@ class RealmManager: NSObject {
         return nil
     }
     
-    static func saveAutoJSONDict(dict: JSON) -> [Int]{
+    static func saveAutoJSONDict(_ dict: JSON) -> [Int]{
         let realm = try! Realm()
         var arr = [AutoJSON]()
         

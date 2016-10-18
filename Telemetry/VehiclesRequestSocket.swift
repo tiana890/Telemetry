@@ -22,7 +22,7 @@ class VehiclesRequestSocket{
     }
     
     
-    func getData() -> NSData?{
+    func getData() -> Data?{
         var json: JSON?
        
         if(vehicles.count > 0){

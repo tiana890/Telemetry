@@ -12,8 +12,8 @@ import RxSwift
 
 final class AutosViewModel{
     
-    private let disposeBag = DisposeBag()
-    private var autosClient: AutosClient
+    fileprivate let disposeBag = DisposeBag()
+    fileprivate var autosClient: AutosClient
     
     //output
     var autos = PublishSubject<[Auto]>()
