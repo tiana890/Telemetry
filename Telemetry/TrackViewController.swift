@@ -41,7 +41,6 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
         
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -33,7 +33,8 @@ class AutosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.collection.delegate = self
+        
         addCollectionBinds()
         addBindsToViewModel()
     }
@@ -171,4 +172,19 @@ class AutosViewController: UIViewController {
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension AutosViewController: UICollectionViewDelegateFlowLayout{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        let screenWidth = UIScreen.mainScreen().bounds.width
+        if(screenWidth <= 414.0){
+            return CGSize(width: screenWidth - 12.0, height: 148.0)
+        } else {
+            if(screenWidth > 314.0*2 && screenWidth < 314.0*3){
+                return CGSize(width: 350.0, height: 148.0)
+            }
+            return CGSize(width: 314.0, height: 148.0)
+        }
+    }
+
 }

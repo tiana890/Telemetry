@@ -31,75 +31,70 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var telemetryClient: TelemetryClient?
     var storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     
+    var isAutosLoaded: Bool{
+        get{
+            return PreferencesManager.ifAutosLoaded()
+        }
+    }
+    
+    var isFilterSet: Bool{
+        get{
+            return ApplicationState.sharedInstance.filter?.filterIsSet() ?? false
+        }
+    }
     
     //MARK: IBOutlets
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     @IBOutlet var updateBtn: UIBarButtonItem!
 
+    //MARK: UIViewController methods
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initMap()
+        initRenderer()
         
         print(ApplicationState.sharedInstance.getToken())
-
-        let iconGenerator = GMUDefaultClusterIconGenerator()
-        let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
-        clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
-        self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
-
-        clusterManager.setDelegate(self, mapDelegate: self)
         
-        if(!PreferencesManager.ifAutosLoaded()){
+        if(!isAutosLoaded){
             self.updateBtn.isEnabled = false
             HUD.show(.labeledProgress(title: "Загрузка справочника ТС", subtitle: "Это может занять некоторое время"))
-            
-            AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
-                .autosDictJSONObservable()
-                .observeOn(MainScheduler.instance)
-                .doOnError(onError: { (errType) in
-                    HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
-                    PreferencesManager.setAutosLoaded(false)
-                    self.updateMap()
-                })
-                .subscribeNext { (autosDictResponse) in
-                    HUD.flash(.success)
-                    PreferencesManager.setAutosLoaded(true)
-                    self.updateMap()
-                }.addDisposableTo(self.disposeBag)
+            updateAutos()
         } else {
-            self.updateMap()
+            updateMap()
         }
         
         self.updateBtn
             .rx.tap
             .observeOn(MainScheduler.instance)
-            .subscribeNext { [unowned self]() in
+            .subscribe { [unowned self]() in
                 self.updateMap()
             }.addDisposableTo(self.disposeBag)
         }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         clearAllTraysFromMap()
         
         if let f = self.storedFilter{
             print(f)
             print(ApplicationState.sharedInstance.filter)
+            
             if(!f.isEqualToFilter(ApplicationState.sharedInstance.filter)){
 
                 self.clearMap()
-                if(ApplicationState.sharedInstance.filter?.filterIsSet() ?? false){
+                if(isFilterSet){
                     HUD.show(.labeledProgress(title: "Поиск по фильтру", subtitle: ""))
                     let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
                     autosClient.autosIDsObservableWithFilter()
                         .observeOn(MainScheduler.instance)
-                        .doOnError(onError: { (errType) in
+                        .do(onError: { [unowned self](errType) in
                             HUD.flash(.labeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
                             self.updateMap([])
                         })
-                        .subscribeNext({ (arr) in
+                        .subscribe(onNext: { [unowned self](arr) in
                             if(arr.count > 0){
                                 HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                             } else {
@@ -119,14 +114,46 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     }
+    
+    //MARK: Init functions
     
     func initMap(){
         mapView = GMSMapView(frame: self.view.frame)
         mapView!.delegate = self
         self.view.addSubview(mapView!)
     }
+    
+    func initRenderer(){
+        let iconGenerator = GMUDefaultClusterIconGenerator()
+        let renderer = GMUDefaultClusterRenderer(mapView: mapView!, clusterIconGenerator: iconGenerator)
+        clusterManager = GMUClusterManager(map: mapView!, algorithm: algorithm, renderer: renderer)
+        self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
+        
+        clusterManager.setDelegate(self, mapDelegate: self)
+    }
+    
+    //MARK: Logic functions
+    
+    func updateAutos(){
+        AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
+            .autosDictJSONObservable()
+            .observeOn(MainScheduler.instance)
+            .do(onError: { (errType) in
+                HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
+                PreferencesManager.setAutosLoaded(false)
+                self.updateMap()
+            })
+            .subscribe { (autosDictResponse) in
+                HUD.flash(.success)
+                PreferencesManager.setAutosLoaded(true)
+                self.updateMap()
+            }.addDisposableTo(self.disposeBag)
+    }
+    
+    //MARK: Map functions
     
     func updateMap(){
         
@@ -155,6 +182,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     func addBindsToViewModel(_ vehicles:[Int]){
 
         self.clearAllTraysFromMap()
+        
+        self.mapView?.clear()
         self.mapView!.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
         
         self.socketBag = nil
@@ -181,6 +210,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             DispatchQueue.main.async(execute: { 
                 self.clusterManager.cluster()
                 self.indicator.isHidden = true
+                self.updateBtn.isEnabled = true
             })
             
         }, onError: { [unowned self](errType) in
@@ -204,7 +234,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             self.updateBtn.isEnabled = true
         }, onDisposed: {
                 
-    }).addDisposableTo(self.disposeBag)
+        }).addDisposableTo(self.disposeBag)
     }
 
     func appendMarkersOnMap(_ array: [Vehicle]){
@@ -274,7 +304,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 for (line) in spot.spot.polylines{
                     (line as! GMSPolyline).map = nil
                 }
-            
                 spot.spot.polylines.removeAllObjects()
             }
         }
@@ -364,4 +393,5 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         print("DEINIT")
     }
 }
-   
+
+
