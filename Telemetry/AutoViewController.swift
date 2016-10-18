@@ -46,12 +46,21 @@ class AutoViewController: UIViewController {
     }
     
     func addBindsToViewModel(){
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        indicator.center = CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2)
+        indicator.startAnimating()
+        self.view.addSubview(indicator)
         
         self.viewModel?.auto
             .observeOn(MainScheduler.instance)
+            .doOnError({ (errType) in
+                indicator.removeFromSuperview()
+            })
             .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
+                indicator.removeFromSuperview()
                 return Observable.just(self.createItemsArrayFromAutoModel(auto))
-            }).bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+            })
+            .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
                 let indexPath = NSIndexPath(forItem: row, inSection: 0)
                 let cell = self.table.dequeueReusableCellWithIdentifier(element.cellID, forIndexPath: indexPath) as! CommonCell
                 cell.mainText.text = element.name

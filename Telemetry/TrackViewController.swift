@@ -11,6 +11,7 @@ import RxCocoa
 import UIKit
 import GoogleMaps
 import SwiftyJSON
+import PKHUD
 
 class TrackViewController: UIViewController, GMSMapViewDelegate {
     
@@ -20,7 +21,9 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     var viewModel: TrackViewModel?
     var trackClient: TrackClient?
 
+    @IBOutlet var infoView: UIVisualEffectView!
     @IBOutlet var mapView: GMSMapView!
+    @IBOutlet var infoLabel: UILabel!
     
     var disposeBag: DisposeBag? = DisposeBag()
 
@@ -35,24 +38,20 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         
         trackClient = TrackClient(_token: ApplicationState.sharedInstance().getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-//        let track = Track()
-//        
-//        var trackItem1 = TrackItem(json: JSON(data:"{ \"lat\": 55.75222, \"lon\": 37.61556, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        
-//        var trackItem2 = TrackItem(json: JSON(data:"{ \"lat\": 55.7722, \"lon\": 37.78, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        
-//        var trackItem3 = TrackItem(json: JSON(data:"{ \"lat\": 55.7922, \"lon\": 37.61600, \"speed\": 0, \"azimut\": 0, \"time\": 0 }".dataUsingEncoding(NSUTF8StringEncoding)!))
-//        track.trackArray = []
-//        track.trackArray?.append(trackItem1)
-//        track.trackArray?.append(trackItem2)
-//        track.trackArray?.append(trackItem3)
-//        self.showTrackOnMap(track)
+        adjustInfoView()
         addBindsToViewModel()
+    }
+    
+    func adjustInfoView(){
+        self.view.bringSubviewToFront(self.infoView)
+        
     }
     
     func addBindsToViewModel(){
@@ -61,7 +60,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             .subscribe(onNext: { (tr) in
                     self.showTrackOnMap(tr)
                 }, onError: { (err) in
-                    print(err)
+                    
                 }, onCompleted: { 
                     print("completed")
                 }, onDisposed: { 
@@ -87,14 +86,17 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             let trackItem = trackArray[0]
             if(trackItem.lat != nil && trackItem.lon != nil){
                 marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
+                (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransformMakeRotation(self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
+                marker.groundAnchor = CGPointMake(0.5, 0.5)
                 self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
+                if let interval = trackItem.time{
+                    self.infoLabel.text = NSDate(timeIntervalSince1970: Double(interval)).toRussianString()
+                } else {
+                    self.infoLabel.text = ""
+                }
             }
         }
-        
-        //let timer = NSTimer(timeInterval: 3, target: self, selector: #selector(TrackViewController.moveMarker), userInfo: trackArray, repeats: true)
-//        let observableInt = Observable<Int>.interval(3, scheduler: MainScheduler.instance).asObservable()
-//        let observableTrackItems = self.createObservableFromArray(trackArray).asObservable()
-//        
+     
         print("Track array count = \(trackArray.count)")
         Observable<Int>.timer(0, period: 0.1, scheduler: MainScheduler.instance)
             .take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
@@ -103,54 +105,23 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                     let trackItem = trackArray[val]
                     if(trackItem.lat != nil && trackItem.lon != nil){
                         marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
-                        GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
+                        (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransformMakeRotation(self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
+                        marker.groundAnchor = CGPointMake(0.5, 0.5)
+                        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
+                        self.mapView.animateWithCameraUpdate(update)
+                        if let interval = trackItem.time{
+                            self.infoLabel.text = NSDate(timeIntervalSince1970: Double(interval)).toRussianString()
+                        } else {
+                            self.infoLabel.text = ""
+                        }
                     }
                 }
                 print(val)
         }.addDisposableTo(self.disposeBag!)
-        
-        
-//        Observable<Int>.interval(3, scheduler: MainScheduler.instance)
-//            .flatMap { [unowned self](time) -> Observable<TrackItem> in
-//                return self.createObservableFromArray(trackArray)
-//            }.subscribeNext { (trackItem) in
-//                
-//                CATransaction.begin()
-//                CATransaction.setAnimationDuration(2)
-//                if(trackItem.lat != nil && trackItem.lon != nil){
-//                    marker.layer.latitude = Double(trackItem.lat!)
-//                    marker.layer.longitude = Double(trackItem.lon!)
-//                    let locationUpdate = GMSCameraUpdate.setTarget(marker.position, zoom: 12)
-//                    self.mapView.animateWithCameraUpdate(locationUpdate)
-//                }
-//                
-//                CATransaction.commit()
-//            }.addDisposableTo(self.disposeBag)
-//
-//        
-
-//        self.createObservableFromArray(trackArray)
-//            .skip(0)
-//            .debug()
-//            .subscribeNext { (trackItem) in
-//                
-//                CATransaction.begin()
-//                CATransaction.setAnimationDuration(2)
-//                if(trackItem.lat != nil && trackItem.lon != nil){
-//                    marker.layer.latitude = Double(trackItem.lat!)
-//                    marker.layer.longitude = Double(trackItem.lon!)
-//                    let locationUpdate = GMSCameraUpdate.setTarget(marker.position, zoom: 12)
-//                    self.mapView.animateWithCameraUpdate(locationUpdate)
-//                }
-//
-//                CATransaction.commit()
-//                
-//        }.addDisposableTo(self.disposeBag)
-        
 
     }
     
-    func moveMarker(){
+    func moveMarker(marker: GMSMarker){
         
     }
 
@@ -195,8 +166,15 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         self.disposeBag = nil
     }
     
+    func DegreesToRadians(degrees: CGFloat) -> CGFloat{
+        return CGFloat(Double(degrees) * M_PI/180)
+    }
+    
     deinit{
         print("DEINIT")
     }
 
+    @IBAction func backBtnPressed(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
 }

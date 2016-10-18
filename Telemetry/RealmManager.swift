@@ -19,6 +19,7 @@ class RealmManager: NSObject {
         autoEntity.model = autoModel.model ?? ""
         autoEntity.organization = autoModel.organization ?? ""
         autoEntity.type = autoModel.type ?? ""
+        autoEntity.garageNumber = autoModel.garageNumber ?? ""
         
         let realm = try! Realm()
         

@@ -16,5 +16,6 @@ class AutoCollectionCell: UICollectionViewCell {
     @IBOutlet var model: UILabel!
     @IBOutlet var lastUpdate: UILabel!
     @IBOutlet var registrationNumber: UILabel!
+    @IBOutlet var garageNumber: UILabel!
     
 }

@@ -257,7 +257,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         spot.vehicleId = NSNumber(longLong: vehicle.id!)
         spot.position = pos
         if let auto = RealmManager.getAutoById(Int(vehicle.id!)){
-            spot.regNumber = auto.registrationNumber ?? ""
+            spot.regNumber = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
         }
         if let azm = vehicle.azimut{
             spot.azimut = NSNumber(double: azm)
@@ -313,7 +313,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         
         if let markerView = NSBundle.mainBundle().loadNibNamed("MarkerWindow", owner: self, options: nil)[0] as? MarkerWindow{
             markerView.company.text = auto.organization ?? ""
-            markerView.regNumber.text = auto.registrationNumber ?? ""
+            markerView.regNumber.text = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
             markerView.model.text = auto.model ?? ""
             markerView.modelName.text = auto.type ?? ""
             markerView.layer.cornerRadius = 4.0

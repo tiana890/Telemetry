@@ -61,6 +61,16 @@ extension NSDate
         return str
     }
     
+    func toRussianString() -> String{
+        //Get Short Time String
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "HH:mm dd.MM.yyyy"
+        let str = formatter.stringFromDate(self)
+        
+        //Return Short Time String
+        return str
+    }
+    
     func toStringWithFormat(format: String) -> String{
         let formatter = NSDateFormatter()
         formatter.dateFormat = format

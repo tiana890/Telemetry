@@ -91,7 +91,12 @@ class Filter: NSObject {
         //dict["token"] = PreferencesManager.getToken() ?? ""
         dict["modelIds"] = autoModelIds
         dict["organizationIds"] = companyIds
-        dict["registrationNumber"] = self.registrationNumber ?? ""
+        
+        if(!PreferencesManager.showGarageNumber()){
+            dict["registrationNumber"] = self.registrationNumber ?? ""
+        } else {
+            dict["garageNumber"] = self.registrationNumber ?? ""
+        }
         
         print(dict)
         var dat = NSData()

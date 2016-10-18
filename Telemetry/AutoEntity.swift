@@ -24,6 +24,7 @@ class AutoEntity: Object {
     dynamic var model = ""
     dynamic var organization = ""
     dynamic var type = ""
+    dynamic var garageNumber = ""
     
     override class func primaryKey() -> String? {
         return "id"

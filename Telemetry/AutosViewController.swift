@@ -77,7 +77,7 @@ class AutosViewController: UIViewController {
             let indicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
             indicator.center = CGPoint(x: UIScreen.mainScreen().bounds.width/2, y: UIScreen.mainScreen().bounds.height/2)
             indicator.startAnimating()
-            self.collection.addSubview(indicator)
+            self.view.addSubview(indicator)
             
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                     let autos = RealmManager.getAutos()

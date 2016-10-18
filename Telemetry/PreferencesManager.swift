@@ -38,4 +38,15 @@ class PreferencesManager: NSObject {
         return def.boolForKey("ifAutosLoaded")
     }
     
+    static func showGarageNumber() -> Bool{
+        let def = NSUserDefaults.standardUserDefaults()
+        return def.boolForKey("showStateNumber")
+    }
+    
+    static func setShowGarageNumber(value: Bool){
+        let def = NSUserDefaults.standardUserDefaults()
+        def.setBool(value, forKey: "showStateNumber")
+        def.synchronize()
+    }
+    
 }

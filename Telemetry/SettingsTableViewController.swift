@@ -13,21 +13,32 @@ import PKHUD
 
 class SettingsTableViewController: UITableViewController {
     
+    @IBOutlet var showRegistrationNumber: UILabel!
     
     //MARK: Rx Entities
+    
     let disposeBag = DisposeBag()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if(PreferencesManager.showGarageNumber()){
+            self.showRegistrationNumber.text = "Отображать гаражные номера"
+        } else {
+            self.showRegistrationNumber.text = "Отображать регистрационные номера"
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if(indexPath.row == 0){
             self.showAlert("Вы действительно хотите обновить справочники ТС?", msg: "Это займет некоторое время")
-        } else if(indexPath.row == 2){
+        } else if(indexPath.row == 4){
             self.showExitAlert("Вы действительно хотите выйти из приложения?", msg: "")
         }
     }
+    
+    //MARK: -IBActions
+    
     @IBAction func menuPressed(sender: AnyObject) {
          ApplicationState.sharedInstance().showLeftPanel()
     }
