@@ -28,6 +28,8 @@ final class AuthorizationViewModel{
     }
 
     func authorize(_ login: String, password: String) -> Observable<Auth>{
+        print(login)
+        print(password)
         return authClient.authObservable(login, password: password)
             .map({ (authResponse) -> Auth in
                 return self.convertAuthResponseToAuthModel(authResponse)

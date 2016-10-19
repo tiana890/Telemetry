@@ -175,8 +175,8 @@ class AutosViewController: UIViewController {
 }
 
 extension AutosViewController: UICollectionViewDelegateFlowLayout{
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let screenWidth = UIScreen.mainScreen().bounds.width
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let screenWidth = UIScreen.main.bounds.width
         if(screenWidth <= 414.0){
             return CGSize(width: screenWidth - 12.0, height: 148.0)
         } else {

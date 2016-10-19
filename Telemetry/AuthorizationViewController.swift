@@ -55,7 +55,7 @@ class AuthorizationViewController: UIViewController {
         
         let authViewModel = AuthorizationViewModel(authClient: AuthClient())
         
-        authViewModel.authorize(self.loginTxtField.text ?? "", password: self.passwordTxtField.text ?? "")
+        authViewModel.authorize(self.loginTxtField!.text ?? "", password: self.passwordTxtField!.text ?? "")
             .debug()
             .observeOn(MainScheduler.instance)
             .doOnError(onError: { [unowned self](err) in

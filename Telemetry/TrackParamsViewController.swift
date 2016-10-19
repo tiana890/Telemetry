@@ -62,7 +62,7 @@ class TrackParamsViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destVC = segue.destination as? TrackViewController{
-            destVC.autoId = self.autoId
+            destVC.autoId = Int(self.autoId ?? 0)
             destVC.trackParams = self.trackParams
         }
     }

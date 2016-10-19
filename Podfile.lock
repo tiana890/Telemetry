@@ -40,7 +40,7 @@ DEPENDENCIES:
   - RxCocoa (~> 3.0.0-rc.1)
   - RxSwift (~> 3.0.0-rc.1)
   - SocketRocket
-  - SwiftyJSON
+  - SwiftyJSON (~> 3.1.1)
 
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
@@ -58,6 +58,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
-PODFILE CHECKSUM: 2b2d493b615e6257d926b3a51d1e391bedc6aaa5
+PODFILE CHECKSUM: 5340dfbcb63da6dbf16f99e82adbc977a55f3407
 
-COCOAPODS: 1.1.0.rc.2
+COCOAPODS: 1.1.0.rc.3

@@ -34,9 +34,7 @@ class AutosClient: NSObject {
             .map({ (response, object) -> AutosResponse in
                 
                 let js = SwiftyJSON.JSON(object)
-                print(js)
                 let autosResponse = AutosResponse(json: js)
-                
                 return autosResponse
             })
     }
@@ -44,12 +42,12 @@ class AutosClient: NSObject {
 
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
         return requestJSON(.get, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
-            .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
-                let js = SwiftyJSON.JSON(object)
+                let jsonObject = JSON(object)["vehicles"]
                 let start = Date().timeIntervalSince1970
-                RealmManager.saveAutoJSONDict(js["vehicles"])
+                print(jsonObject.type)
+                RealmManager.saveAutoJSONDict(jsonObject)
                 let end = Date().timeIntervalSince1970 - start
                 print(end)
                 return [:]
@@ -64,7 +62,6 @@ class AutosClient: NSObject {
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Int] in
-                print(JSON(object))
                 let js = SwiftyJSON.JSON(object)
                 let start = Date().timeIntervalSince1970
                 let ids = RealmManager.saveAutoJSONDict(js["vehicles"])

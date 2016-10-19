@@ -14,13 +14,13 @@ import Alamofire
 class TrackClient: NSObject {
 
     var token: String?
-    var autoId: Int64?
+    var autoId: Int?
     var startTime: String?
     var endTime: String?
     
     let TRACK_URL = "http://gbutelemob.agentum.org/api/v1/vehicle/track/"
     
-    init(_token: String, _autoId: Int64, _startTime: Int64, _endTime: Int64) {
+    init(_token: String, _autoId: Int, _startTime: Int64, _endTime: Int64) {
         super.init()
         self.token = _token
         self.autoId = _autoId
@@ -41,17 +41,17 @@ class TrackClient: NSObject {
         
         return requestJSON(.get, TRACK_URL + "\(autoId ?? 0)", parameters: parameters, encoding: URLEncoding.default, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .map({ (response, object) -> TrackResponse in
-                print(response)
+            .flatMap({ (response, object) -> Observable<TrackResponse> in
                 let js = JSON(object)
-                print(js)
+                
                 let trackResponse = TrackResponse(json: js)
-                return trackResponse
+                if(trackResponse.status == Status.Success){
+                    return Observable.just(trackResponse)
+                } else {
+                    return self.createObserverOnError(APIError(_errType: .UNKNOWN, _reason: trackResponse.reason ?? ""))
+                }
             })
-            .catchError({ (errType) -> Observable<TrackResponse> in
-                return self.createObserverOnError(APIError(errType: .UNKNOWN))
-            })
-
+            
     }
     
     internal func createObserverOnError(_ apiError: APIError) -> Observable<TrackResponse>{

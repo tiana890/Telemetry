@@ -15,17 +15,29 @@ import PKHUD
 
 class TrackViewController: UIViewController, GMSMapViewDelegate {
     
-    var animationPeriod = 0.5
+    enum Speed: Int{
+        case original = 1
+        case x2 = 2
+        case x3 = 3
+        case x5 = 5
+        case x10 = 10
+    }
     
-    var autoId: Int64?
+    var speed: Speed = .original
+    var animationPeriod = 0.8
+    
+    var autoId: Int?
     var trackParams: (startDate: Int64?, endDate: Int64?)?
     
     var viewModel: TrackViewModel?
     var trackClient: TrackClient?
+    var track: Track?
 
     @IBOutlet var infoView: UIVisualEffectView!
     @IBOutlet var mapView: GMSMapView!
     @IBOutlet var infoLabel: UILabel!
+    
+    var zoom = 12
     
     var disposeBag: DisposeBag? = DisposeBag()
 
@@ -39,7 +51,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         self.view.addSubview(mapView!)
         self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
         
-        trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
+        trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: self.autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
         
     }
@@ -60,10 +72,24 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         HUD.show(.labeledProgress(title: "", subtitle: "Загрузка данных о треке"))
         self.viewModel!.track.observeOn(MainScheduler.instance)
             .subscribe(onNext: { (tr) in
-                    HUD.show(.success)
+                if((tr.trackArray?.count ?? 0) > 0){
+                    self.track = tr
+                    HUD.flash(.success)
+                } else {
+                    HUD.flash(.labeledError(title: "Внимание", subtitle: "Нет информации по данному запросу"), delay: 2.0, completion: { (val) in
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                }
                     self.showTrackOnMap(tr)
                 }, onError: { (err) in
-                    HUD.show(.labeledError(title: "Внимание", subtitle: "Произошла ошибка"))
+                    var errorMsg = "Нет информации по данному запросу"
+                    if(err is APIError){
+                        errorMsg = (err as! APIError).getReason()
+                    }
+                    HUD.flash(.labeledError(title: "Внимание", subtitle: errorMsg), delay: 2.0, completion: { (val) in
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    
                 }, onCompleted: { 
                     print("completed")
                 }, onDisposed: { 
@@ -76,13 +102,19 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     func showTrackOnMap(_ track: Track){
         
         self.mapView.clear()
+        self.disposeBag = DisposeBag()
         let marker = GMSMarker()
         marker.map = self.mapView
         
         self.mapView.selectedMarker = marker
         
         if let markerIconView = Bundle.main.loadNibNamed("MarkerIcon", owner: self, options: nil)?[0] as? MarkerIcon{
-            marker.iconView = markerIconView
+            if let aId = self.autoId{
+                if let auto = RealmManager.getAutoById(aId){
+                    markerIconView.registrationNumber.text = PreferencesManager.showGarageNumber() ? (auto.garageNumber ?? "") : (auto.registrationNumber ?? "")
+                    marker.iconView = markerIconView
+                }
+            }
         }
         
         guard let trArray = track.trackArray else { return }
@@ -92,12 +124,11 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         
         trackArray.removeSubrange(0 ..< iterationIndex)
         
-        if iterationIndex != 0 { trackArray.removeSubrange(iterationIndex ..< trackArray.count)}
         if trackArray.count > 0 {
             self.moveMarker(marker, trackItem: trackArray[0], animated: false)
         }
      
-        Observable<Int>.timer(0, period: animationPeriod, scheduler: MainScheduler.instance)
+        Observable<Int>.timer(0, period: animationPeriod/Double(self.speed.rawValue), scheduler: MainScheduler.instance)
             .take(trackArray.count)
             //.take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
             .subscribe { [unowned self](event) in
@@ -116,15 +147,19 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
         (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
-        self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0)
+        
         if let interval = trackItem.time{
             self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
         } else {
             self.infoLabel.text = ""
         }
         
-        guard animated else { return }
-        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: 12, bearing: 0, viewingAngle: 0))
+        guard animated else {
+            
+            self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
+            return
+        }
+        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
         self.mapView.animate(with: update)
         
         if let interval = trackItem.time{
@@ -187,4 +222,34 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     @IBAction func backBtnPressed(_ sender: AnyObject) {
         self.navigationController?.popViewController(animated: true)
     }
+    
+
+    @IBAction func valueChanged(_ sender: UISegmentedControl) {
+        var newSpeed: Speed = self.speed
+        switch sender.selectedSegmentIndex {
+        case 0:
+            newSpeed = Speed.original
+            break
+        case 1:
+            newSpeed = Speed.x2
+            break
+        case 2:
+            newSpeed = Speed.x3
+            break
+        case 3:
+            newSpeed = Speed.x5
+            break
+        case 4:
+            newSpeed = Speed.x10
+            break
+        default:
+            break
+        }
+        if(newSpeed.rawValue != self.speed.rawValue){
+            self.speed = newSpeed
+            self.showTrackOnMap(self.track!)
+        }
+    }
+    
+    
 }

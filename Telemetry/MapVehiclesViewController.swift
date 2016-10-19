@@ -146,11 +146,18 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 PreferencesManager.setAutosLoaded(false)
                 self.updateMap()
             })
-            .subscribe { (autosDictResponse) in
+            .subscribe({ (event) in
+                if(!event.isStopEvent){
+                    HUD.flash(.success)
+                    PreferencesManager.setAutosLoaded(true)
+                    self.updateMap()
+                }
+            })
+            /*.subscribe { (autosDictResponse) in
                 HUD.flash(.success)
                 PreferencesManager.setAutosLoaded(true)
                 self.updateMap()
-            }.addDisposableTo(self.disposeBag)
+            }*/.addDisposableTo(self.disposeBag)
     }
     
     //MARK: Map functions

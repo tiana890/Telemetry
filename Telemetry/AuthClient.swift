@@ -18,7 +18,7 @@ class AuthClient: NSObject {
     
     func authObservable(_ login: String, password: String) -> Observable<AuthResponse>{
         
-        let paramDict = ["login" : login, "password" : "\(login):\(password)".md5]
+        let paramDict: [String: String] = ["login" : login, "password" : "\(login):\(password)".md5]
         let queue = DispatchQueue(label: "tasksLoad",attributes: [])
         print(paramDict)
         return requestJSON(.post, AUTH_URL, parameters: paramDict, encoding: URLEncoding.default, headers: nil)

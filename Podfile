@@ -11,7 +11,7 @@ target 'Telemetry' do
   pod 'RxSwift', '~> 3.0.0-rc.1'
   pod 'RxBlocking', '~> 3.0.0-rc.1'
   pod 'RxCocoa', '~> 3.0.0-rc.1'
-  pod 'SwiftyJSON'
+  pod 'SwiftyJSON', '~> 3.1.1'
   pod 'RxAlamofire', '~> 3.0.0-rc.1'
   pod 'Fabric'
   pod 'Crashlytics'

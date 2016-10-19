@@ -61,7 +61,8 @@ class RealmManager: NSObject {
         var arr = [AutoJSON]()
         
         var ids = [Int]()
-        for (key,subJson):(String, SwiftyJSON.JSON) in dict {
+
+        for (key,subJson):(String, SwiftyJSON.JSON) in dict.dictionaryValue {
             if let key = Int(key){
                 ids.append(key)
                 let autoJSON = AutoJSON()
