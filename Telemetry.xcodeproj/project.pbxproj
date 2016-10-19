@@ -48,6 +48,8 @@
 		4CBB2DFB1D3F938F000AAE33 /* GMUDefaultClusterRenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBB2DEB1D3F938F000AAE33 /* GMUDefaultClusterRenderer.m */; };
 		4CBB2DFC1D3F938F000AAE33 /* GQTPointQuadTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBB2DF01D3F938F000AAE33 /* GQTPointQuadTree.m */; };
 		4CBB2DFD1D3F938F000AAE33 /* GQTPointQuadTreeChild.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBB2DF21D3F938F000AAE33 /* GQTPointQuadTreeChild.m */; };
+		59C30E631DB7972D001B5AC8 /* InfoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C30E621DB7972D001B5AC8 /* InfoClient.swift */; };
+		59C30E651DB79827001B5AC8 /* InfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C30E641DB79827001B5AC8 /* InfoResponse.swift */; };
 		8809A06E1D3F693000974319 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A06D1D3F693000974319 /* Accelerate.framework */; };
 		8809A0721D3F694D00974319 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A06F1D3F694D00974319 /* CoreBluetooth.framework */; };
 		8809A0731D3F694D00974319 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A0701D3F694D00974319 /* CoreData.framework */; };
@@ -246,6 +248,8 @@
 		4CBB2DF11D3F938F000AAE33 /* GQTPointQuadTreeChild.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTreeChild.h; sourceTree = "<group>"; };
 		4CBB2DF21D3F938F000AAE33 /* GQTPointQuadTreeChild.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GQTPointQuadTreeChild.m; sourceTree = "<group>"; };
 		4CBB2DF31D3F938F000AAE33 /* GQTPointQuadTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTreeItem.h; sourceTree = "<group>"; };
+		59C30E621DB7972D001B5AC8 /* InfoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoClient.swift; sourceTree = "<group>"; };
+		59C30E641DB79827001B5AC8 /* InfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoResponse.swift; sourceTree = "<group>"; };
 		8809A06D1D3F693000974319 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8809A06F1D3F694D00974319 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		8809A0701D3F694D00974319 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -473,6 +477,7 @@
 				88F99DD41D4A4B970031A645 /* AutoClient.swift */,
 				88263E741D534DBF00688708 /* VehiclesFilterClient.swift */,
 				886BC1E01D5B2D0800C7C7B9 /* TrackClient.swift */,
+				59C30E621DB7972D001B5AC8 /* InfoClient.swift */,
 			);
 			name = Clients;
 			sourceTree = "<group>";
@@ -490,6 +495,7 @@
 				88EDFA971D53C2BF005ACA54 /* AutosDictResponse.swift */,
 				886BC1D21D5905C600C7C7B9 /* AutoDetailResponse.swift */,
 				886BC1E41D5B2F3300C7C7B9 /* TrackResponse.swift */,
+				59C30E641DB79827001B5AC8 /* InfoResponse.swift */,
 			);
 			name = Responses;
 			sourceTree = "<group>";
@@ -1236,6 +1242,7 @@
 				885F5C171D45EA56003353FD /* NotificationManager.swift in Sources */,
 				4C5B24451D367C3B00AC310E /* String+MD5.swift in Sources */,
 				88EDFAA61D547DA0005ACA54 /* MarkerWindow.swift in Sources */,
+				59C30E651DB79827001B5AC8 /* InfoResponse.swift in Sources */,
 				4CBB2DFB1D3F938F000AAE33 /* GMUDefaultClusterRenderer.m in Sources */,
 				4C5B243D1D366AE900AC310E /* AuthorizationViewController.swift in Sources */,
 				4C5B24471D36877600AC310E /* Auth.swift in Sources */,
@@ -1309,6 +1316,7 @@
 				4CBB2DF51D3F938F000AAE33 /* GMUNonHierarchicalDistanceBasedAlgorithm.m in Sources */,
 				88F99DAB1D49DC940031A645 /* CompaniesResponse.swift in Sources */,
 				4CBB2DF41D3F938F000AAE33 /* GMUGridBasedClusterAlgorithm.m in Sources */,
+				59C30E631DB7972D001B5AC8 /* InfoClient.swift in Sources */,
 				4C5B24411D366DB400AC310E /* AuthResponse.swift in Sources */,
 				88F99DB81D4A22170031A645 /* CompanyViewController.swift in Sources */,
 				88F99DB61D49EEEA0031A645 /* CompaniesViewController.swift in Sources */,

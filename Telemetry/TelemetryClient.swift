@@ -13,7 +13,8 @@ import SwiftyJSON
 
 class TelemetryClient: NSObject {
     
-    let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
+    //let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
+    let SERVER_URL = PreferencesManager.getServer() + "socket_server"
     
     var webSocket: SRWebSocket?
     fileprivate var token: String?

@@ -31,7 +31,8 @@ class MenuTableViewController: BaseTableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sub = self.table.rx.itemSelected.subscribeNext { [unowned self](indexPath) in
+        let sub = self.table.rx.itemSelected.observeOn(MainScheduler.instance)
+            .subscribeNext { [unowned self](indexPath) in
             switch ((indexPath as NSIndexPath).row){
             case MenuItemIndex.profile.rawValue:
                 //NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))

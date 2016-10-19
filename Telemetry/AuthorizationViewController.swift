@@ -58,7 +58,7 @@ class AuthorizationViewController: UIViewController {
         authViewModel.authorize(self.loginTxtField!.text ?? "", password: self.passwordTxtField!.text ?? "")
             .debug()
             .observeOn(MainScheduler.instance)
-            .doOnError(onError: { [unowned self](err) in
+            .do(onError: { [unowned self](err) in
                 self.indicator.isHidden = true
                 if let error = err as? APIError{
                     self.showAlert("Ошибка", msg: error.getReason())
@@ -67,18 +67,57 @@ class AuthorizationViewController: UIViewController {
                 }
                 self.enterButton.isHidden = false
             })
-            .subscribeNext { [unowned self](ath) in
-            if(ath.token != nil){
-                ApplicationState.sharedInstance.saveToken(ath.token!)
-                self.performSegue(withIdentifier: AuthorizationViewController.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
-            } else {
-                self.indicator.isHidden = true
-                self.showAlert("Ошибка", msg: ath.reason ?? "Невозможно авторизоваться")
-                self.enterButton.isHidden = false
+            .subscribe { [unowned self](event) in
+                guard !event.isStopEvent else { return }
+                guard let ath = event.element else {
+                    self.indicator.isHidden = true
+                    self.showAlert("Ошибка", msg: "Невозможно авторизоваться")
+                    self.enterButton.isHidden = false
+                    return
+                }
+                if(ath.token != nil){
+                    ApplicationState.sharedInstance.saveToken(ath.token!)
+                    
+                    let success = {
+                        self.performSegue(withIdentifier: AuthorizationViewController.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
+                    }
+                    
+                    let failure = {
+                        self.indicator.isHidden = true
+                        self.showAlert("Ошибка", msg: ath.reason ?? "Невозможно получить сервер телеметрии")
+                        self.enterButton.isHidden = false
+                    }
+                    self.loadInfoHandler(success: success, failure: failure)
+
+                } else {
+                    self.indicator.isHidden = true
+                    self.showAlert("Ошибка", msg: ath.reason ?? "Невозможно авторизоваться")
+                    self.enterButton.isHidden = false
+                }
+        }.addDisposableTo(self.disposeBag)
+    
+    }
+    
+    func loadInfoHandler(success: @escaping ()->(), failure: @escaping ()->()){
+        let infoClient = InfoClient(_token: PreferencesManager.getToken() ?? "")
+        
+        infoClient.infoObservable()
+        .observeOn(MainScheduler.instance)
+        .do(onError: { (err) in
+            failure()
+        })
+        .subscribe { (event) in
+            guard !event.isStopEvent else { return }
+            guard let info = event.element else {
+                failure()
+                return
             }
+            guard let url = info.url else { return }
+            PreferencesManager.saveServer(url)
+            success()
+            
         }.addDisposableTo(self.disposeBag)
         
-
     }
     
     func setObservers(){

@@ -49,4 +49,14 @@ class PreferencesManager: NSObject {
         def.synchronize()
     }
     
+    static func saveServer(_ server: String){
+        let def = UserDefaults.standard
+        def.set(server, forKey: "server")
+        def.synchronize()
+    }
+    
+    static func getServer() -> String{
+        let def = UserDefaults.standard
+        return def.string(forKey: "server") ?? ""
+    }
 }
