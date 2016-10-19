@@ -20,7 +20,7 @@ class AutoViewController: UIViewController {
     
     
     let SHOW_TRACK_SEGUE_IDENTIFIER = "showTrack"
-    let FOLLOW_VEHICLE_SEGUE_IDENTIFIER = "followVehicle"
+    let FOLLOW_VEHICLE_SEGUE_IDENTIFIER = "followMapSegue"
     
     var autoId: Int64?
     var viewModel :AutoViewModel?
@@ -35,6 +35,8 @@ class AutoViewController: UIViewController {
     @IBOutlet var table: UITableView!
     @IBOutlet var companyName: UILabel!
 
+    var showTrackIndex = -1
+    var followVehicleIndex = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +44,7 @@ class AutoViewController: UIViewController {
         self.viewModel = AutoViewModel(autoClient: autoClient!)
         
         addBindsToViewModel()
-
+        addTableBinds()
     }
     
     func addBindsToViewModel(){
@@ -64,14 +66,23 @@ class AutoViewController: UIViewController {
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                 cell.mainText.text = element.name
-                
                 return cell
             }.addDisposableTo(self.disposeBag)
         
     }
     
     func addTableBinds(){
-        
+        self.table
+        .rx
+        .itemSelected
+        .subscribe { (event) in
+            guard let ip = event.element else { return }
+            if(ip.row == self.showTrackIndex){
+                self.performSegue(withIdentifier: self.SHOW_TRACK_SEGUE_IDENTIFIER, sender: nil)
+            }else if(ip.row == self.followVehicleIndex){
+                self.performSegue(withIdentifier: self.FOLLOW_VEHICLE_SEGUE_IDENTIFIER, sender: nil)
+            }
+        }.addDisposableTo(self.disposeBag)
     }
     
     func createItemsArrayFromAutoModel(_ auto: AutoDetail) -> [(cellID:String, name: String)]{
@@ -113,8 +124,10 @@ class AutoViewController: UIViewController {
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Проиграть трек"))
         array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Выбрать параметры трека"))
+        self.showTrackIndex = array.count - 1
         array.append((self.HEADER_CELL_IDENTIFIER, "Следить за ТС"))
         array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Следить за ТС"))
+        self.followVehicleIndex = array.count - 1
         
         return array
     }
@@ -128,6 +141,10 @@ class AutoViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == SHOW_TRACK_SEGUE_IDENTIFIER){
             if let destVC = segue.destination as? TrackParamsViewController{
+                destVC.autoId = self.autoId
+            }
+        } else if(segue.identifier == FOLLOW_VEHICLE_SEGUE_IDENTIFIER){
+            if let destVC = segue.destination as? FollowVehicleViewController{
                 destVC.autoId = self.autoId
             }
         }

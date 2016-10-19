@@ -105,6 +105,53 @@
             </objects>
             <point key="canvasLocation" x="1146" y="335"/>
         </scene>
+        <!--Карта-->
+        <scene sceneID="E8B-iX-U8L">
+            <objects>
+                <viewController id="rzY-0n-nVj" customClass="FollowVehicleViewController" customModule="Telemetry" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="Карта" id="kFW-TE-Gq5">
+                        <barButtonItem key="leftBarButtonItem" image="icon_menu" id="KyP-Se-kT7">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="menuPressed:" destination="rzY-0n-nVj" id="xjj-QV-svf"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem image="tabbar_filter" style="plain" id="8Rc-yy-m4J">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="filter:" destination="rzY-0n-nVj" id="OMn-Gr-ELs"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem style="plain" id="2hp-I9-cJW">
+                                <view key="customView" contentMode="scaleToFill" id="eCZ-Qw-HZr">
+                                    <rect key="frame" x="522" y="12" width="20" height="20"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="WOZ-es-g7O"/>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <constraints>
+                                        <constraint firstItem="WOZ-es-g7O" firstAttribute="centerX" secondItem="eCZ-Qw-HZr" secondAttribute="centerX" id="CXE-dB-nq5"/>
+                                        <constraint firstItem="WOZ-es-g7O" firstAttribute="centerY" secondItem="eCZ-Qw-HZr" secondAttribute="centerY" id="ely-AF-QQO"/>
+                                    </constraints>
+                                </view>
+                            </barButtonItem>
+                            <barButtonItem image="update_icon" id="Be3-U6-xQp">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="indicator" destination="WOZ-es-g7O" id="QUc-o0-dfd"/>
+                        <outlet property="updateBtn" destination="Be3-U6-xQp" id="9z8-4p-LGz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2iK-ML-RJO" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2109" y="3255"/>
+        </scene>
         <!--Фильтр-->
         <scene sceneID="B9A-na-Gr2">
             <objects>
@@ -1627,7 +1674,6 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="mainText" destination="8g9-6h-v2r" id="SQL-SK-ycs"/>
-                                            <segue destination="wcg-wa-6tL" kind="show" identifier="showTrack" id="bYr-9u-XfT"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1651,6 +1697,8 @@
                     </navigationItem>
                     <connections>
                         <outlet property="table" destination="wl1-gY-jPx" id="Y1o-Ei-Mtn"/>
+                        <segue destination="rzY-0n-nVj" kind="show" identifier="followMapSegue" id="7sR-rw-6Uu"/>
+                        <segue destination="wcg-wa-6tL" kind="show" identifier="showTrack" id="kqc-Tl-jAF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K2R-1l-aoV" userLabel="First Responder" sceneMemberID="firstResponder"/>
