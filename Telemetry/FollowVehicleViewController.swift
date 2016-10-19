@@ -46,7 +46,11 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
         updateMap([Int(self.autoId ?? 0)])
     }
     
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.telemetryClient?.closeSocket()
+    }
     //MARK: Init functions
     
     func initMap(){
@@ -221,14 +225,9 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
     }
     
     //MARK: IBActions
-    @IBAction func filter(_ sender: AnyObject) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc = storyboard.instantiateViewController(withIdentifier: FILTER_STORYBOARD_ID)
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
     
-    @IBAction func menuPressed(_ sender: AnyObject) {
-        ApplicationState.sharedInstance.showLeftPanel()
+    @IBAction func backBtnPressed(_ sender: AnyObject) {
+        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: GMSMapViewDelegate

@@ -105,27 +105,21 @@
             </objects>
             <point key="canvasLocation" x="1146" y="335"/>
         </scene>
-        <!--Карта-->
+        <!--Следить за ТС-->
         <scene sceneID="E8B-iX-U8L">
             <objects>
                 <viewController id="rzY-0n-nVj" customClass="FollowVehicleViewController" customModule="Telemetry" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="Карта" id="kFW-TE-Gq5">
-                        <barButtonItem key="leftBarButtonItem" image="icon_menu" id="KyP-Se-kT7">
+                    <navigationItem key="navigationItem" title="Следить за ТС" id="kFW-TE-Gq5">
+                        <barButtonItem key="leftBarButtonItem" image="navbar_back" id="KyP-Se-kT7">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
-                                <action selector="menuPressed:" destination="rzY-0n-nVj" id="xjj-QV-svf"/>
+                                <action selector="backBtnPressed:" destination="rzY-0n-nVj" id="wQp-5U-Enp"/>
                             </connections>
                         </barButtonItem>
                         <rightBarButtonItems>
-                            <barButtonItem image="tabbar_filter" style="plain" id="8Rc-yy-m4J">
-                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="filter:" destination="rzY-0n-nVj" id="OMn-Gr-ELs"/>
-                                </connections>
-                            </barButtonItem>
                             <barButtonItem style="plain" id="2hp-I9-cJW">
                                 <view key="customView" contentMode="scaleToFill" id="eCZ-Qw-HZr">
-                                    <rect key="frame" x="522" y="12" width="20" height="20"/>
+                                    <rect key="frame" x="560" y="12" width="20" height="20"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="WOZ-es-g7O"/>
