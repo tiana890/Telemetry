@@ -76,9 +76,10 @@ class AuthorizationViewController: UIViewController {
                     return
                 }
                 if(ath.token != nil){
-                    ApplicationState.sharedInstance.saveToken(ath.token!)
+                    
                     
                     let success = {
+                        ApplicationState.sharedInstance.saveToken(ath.token!)
                         self.performSegue(withIdentifier: AuthorizationViewController.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)
                     }
                     
@@ -87,7 +88,7 @@ class AuthorizationViewController: UIViewController {
                         self.showAlert("Ошибка", msg: ath.reason ?? "Невозможно получить сервер телеметрии")
                         self.enterButton.isHidden = false
                     }
-                    self.loadInfoHandler(success: success, failure: failure)
+                    self.loadInfoHandler(token:ath.token!, success: success, failure: failure)
 
                 } else {
                     self.indicator.isHidden = true
@@ -98,8 +99,8 @@ class AuthorizationViewController: UIViewController {
     
     }
     
-    func loadInfoHandler(success: @escaping ()->(), failure: @escaping ()->()){
-        let infoClient = InfoClient(_token: PreferencesManager.getToken() ?? "")
+    func loadInfoHandler(token: String, success: @escaping ()->(), failure: @escaping ()->()){
+        let infoClient = InfoClient(_token: token)
         
         infoClient.infoObservable()
         .observeOn(MainScheduler.instance)

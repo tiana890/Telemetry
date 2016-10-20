@@ -16,7 +16,7 @@ class InfoClient: NSObject {
     
     var token: String?
     
-    let INFO_URL = "http://gbutelemob.agentm.org/api/v1/common/server"
+    let INFO_URL = "http://gbutelemob.agentum.org/api/v1/common/server"
     
     init(_token: String) {
         super.init()
