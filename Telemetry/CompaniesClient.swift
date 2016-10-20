@@ -37,9 +37,7 @@ class CompaniesClient: NSObject{
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> CompaniesResponse in
-                print(response)
                 let js = JSON(object)
-                print(js)
                 let compResponse = CompaniesResponse(json: js)
                 return compResponse
             })

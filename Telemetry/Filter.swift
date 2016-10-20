@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftyJSON
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -118,12 +119,10 @@ class Filter: NSObject {
             dict["garageNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
         }
         
-        print(dict)
         var dat = Data()
         do{
             try dat = JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
             if let jsonString = NSString.init(data: dat, encoding: String.Encoding.utf8.rawValue){
-                print(jsonString)
                 return jsonString as String
             }
             

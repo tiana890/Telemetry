@@ -59,7 +59,6 @@ class TelemetryClient: NSObject {
     
     func sendMessage(){
         self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? Data())
-        print(String(data: self.vehiclesRequestSocket?.getData() as Data? ?? Data(), encoding: String.Encoding.utf8))
     }
     
     func closeSocket(){

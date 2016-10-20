@@ -64,7 +64,7 @@ extension Date
     func toRussianString() -> String{
         //Get Short Time String
         let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm dd.MM.yyyy"
+        formatter.dateFormat = "HH:mm:ss dd.MM.yyyy"
         let str = formatter.string(from: self)
         
         //Return Short Time String

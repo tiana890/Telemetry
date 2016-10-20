@@ -43,8 +43,6 @@ class RxSocketManagerDelegateProxy: DelegateProxy, DelegateProxyType, SRWebSocke
     }
     
     public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
-        print(JSON(message))
-        
         didReceiveMessageSubject.on(.next(message))
         //(self._forwardToDelegate as! RxSocketManagerDelegateProxy).webSocket(webSocket, didReceiveMessage: message)
     }

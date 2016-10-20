@@ -58,7 +58,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         print(ApplicationState.sharedInstance.getToken())
         
         if(!isAutosLoaded){
-            self.updateBtn.isEnabled = false
             HUD.show(.labeledProgress(title: "Загрузка справочника ТС", subtitle: "Это может занять некоторое время"))
             updateAutos()
         } else {
@@ -68,9 +67,11 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.updateBtn
             .rx.tap
             .observeOn(MainScheduler.instance)
-            .subscribe { [unowned self]() in
+            .subscribe({ [unowned self](event) in
+                guard !event.isStopEvent else { return  }
                 self.updateMap()
-            }.addDisposableTo(self.disposeBag)
+            })
+            .addDisposableTo(self.disposeBag)
         }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,8 +80,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         clearAllTraysFromMap()
         
         if let f = self.storedFilter{
-            print(f)
-            print(ApplicationState.sharedInstance.filter)
             
             if(!f.isEqualToFilter(ApplicationState.sharedInstance.filter)){
 
@@ -138,26 +137,25 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     //MARK: Logic functions
     
     func updateAutos(){
+        self.indicator.isHidden = true
         AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
             .autosDictJSONObservable()
             .observeOn(MainScheduler.instance)
             .do(onError: { (errType) in
                 HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось загрузить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
                 PreferencesManager.setAutosLoaded(false)
+                self.indicator.isHidden = false
                 self.updateMap()
             })
             .subscribe({ (event) in
                 if(!event.isStopEvent){
                     HUD.flash(.success)
                     PreferencesManager.setAutosLoaded(true)
+                    self.indicator.isHidden = false
                     self.updateMap()
                 }
             })
-            /*.subscribe { (autosDictResponse) in
-                HUD.flash(.success)
-                PreferencesManager.setAutosLoaded(true)
-                self.updateMap()
-            }*/.addDisposableTo(self.disposeBag)
+            .addDisposableTo(self.disposeBag)
     }
     
     //MARK: Map functions
@@ -210,7 +208,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.viewModel?
         .vehicles
         .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-        .debug()
         .subscribe(onNext: { [unowned self](vehicles) in
             
             self.appendMarkersOnMap(vehicles.array)
