@@ -58,12 +58,17 @@ class MapFilterViewController: UIViewController {
     
     func adjustSearchBar(){
         self.searchBar.isHidden = true
-        self.searchBar.text = ApplicationState.sharedInstance.filter?.registrationNumber ?? ""
+        self.searchBar.text = (PreferencesManager.showGarageNumber()) ? (ApplicationState.sharedInstance.filter?.garageNumber ?? "") : (ApplicationState.sharedInstance.filter?.registrationNumber ?? "")
+        self.searchBar.placeholder = (PreferencesManager.showGarageNumber()) ? "Гаражный номер ТС" : "Регистрационный номер ТС"
         self.searchBar
             .rx.text
             .subscribeNext { (str) in
                 if(str.characters.count > 0){
-                    ApplicationState.sharedInstance.filter?.registrationNumber = str
+                    if(!PreferencesManager.showGarageNumber()){
+                        ApplicationState.sharedInstance.filter?.registrationNumber = str
+                    } else {
+                        ApplicationState.sharedInstance.filter?.garageNumber = str
+                    }
                 }
             }.addDisposableTo(self.disposeBag)
     }

@@ -37,11 +37,17 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet var mapView: GMSMapView!
     @IBOutlet var infoLabel: UILabel!
     
+    @IBOutlet var playButton: UIButton!
+    @IBOutlet var pauseButton: UIButton!
+    @IBOutlet var stopButton: UIButton!
+    
     var zoom = 12
     
     var disposeBag: DisposeBag? = DisposeBag()
 
     var iterationIndex = 0
+    
+    //MARK:
     
     override func viewDidLoad() {
         super.viewDidLoad()

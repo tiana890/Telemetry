@@ -48,7 +48,7 @@ class TrackClient: NSObject {
                 } else {
                     return self.createObserverOnError(APIError(_errType: .UNKNOWN, _reason: trackResponse.reason ?? ""))
                 }
-            })
+        })
             
     }
     

@@ -38,11 +38,14 @@ class Filter: NSObject {
     var companyName: String?
     var registrationNumber: String?
     
+    var garageNumber: String?
+    
     var filterDict: FilterDict?
     
     func filterIsSet() -> Bool{
+        let numberString = PreferencesManager.showGarageNumber() ? garageNumber : registrationNumber
         return (autoModelIds.count > 0 || companyIds.count > 0 || companyName?.characters.count > 0
-                || registrationNumber?.characters.count > 0)
+                || numberString?.characters.count > 0)
     }
     
     func isEqualToFilter(_ filter: Filter?) -> Bool {
@@ -53,8 +56,15 @@ class Filter: NSObject {
                 if(companyIds.elementsEqual(f.companyIds, by: {
                     return ($0 == $1) ? true : false
                 })){
-                    if(registrationNumber == f.registrationNumber){
-                        return true
+                    if(!PreferencesManager.showGarageNumber()){
+                        if(registrationNumber == f.registrationNumber){
+                            return true
+                        }
+                    } else {
+                        if(garageNumber == f.garageNumber){
+                            return true
+                        }
+
                     }
                 }
             }
@@ -77,6 +87,10 @@ class Filter: NSObject {
             
             if(filter!.registrationNumber != nil){
                 f.registrationNumber = String(validatingUTF8: filter!.registrationNumber!)
+            }
+            
+            if(filter!.garageNumber != nil){
+                f.garageNumber = String(validatingUTF8: filter!.garageNumber!)
             }
             return f
         }
@@ -109,15 +123,13 @@ class Filter: NSObject {
     func getJSONString() -> String?{
         
         var dict = [String: AnyObject]()
-        //dict["token"] = PreferencesManager.getToken() ?? ""
+
         dict["modelIds"] = autoModelIds as AnyObject?
         dict["organizationIds"] = companyIds as AnyObject?
         
-        if(!PreferencesManager.showGarageNumber()){
-            dict["registrationNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
-        } else {
-            dict["garageNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
-        }
+        dict["registrationNumber"] = self.registrationNumber as AnyObject?? ?? "" as AnyObject?
+        dict["garageNumber"] = self.garageNumber as AnyObject?? ?? "" as AnyObject?
+        
         
         var dat = Data()
         do{

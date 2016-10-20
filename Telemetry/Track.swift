@@ -52,11 +52,10 @@ class Track: NSObject {
     init(json: JSON){
         super.init()
         
-        if let arr = json.array{
-            self.trackArray = []
-            for js in arr{
-                self.trackArray?.append(TrackItem(json: js))
-            }
+        self.trackArray = []
+        for(js) in json.arrayValue{
+            self.trackArray?.append(TrackItem(json: js))
+            
         }
     }
     

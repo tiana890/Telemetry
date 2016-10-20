@@ -22,6 +22,8 @@ class SettingsSelectableViewController: UIViewController {
     
     let COMMON_CELL_IDENTIFIER = "commonCell"
     
+    var showGarageNumber = PreferencesManager.showGarageNumber()
+    
     @IBOutlet var headerName: UILabel!
     @IBOutlet var table: UITableView!
     
@@ -48,9 +50,9 @@ class SettingsSelectableViewController: UIViewController {
         table.rx.itemSelected
         .subscribeNext { (indexPath) in
             if((indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
-                PreferencesManager.setShowGarageNumber(false)
+                self.showGarageNumber = false
             } else {
-                PreferencesManager.setShowGarageNumber(true)
+                self.showGarageNumber = true
             }
             self.table.reloadData()
         }.addDisposableTo(self.disposeBag)
@@ -58,16 +60,23 @@ class SettingsSelectableViewController: UIViewController {
         table.rx.willDisplayCell.observeOn(MainScheduler.instance)
         .subscribeNext { [unowned self](event) in
             if((event.indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
-                 event.cell.setSelected(!PreferencesManager.showGarageNumber(), animated: false)
+                 event.cell.setSelected(!self.showGarageNumber, animated: false)
             } else {
-                event.cell.setSelected(PreferencesManager.showGarageNumber(), animated: false)
+                event.cell.setSelected(self.showGarageNumber, animated: false)
             }
         }.addDisposableTo(self.disposeBag)
     }
     
     
     @IBAction func applyPressed(_ sender: AnyObject) {
-
+        if(!PreferencesManager.showGarageNumber() == self.showGarageNumber){
+            if(!self.showGarageNumber){
+                ApplicationState.sharedInstance.filter?.registrationNumber = ""
+            } else {
+                ApplicationState.sharedInstance.filter?.garageNumber = ""
+            }
+            PreferencesManager.setShowGarageNumber(self.showGarageNumber)
+        }
         self.navigationController?.popViewController(animated: true)
     }
     
