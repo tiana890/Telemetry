@@ -23,6 +23,7 @@ class AutoViewController: UIViewController {
     let FOLLOW_VEHICLE_SEGUE_IDENTIFIER = "followMapSegue"
     
     var autoId: Int64?
+    var garageNumber: String?
     var viewModel :AutoViewModel?
     var autoClient: AutoClient?
     
@@ -52,14 +53,18 @@ class AutoViewController: UIViewController {
         indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
         indicator.startAnimating()
         self.view.addSubview(indicator)
+        self.table.isHidden = true
         
         self.viewModel?.auto
             .observeOn(MainScheduler.instance)
-            .doOnError(onError: { (errType) in
+            .do(onError: { (errType) in
+                self.table.isHidden = false
                 indicator.removeFromSuperview()
+                self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
             })
             .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
                 indicator.removeFromSuperview()
+                self.table.isHidden = false
                 return Observable.just(self.createItemsArrayFromAutoModel(auto))
             })
             .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
@@ -94,6 +99,12 @@ class AutoViewController: UIViewController {
         array.append((self.COMMON_CELL_IDENTIFIER, auto.type ?? ""))
         array.append((self.HEADER_CELL_IDENTIFIER, "Регистрационный номер"))
         array.append((self.COMMON_CELL_IDENTIFIER, auto.registrationNumber ?? ""))
+        
+        if(self.garageNumber != nil){
+            array.append((self.HEADER_CELL_IDENTIFIER, " Гаражный номер"))
+            array.append((self.COMMON_CELL_IDENTIFIER, self.garageNumber ?? ""))
+        }
+        
         array.append((self.HEADER_CELL_IDENTIFIER, "Организация"))
         array.append((self.COMMON_CELL_IDENTIFIER, auto.organization ?? ""))
         
@@ -102,8 +113,10 @@ class AutoViewController: UIViewController {
             array.append((self.COMMON_CELL_IDENTIFIER, "\(speed)" ))
         }
         if let glonasId = auto.glonasId{
-            array.append((self.HEADER_CELL_IDENTIFIER, "Глонасс ID"))
-            array.append((self.COMMON_CELL_IDENTIFIER, "\(glonasId)"))
+            if(glonasId > 0){
+                array.append((self.HEADER_CELL_IDENTIFIER, "Глонасс ID"))
+                array.append((self.COMMON_CELL_IDENTIFIER, "\(glonasId)"))
+            }
         }
         
         if let lastUpdate = auto.lastUpdate{
@@ -114,9 +127,10 @@ class AutoViewController: UIViewController {
             array.append((self.COMMON_CELL_IDENTIFIER, dateFormatter.string(from: date)))
         }
         
-        array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
-        
         if let sensors = auto.sensors{
+            if(sensors.count > 0){
+                array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
+            }
             for sensor in sensors{
                 array.append((self.COMMON_CELL_IDENTIFIER, sensor.name ?? ""))
             }
@@ -150,4 +164,18 @@ class AutoViewController: UIViewController {
         }
         
     }
+    
+    func showAlert(_ title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
 }

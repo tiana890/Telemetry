@@ -86,7 +86,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                     if(err is APIError){
                         errorMsg = (err as! APIError).getReason()
                     }
-                    HUD.flash(.labeledError(title: "Внимание", subtitle: errorMsg), delay: 2.0, completion: { (val) in
+                    HUD.flash(.labeledError(title: "Внимание", subtitle: errorMsg), delay: 3.0, completion: { (val) in
                         self.navigationController?.popViewController(animated: true)
                     })
                     
@@ -130,7 +130,6 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
      
         Observable<Int>.timer(0, period: animationPeriod/Double(self.speed.rawValue), scheduler: MainScheduler.instance)
             .take(trackArray.count)
-            //.take(Double(trackArray.count)*0.1, scheduler: MainScheduler.instance)
             .subscribe { [unowned self](event) in
                 guard let element = event.element else { return }
                 self.iterationIndex += 1
