@@ -17,6 +17,8 @@ class AuthorizationViewController: UIViewController {
     
     @IBOutlet weak var passwordTxtField: UITextField!
     @IBOutlet weak var loginTxtField: UITextField!
+    @IBOutlet weak var serverTxtField: UITextField!
+    
     @IBOutlet weak var scroll: UIScrollView!
     @IBOutlet weak var enterButton: UIButton!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
@@ -26,20 +28,29 @@ class AuthorizationViewController: UIViewController {
         
         self.indicator.isHidden = true
         
-        Observable.combineLatest(passwordTxtField.rx_text, loginTxtField.rx_text) { (txt1, txt2) -> Bool in
-            if((txt1?.characters.count)! > 0 && (txt2?.characters.count)! > 0){
+        Observable.combineLatest(passwordTxtField.rx_text, loginTxtField.rx_text, serverTxtField.rx_text){ (txt1, txt2, txt3) -> Bool in
+            if((txt1?.characters.count)! > 0 && (txt2?.characters.count)! > 0 && (txt3?.characters.count)! > 0){
                 return true
             }
             return false
-            }.bindTo(enterButton.rx.enabled).addDisposableTo(self.disposeBag)
+        }.bindTo(enterButton.rx.enabled).addDisposableTo(self.disposeBag)
         
         enterButton.rx.tap.asObservable().map({ return false }).bindTo(self.indicator.rx.hidden).addDisposableTo(self.disposeBag)
         enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.indicator.rx.animating).addDisposableTo(self.disposeBag)
         enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.enterButton.rx.hidden).addDisposableTo(self.disposeBag)
 
         self.enterButton.rx.tap
-        .subscribeNext { [unowned self] in
-            self.addBindsToViewModel()
+        .subscribe { [unowned self] (event) in
+            guard !event.isStopEvent else { return }
+            if(self.serverTxtField.text!.hasPrefix("http://")){
+                PreferencesManager.saveAPIServer(self.serverTxtField.text ?? "")
+                self.addBindsToViewModel()
+            } else {
+                self.indicator.isHidden = true
+                self.enterButton.isHidden = false
+                self.showAlert("Внимание", msg: "Введите сервер в формате \"http://xxxx.xx\"")
+            }
+            
         }.addDisposableTo(self.disposeBag)
         setObservers()
     }
@@ -76,8 +87,6 @@ class AuthorizationViewController: UIViewController {
                     return
                 }
                 if(ath.token != nil){
-                    
-                    
                     let success = {
                         ApplicationState.sharedInstance.saveToken(ath.token!)
                         self.performSegue(withIdentifier: AuthorizationViewController.AUTH_SUCCESS_SEGUE_IDENTIFIER, sender: nil)

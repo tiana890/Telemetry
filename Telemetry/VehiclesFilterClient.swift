@@ -14,7 +14,7 @@ import Alamofire
 class VehiclesFilterClient: NSObject {
 
     var token: String?
-    let VEHICLES_FILTER_URL = "http://gbutelemob.agentum.org/api/v1/vehicles/filter"
+    let vehiclesFilterPath = "/api/v1/vehicles/filter"
     
     init(_token: String){
         super.init()
@@ -23,14 +23,13 @@ class VehiclesFilterClient: NSObject {
     
     func filterObservable() -> Observable<VehiclesFilterResponse>{
         
-        let queue = DispatchQueue(label: "tasksLoad",attributes: [])
+        let path = PreferencesManager.getAPIServer() + vehiclesFilterPath
         
-        return requestJSON(.get, VEHICLES_FILTER_URL, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> VehiclesFilterResponse in
                 let js = JSON(object)
-                print(js)
                 let filterResponse = VehiclesFilterResponse(json: js)
                 return filterResponse
             })

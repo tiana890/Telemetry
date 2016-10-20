@@ -17,7 +17,7 @@ class CompanyClient: NSObject {
     var token: String?
     var companyId: Int64?
     
-    let COMPANY_URL = "http://gbutelemob.agentum.org/api/v1/organization/"
+    let companyPath = "http://gbutelemob.agentum.org/api/v1/organization/"
     
     init(_token: String, _companyId: Int64) {
         super.init()
@@ -26,19 +26,16 @@ class CompanyClient: NSObject {
     }
     
     func companyObservable() -> Observable<CompanyResponse>{
+        let path = PreferencesManager.getAPIServer() + companyPath
         
-        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
-        print(self.token)
-        print(COMPANY_URL + "\(companyId ?? 0)")
-        return requestJSON(.get, COMPANY_URL + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+        return requestJSON(.get, path + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
-            .doOnError(onError: { (errType) in
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+            .do(onError: { (errType) in
                 print(errType)
             })
             .map({ (response, object) -> CompanyResponse in
                 let js = JSON(object)
-                print(js)
                 let compResponse = CompanyResponse(json: js)
                 return compResponse
             })

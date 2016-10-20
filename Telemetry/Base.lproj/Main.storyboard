@@ -21,7 +21,7 @@
             <objects>
                 <navigationController id="ghz-4y-qSB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Профиль" id="JXe-M3-GPf"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" backIndicatorImage="nav_bar" id="88r-92-KEs">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" backIndicatorImage="nav_bar" id="88r-92-KEs">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -620,7 +620,7 @@
                                                 </constraints>
                                             </imageView>
                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="SbM-0m-aTC"/>
-                                            <textField opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="gbutelemob.agentum.org" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CC4-Zm-dWC">
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="gbutelemob.agentum.org" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="CC4-Zm-dWC">
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="242" id="4P8-Va-JV9"/>
                                                     <constraint firstAttribute="height" constant="30" id="H9c-nH-4TC"/>
@@ -699,6 +699,7 @@
                         <outlet property="loginTxtField" destination="OAx-tz-gzr" id="RrM-4I-oud"/>
                         <outlet property="passwordTxtField" destination="t9k-0E-1gh" id="eLh-A9-YmZ"/>
                         <outlet property="scroll" destination="RCV-q7-eiO" id="oNz-rG-GaT"/>
+                        <outlet property="serverTxtField" destination="CC4-Zm-dWC" id="yqb-2T-rbs"/>
                         <segue destination="7hw-6q-JGd" kind="show" identifier="authSuccessSegueIdentifier" id="iVd-eK-J6B"/>
                     </connections>
                 </viewController>
@@ -992,7 +993,7 @@
                     <tabBarItem key="tabBarItem" title="Карта" id="SJJ-oJ-y1j"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" backIndicatorImage="nav_bar" id="UEi-Yw-Isu">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" backIndicatorImage="nav_bar" id="UEi-Yw-Isu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1013,7 +1014,7 @@
                     <tabBarItem key="tabBarItem" title="Организации" id="fK7-mj-qWs"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" backIndicatorImage="nav_bar" id="xDi-ir-gOl">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" backIndicatorImage="nav_bar" id="xDi-ir-gOl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1034,7 +1035,7 @@
                     <tabBarItem key="tabBarItem" title="ТС" id="1Cu-BA-ifF"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" backIndicatorImage="nav_bar" id="RE1-lR-dKU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" backIndicatorImage="nav_bar" id="RE1-lR-dKU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1301,7 +1302,7 @@
                     <tabBarItem key="tabBarItem" title="Настройки" id="HlQ-g0-w7v"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" translucent="NO" backIndicatorImage="nav_bar" id="DZ5-Mc-5PT">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" backIndicatorImage="nav_bar" id="DZ5-Mc-5PT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>

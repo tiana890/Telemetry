@@ -17,7 +17,7 @@ class AutoClient: NSObject {
     var token: String?
     var autoId: Int64?
     
-    let AUTO_URL = "http://gbutelemob.agentum.org/api/v1/vehicle/"
+    let autoPath = "/api/v1/vehicle/"
     
     init(_token: String, _autoId: Int64) {
         super.init()
@@ -26,12 +26,11 @@ class AutoClient: NSObject {
     }
     
     func companyObservable() -> Observable<AutoDetailResponse>{
+        let path = PreferencesManager.getAPIServer() + autoPath
         
-        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
-
-        return requestJSON(.get, AUTO_URL + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+        return requestJSON(.get, path + "\(autoId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> AutoDetailResponse in
                 print()
                 let js = JSON(object)

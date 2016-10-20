@@ -16,7 +16,7 @@ class InfoClient: NSObject {
     
     var token: String?
     
-    let INFO_URL = "http://gbutelemob.agentum.org/api/v1/common/server"
+    let infoPath = "/api/v1/common/server"
     
     init(_token: String) {
         super.init()
@@ -24,14 +24,13 @@ class InfoClient: NSObject {
     }
     
     func infoObservable() -> Observable<InfoResponse>{
-        
-        return requestJSON(.get, INFO_URL, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+        let path = PreferencesManager.getAPIServer() + infoPath
+        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> InfoResponse in
                 print()
                 let js = JSON(object)
-                print(js)
                 let infoResponse = InfoResponse(json: js)
                 return infoResponse
             })

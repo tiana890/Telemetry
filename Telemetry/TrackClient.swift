@@ -18,7 +18,7 @@ class TrackClient: NSObject {
     var startTime: String?
     var endTime: String?
     
-    let TRACK_URL = "http://gbutelemob.agentum.org/api/v1/vehicle/track/"
+    let trackPath = "/api/v1/vehicle/track/"
     
     init(_token: String, _autoId: Int, _startTime: Int64, _endTime: Int64) {
         super.init()
@@ -29,18 +29,16 @@ class TrackClient: NSObject {
     }
     
     func trackObservable() -> Observable<TrackResponse>{
-        
-        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
+        let path = PreferencesManager.getAPIServer() + trackPath
         
         let parameters = ["token": self.token ?? "",
                           "startTime": self.startTime ?? "",
                           "endTime": self.endTime ?? ""]
-        print(TRACK_URL + "\(autoId ?? 0)")
+        print(path + "\(autoId ?? 0)")
 
        
-        
-        return requestJSON(.get, TRACK_URL + "\(autoId ?? 0)", parameters: parameters, encoding: URLEncoding.default, headers: nil)
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+        return requestJSON(.get, path + "\(autoId ?? 0)", parameters: parameters, encoding: URLEncoding.default, headers: nil)
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .flatMap({ (response, object) -> Observable<TrackResponse> in
                 let js = JSON(object)
                 

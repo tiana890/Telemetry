@@ -16,7 +16,7 @@ import Alamofire
 class AutosClient: NSObject {
     
     var token: String?
-    let AUTOS_URL = "http://gbutelemob.agentum.org/api/v1/vehicles"
+    let autosPath = "/api/v1/vehicles"
     var local: Bool = false
     
     init(_token: String) {
@@ -25,14 +25,12 @@ class AutosClient: NSObject {
     }
     
     func autosObservable() -> Observable<AutosResponse>{
+        let path = PreferencesManager.getAPIServer() + autosPath
         
-        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
-
-        return requestJSON(.get, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
+        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> AutosResponse in
-                
                 let js = SwiftyJSON.JSON(object)
                 let autosResponse = AutosResponse(json: js)
                 return autosResponse
@@ -41,7 +39,9 @@ class AutosClient: NSObject {
     
 
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
-        return requestJSON(.get, AUTOS_URL, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
+        let path = PreferencesManager.getAPIServer() + autosPath
+
+        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 let jsonObject = JSON(object)["vehicles"]
@@ -57,13 +57,12 @@ class AutosClient: NSObject {
     func autosIDsObservableWithFilter() -> Observable<[Int]>{
     
         let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
-        
-        return requestJSON(.post, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
+        let path = PreferencesManager.getAPIServer() + autosPath
+        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Int] in
                 let js = SwiftyJSON.JSON(object)
-                let start = Date().timeIntervalSince1970
                 let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
                 return ids
             })
@@ -72,8 +71,8 @@ class AutosClient: NSObject {
     func autosObservableWithFilter() -> Observable<[Auto]>{
         
         let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
-        
-        return requestJSON(.post, AUTOS_URL, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
+        let path = PreferencesManager.getAPIServer() + autosPath
+        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Auto] in

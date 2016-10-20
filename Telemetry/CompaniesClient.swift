@@ -16,7 +16,8 @@ class CompaniesClient: NSObject{
     
     var token: String?
     var filter: Filter?
-    let COMPANIES_URL = "http://gbutelemob.agentum.org/api/v1/organizations"
+    
+    let companiesPath = "/api/v1/organizations"
     
     init(_token: String) {
         super.init()
@@ -24,18 +25,17 @@ class CompaniesClient: NSObject{
     }
     
     func companiesObservable() -> Observable<CompaniesResponse>{
-        
-        let queue = DispatchQueue(label: "com.Telemetry.backgroundQueue",attributes: [])
-        
+
         var parameters = [String: Any]()
-        //parameters["token"] = self.token ?? ""
+        let path = PreferencesManager.getAPIServer() + companiesPath
+        
         if let _ = self.filter{
             parameters["filter"] = ["name": self.filter?.companyName ?? ""]
         }
-
-        return requestJSON(.post, COMPANIES_URL + "?token=" + (self.token ?? ""), parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+        
+        return requestJSON(.post, path + "?token=" + (self.token ?? ""), parameters: parameters, encoding: JSONEncoding.default, headers: nil)
             .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(queue: queue))
+            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> CompaniesResponse in
                 print(response)
                 let js = JSON(object)

@@ -59,4 +59,15 @@ class PreferencesManager: NSObject {
         let def = UserDefaults.standard
         return def.string(forKey: "server") ?? ""
     }
+    
+    static func saveAPIServer(_ apiServer: String){
+        let def = UserDefaults.standard
+        def.set(apiServer, forKey: "apiServer")
+        def.synchronize()
+    }
+    
+    static func getAPIServer() -> String{
+        let def = UserDefaults.standard
+        return def.string(forKey: "apiServer") ?? ""
+    }
 }
