@@ -17,7 +17,7 @@ class CompanyClient: NSObject {
     var token: String?
     var companyId: Int64?
     
-    let companyPath = "http://gbutelemob.agentum.org/api/v1/organization/"
+    let companyPath = "/api/v1/organization/"
     
     init(_token: String, _companyId: Int64) {
         super.init()

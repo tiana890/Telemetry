@@ -11,10 +11,11 @@ import PKHUD
 class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GMSMapViewDelegate{
     
     let FILTER_STORYBOARD_ID = "FilterStoryboardID"
-
     let kClusterItemCount = 10000
     
+    
     var mapView: GMSMapView?
+    @IBOutlet weak var filterView: UIView!
     
     fileprivate var clusterManager: GMUClusterManager!
     
@@ -72,7 +73,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                 self.updateMap()
             })
             .addDisposableTo(self.disposeBag)
-        }
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -94,7 +95,9 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                             self.updateMap([])
                         })
                         .subscribe(onNext: { [unowned self](arr) in
+                            
                             if(arr.count > 0){
+                                self.showFilterView()
                                 HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                             } else {
                                 HUD.flash(.label("Объекты не найдены."), delay: 2, completion: nil)
@@ -117,10 +120,21 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         self.storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     }
     
+    func showFilterView(){
+        self.filterView.isHidden = false
+        self.view.bringSubview(toFront: self.filterView)
+        self.view.layoutSubviews()
+        
+    }
+    
+    func hideFilterView(){
+        self.filterView.isHidden = true
+    }
+    
     //MARK: Init functions
     
     func initMap(){
-        mapView = GMSMapView(frame: self.view.frame)
+        self.mapView = GMSMapView(frame: self.view.frame)
         mapView!.delegate = self
         self.view.addSubview(mapView!)
     }
@@ -166,6 +180,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     }
     
     func updateMap(_ arr: [Int]){
+        self.hideFilterView()
         if(arr.count == 0){
             self.updateBtn.isEnabled = true
             self.updateBtn.image = UIImage(named: "update_icon")

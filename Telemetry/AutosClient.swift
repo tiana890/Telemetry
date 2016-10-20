@@ -76,9 +76,9 @@ class AutosClient: NSObject {
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [Auto] in
-                let js = SwiftyJSON.JSON(object)
+                let jsonObject = JSON(object)["vehicles"]
                 var arr: [Auto] = []
-                for (key,subJson):(String, SwiftyJSON.JSON) in js["vehicles"] {
+                for (key,subJson):(String, SwiftyJSON.JSON) in jsonObject.dictionaryValue {
                     arr.append(Auto(json: subJson))
                 }
                 return arr

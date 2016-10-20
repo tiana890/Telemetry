@@ -1512,7 +1512,10 @@
 					"$(PROJECT_DIR)/Telemetry/frameworks",
 					"$(PROJECT_DIR)/frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers",
+					$inherited,
+				);
 				INFOPLIST_FILE = Telemetry/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework";
@@ -1521,7 +1524,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers $inherited";
 			};
 			name = Debug;
 		};
@@ -1539,7 +1542,10 @@
 					"$(PROJECT_DIR)/Telemetry/frameworks",
 					"$(PROJECT_DIR)/frameworks",
 				);
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers";
+				HEADER_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers",
+					$inherited,
+				);
 				INFOPLIST_FILE = Telemetry/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework";
@@ -1547,7 +1553,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 3.0;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers $inherited";
 			};
 			name = Release;
 		};

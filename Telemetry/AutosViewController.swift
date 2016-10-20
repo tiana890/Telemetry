@@ -72,6 +72,7 @@ class AutosViewController: UIViewController {
     }
     
     func loadAutos(_ fromFilter: Bool){
+        self.filterView.isHidden = true
         self.publishSubject.onNext([])
         
         if(!fromFilter){
@@ -82,7 +83,7 @@ class AutosViewController: UIViewController {
             
             DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
                     let autos = RealmManager.getAutos()
-                    DispatchQueue.main.async(execute: { 
+                    DispatchQueue.main.async(execute: {
                         indicator.removeFromSuperview()
                     })
                     self.publishSubject.onNext(autos)
@@ -90,19 +91,23 @@ class AutosViewController: UIViewController {
         } else {
             HUD.show(.labeledProgress(title: "Поиск по фильтру", subtitle: ""))
             let autosClient = AutosClient(_token: PreferencesManager.getToken() ?? "")
+            
             autosClient.autosObservableWithFilter()
             .observeOn(MainScheduler.instance)
-            .doOnError(onError: { (err) in
+            .do(onError: { (err) in
                 HUD.flash(.labeledError(title: "Ошибка", subtitle: "Невозможно получить данные"), delay: 2, completion: nil)
             })
-            .subscribeNext({ (arr) in
+            .subscribe({ (event) in
+                guard let arr = event.element else { return }
                 if(arr.count > 0){
+                    self.filterView.isHidden = false
                     HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                 } else {
                     HUD.flash(.label("Объекты не найдены."), delay: 2, completion: nil)
                 }
                 self.publishSubject.onNext(arr)
-            }).addDisposableTo(self.disposeBag)
+            })
+            .addDisposableTo(self.disposeBag)
         }
     }
     
