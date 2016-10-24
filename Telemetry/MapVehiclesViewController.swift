@@ -68,14 +68,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         }
         
         self.updateBtn.action = #selector(updateBtnPressed)
-//        updateBtn
-//        .rx.tap
-//        .observeOn(MainScheduler.instance)
-//        .subscribe({ [unowned self](event) in
-//            guard !event.isStopEvent else { return  }
-//            self.updateMap()
-//        })
-//        .addDisposableTo(self.disposeBag)
+
     }
     
     @IBAction func updateBtnPressed(_ sender: AnyObject) {

@@ -178,6 +178,8 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
                     }
                     dict[veh.id!] = (vehicle: veh, spot: spot)
                     DispatchQueue.main.async(execute: {
+                        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: CLLocationCoordinate2DMake(spot.position.latitude, spot.position.longitude), zoom: self.mapView!.camera.zoom, bearing: 0, viewingAngle: 0))
+                        self.mapView!.animate(with: update)
                         self.clusterManager.add(spot)
                     })
                 }
@@ -189,6 +191,8 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
                 spot.hasAnimated = true
                 dict[veh.id!] = (vehicle: veh, spot: spot)
                 DispatchQueue.main.async(execute: {
+                    let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: CLLocationCoordinate2DMake(spot.position.latitude, spot.position.longitude), zoom: 14, bearing: 0, viewingAngle: 0))
+                    self.mapView!.animate(with: update)
                     self.clusterManager.add(spot)
                     
                 })

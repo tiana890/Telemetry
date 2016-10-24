@@ -96,7 +96,9 @@ class TelemetryClient: NSObject {
                 var vehicles = Vehicles()
                 if let str = object as? String{
                     let js = JSON.parse(str)
-                    
+                    if str == "{}"{
+                        return (vehicles, APIError(errType: .NO_VEHICLES_ON_MAP))
+                    }
                     if let dict = js["vehicles"].dictionary {
                         for(key, value) in dict{
                             let vehicleModel = Vehicle(json: value)
@@ -111,8 +113,11 @@ class TelemetryClient: NSObject {
                         return (vehicles, apiError)
                     }
                 }
+               
+                
+                
                 return (vehicles, APIError(errType: .UNKNOWN))
-
+                
                 }).subscribe(onNext: { (veh, err) in
                     if(err.errType == APIErrorType.NONE){
                         self.vehObservable.on(.next(veh))

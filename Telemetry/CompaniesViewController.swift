@@ -39,11 +39,25 @@ class CompaniesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
      
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+        indicator.startAnimating()
+        self.view.addSubview(indicator)
+        self.table.isHidden = true
+        
         self.viewModel?.getCompaniesObservable()
         .doOnError(onError: { (errType) in
-            
+            DispatchQueue.main.async(execute: {
+                indicator.removeFromSuperview()
+                self.table.isHidden = false
+            })
+            self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
         })
         .subscribeNext({ (companies) in
+            DispatchQueue.main.async(execute: {
+                indicator.removeFromSuperview()
+                self.table.isHidden = false
+            })
             self.publishSubject.onNext(companies)
         })
         .addDisposableTo(self.disposeBag)

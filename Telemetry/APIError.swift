@@ -13,6 +13,7 @@ enum APIErrorType: String{
     case UNKNOWN
     case CLOSE_SOCKET
     case SOCKET_INTERRUPTED
+    case NO_VEHICLES_ON_MAP
     case NONE
 }
 
@@ -47,6 +48,8 @@ class APIError: Error {
             return "Неизвестная ошибка"
         case .SOCKET_INTERRUPTED:
             return "Соединение с сервером прервано"
+        case .NO_VEHICLES_ON_MAP:
+            return "Нет информации о координатах ТС"
         default:
             return ""
             break

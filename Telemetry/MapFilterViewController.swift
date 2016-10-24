@@ -63,13 +63,13 @@ class MapFilterViewController: UIViewController {
         self.searchBar
             .rx.text
             .subscribeNext { (str) in
-                if(str.characters.count > 0){
+                //if(str.characters.count > 0){
                     if(!PreferencesManager.showGarageNumber()){
                         ApplicationState.sharedInstance.filter?.registrationNumber = str
                     } else {
                         ApplicationState.sharedInstance.filter?.garageNumber = str
                     }
-                }
+                //}
             }.addDisposableTo(self.disposeBag)
     }
     
@@ -140,6 +140,7 @@ class MapFilterViewController: UIViewController {
     }
     
     @IBAction func applyFilter(_ sender: AnyObject) {
+        
         self.navigationController?.popViewController(animated: true)
     }
     
