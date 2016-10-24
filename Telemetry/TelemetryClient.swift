@@ -88,6 +88,7 @@ class TelemetryClient: NSObject {
         self.webSocket?.rx_didReceiveMessage
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
             .catchError({ (err) -> Observable<Any> in
+                print(err.localizedDescription)
                 return Observable.just(APIError(errType: .NETWORK))
             })
             .map({ (object) -> (Vehicles, APIError) in

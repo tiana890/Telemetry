@@ -56,16 +56,9 @@ class Filter: NSObject {
                 if(companyIds.elementsEqual(f.companyIds, by: {
                     return ($0 == $1) ? true : false
                 })){
-                    if(!PreferencesManager.showGarageNumber()){
-                        if(registrationNumber == f.registrationNumber){
+                        if(registrationNumber == f.registrationNumber && garageNumber == f.garageNumber){
                             return true
                         }
-                    } else {
-                        if(garageNumber == f.garageNumber){
-                            return true
-                        }
-
-                    }
                 }
             }
         }

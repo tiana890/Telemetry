@@ -190,6 +190,7 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
                 dict[veh.id!] = (vehicle: veh, spot: spot)
                 DispatchQueue.main.async(execute: {
                     self.clusterManager.add(spot)
+                    
                 })
             }
         }

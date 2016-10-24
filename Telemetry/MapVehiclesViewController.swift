@@ -32,6 +32,8 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var telemetryClient: TelemetryClient?
     var storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     
+    
+    
     var isAutosLoaded: Bool{
         get{
             return PreferencesManager.ifAutosLoaded()
@@ -65,20 +67,27 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
             updateMap()
         }
         
-        self.updateBtn
-            .rx.tap
-            .observeOn(MainScheduler.instance)
-            .subscribe({ [unowned self](event) in
-                guard !event.isStopEvent else { return  }
-                self.updateMap()
-            })
-            .addDisposableTo(self.disposeBag)
+        self.updateBtn.action = #selector(updateBtnPressed)
+//        updateBtn
+//        .rx.tap
+//        .observeOn(MainScheduler.instance)
+//        .subscribe({ [unowned self](event) in
+//            guard !event.isStopEvent else { return  }
+//            self.updateMap()
+//        })
+//        .addDisposableTo(self.disposeBag)
+    }
+    
+    @IBAction func updateBtnPressed(_ sender: AnyObject) {
+        self.updateMap()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         clearAllTraysFromMap()
+        
+        
         
         if let f = self.storedFilter{
             
@@ -100,7 +109,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
                                 self.showFilterView()
                                 HUD.flash(.label("Найдено \(arr.count) объектов"), delay: 2, completion: nil)
                             } else {
-                                HUD.flash(.label("Объекты не найдены."), delay: 2, completion: nil)
+                                HUD.flash(.label("Объекты не найдены. Измените параметры фильтра."), delay: 2, completion: nil)
                             }
                             
                             self.updateMap(arr)
