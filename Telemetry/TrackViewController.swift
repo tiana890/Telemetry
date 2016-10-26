@@ -37,8 +37,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     @IBOutlet var mapView: GMSMapView!
     @IBOutlet var infoLabel: UILabel!
     
-    @IBOutlet var playButton: UIButton!
-    @IBOutlet var pauseButton: UIButton!
+    @IBOutlet var playPauseButton: UIButton!
     @IBOutlet var stopButton: UIButton!
     
     var zoom = 12
@@ -47,7 +46,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
 
     var iterationIndex = 0
     
-    //MARK:
+    //MARK: UIViewController functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +55,8 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         mapView!.delegate = self
         self.view.addSubview(mapView!)
         self.mapView.camera = GMSCameraPosition(target: CLLocationCoordinate2D(latitude:  55.75222, longitude: 37.61556), zoom: 10, bearing: 0, viewingAngle: 0)
+        
+        self.disableTrackControlButtons()
         
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: self.autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
@@ -69,6 +70,38 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         addBindsToViewModel()
     }
     
+    //MARK: Track control buttons
+    func enableTrackControlButtons(){
+        self.playPauseButton.isEnabled = true
+        self.stopButton.isEnabled = true
+        
+        self.playPauseButton.addTarget(self, action: #selector(playPause), for: .touchUpInside)
+        self.stopButton.addTarget(self, action: #selector(stop), for: .touchUpInside)
+    }
+    
+    func disableTrackControlButtons(){
+        self.playPauseButton.isEnabled = false
+        self.stopButton.isEnabled = false
+    }
+    
+    func playPause(){
+        if(playPauseButton.currentTitle == "Play"){
+            playPauseButton.setTitle("Pause", for: .normal)
+            showTrackOnMap(self.track!)
+        } else {
+            playPauseButton.setTitle("Play", for: .normal)
+            self.disposeBag = DisposeBag()
+        }
+    }
+    
+    func stop(){
+        self.iterationIndex = 0
+        self.disposeBag = DisposeBag()
+        playPauseButton.titleLabel?.text = "Play"
+        playPauseButton.isEnabled = true
+        
+    }
+    
     func adjustInfoView(){
         self.view.bringSubview(toFront: self.infoView)
     }
@@ -80,6 +113,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             .subscribe(onNext: { (tr) in
                 if((tr.trackArray?.count ?? 0) > 0){
                     self.track = tr
+                    self.enableTrackControlButtons()
                     HUD.flash(.success)
                 } else {
                     HUD.flash(.labeledError(title: "Внимание", subtitle: "Нет информации по данному запросу"), delay: 2.0, completion: { (val) in
@@ -154,7 +188,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         
         if let interval = trackItem.time{
-            self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString()
+            self.infoLabel.text = Date(timeIntervalSince1970: Double(interval)).toRussianString() + ", скорость: \(trackItem.speed ?? 0)"
         } else {
             self.infoLabel.text = ""
         }
