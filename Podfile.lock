@@ -15,16 +15,16 @@ PODS:
   - Realm/Headers (2.0.2)
   - RealmSwift (2.0.2):
     - Realm (= 2.0.2)
-  - RxAlamofire (3.0.0-rc.1):
-    - RxAlamofire/Core (= 3.0.0-rc.1)
-  - RxAlamofire/Core (3.0.0-rc.1):
+  - RxAlamofire (3.0.0):
+    - RxAlamofire/Core (= 3.0.0)
+  - RxAlamofire/Core (3.0.0):
     - Alamofire (~> 4.0)
-    - RxSwift (~> 3.0.0-rc.1)
-  - RxBlocking (3.0.0-rc.1):
-    - RxSwift (~> 3.0.0-rc.1)
-  - RxCocoa (3.0.0-rc.1):
-    - RxSwift (~> 3.0.0-rc.1)
-  - RxSwift (3.0.0-rc.1)
+    - RxSwift (~> 3.0)
+  - RxBlocking (3.0.0):
+    - RxSwift (~> 3.0)
+  - RxCocoa (3.0.0):
+    - RxSwift (~> 3.0)
+  - RxSwift (3.0.0)
   - SocketRocket (0.5.1)
   - SwiftyJSON (3.1.1)
 
@@ -51,13 +51,13 @@ SPEC CHECKSUMS:
   PKHUD: 001c11518f125a273ddf026bcc64918423744ea2
   Realm: 0f5a194af0b7e6158b83db41b4ee1a00be7ddf1a
   RealmSwift: 0eb5070d851cba7c66e841ca756d83609dc78bc8
-  RxAlamofire: 5e544296d77b754c4ad9cb419c29936e6bc9711d
-  RxBlocking: f942482a50abfefa84a33406b67c53af50e6cc2a
-  RxCocoa: e72a074a7f38896ec0382d096df5f58df10115c7
-  RxSwift: d7a3819dd71789c473e3cbf1a0c02d58b2692739
+  RxAlamofire: 0b1fa48f545fffe7f7a28af2086bcaa3b5946cc9
+  RxBlocking: 0132c660340d8b8f34b65b2e099167ea6134eecf
+  RxCocoa: 0a2f3ae381cf16f4021a4cee7a4420f83058a965
+  RxSwift: a930cd662f5b4a7ca9dc3518585dba91dadf497c
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   SwiftyJSON: f0be2e604f83e8405a624e9f891898bf6ed4e019
 
 PODFILE CHECKSUM: 5340dfbcb63da6dbf16f99e82adbc977a55f3407
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.1.0.rc.3

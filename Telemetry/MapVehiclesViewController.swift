@@ -32,8 +32,6 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     var telemetryClient: TelemetryClient?
     var storedFilter = Filter.createCopy(ApplicationState.sharedInstance.filter)
     
-    
-    
     var isAutosLoaded: Bool{
         get{
             return PreferencesManager.ifAutosLoaded()
