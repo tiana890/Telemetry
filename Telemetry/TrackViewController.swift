@@ -22,7 +22,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         case x5 = 5
         case x10 = 10
     }
-    
+    let buttonColor = UIColor(colorLiteralRed: 13/255, green: 141/255, blue: 201/255, alpha: 1.0)
     var speed: Speed = .original
     var animationPeriod = 0.8
     
@@ -61,6 +61,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: self.autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,11 +83,18 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     func disableTrackControlButtons(){
         self.playPauseButton.isEnabled = false
         self.stopButton.isEnabled = false
+        
+        self.playPauseButton.setTitleColor(buttonColor, for: .normal)
+        self.stopButton.setTitleColor(buttonColor, for: .normal)
+        
+        self.playPauseButton.setTitleColor(UIColor.gray, for: .disabled)
+        self.stopButton.setTitleColor(UIColor.gray, for: .disabled)
     }
     
     func playPause(){
         if(playPauseButton.currentTitle == "Play"){
             playPauseButton.setTitle("Pause", for: .normal)
+            self.stopButton.isEnabled = true
             showTrackOnMap(self.track!)
         } else {
             playPauseButton.setTitle("Play", for: .normal)
@@ -97,9 +105,9 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     func stop(){
         self.iterationIndex = 0
         self.disposeBag = DisposeBag()
+        stopButton.isEnabled = false
         playPauseButton.titleLabel?.text = "Play"
         playPauseButton.isEnabled = true
-        
     }
     
     func adjustInfoView(){
@@ -130,7 +138,8 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                         self.navigationController?.popViewController(animated: true)
                     })
                     
-                }, onCompleted: { 
+                }, onCompleted: {
+                    
                     print("completed")
                 }, onDisposed: { 
                     print("disposed")
@@ -165,7 +174,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         trackArray.removeSubrange(0 ..< iterationIndex)
         
         if trackArray.count > 0 {
-            self.moveMarker(marker, trackItem: trackArray[0], animated: false)
+            self.moveMarker(marker, trackItem: trackArray[0], animated: false, zoom: 14)
         }
      
         Observable<Int>.timer(0, period: animationPeriod/Double(self.speed.rawValue), scheduler: MainScheduler.instance)
@@ -174,13 +183,18 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                 guard let element = event.element else { return }
                 self.iterationIndex += 1
                 if(trackArray.count >= element){
-                    self.moveMarker(marker, trackItem: trackArray[element], animated: true)
+                    self.moveMarker(marker, trackItem: trackArray[element], animated: true, zoom: nil)
+                    if(element == trackArray.count - 1){
+                        self.iterationIndex = 0
+                        self.stopButton.isEnabled = false
+                        self.playPauseButton.setTitle("Play", for: .normal)
+                    }
                 }
-        }.addDisposableTo(self.disposeBag!)
+            }.addDisposableTo(self.disposeBag!)
 
     }
     
-    func moveMarker(_ marker: GMSMarker, trackItem: TrackItem, animated: Bool){
+    func moveMarker(_ marker: GMSMarker, trackItem: TrackItem, animated: Bool, zoom: Float?){
         guard (trackItem.lat != nil && trackItem.lon != nil) else { return }
         
         marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
@@ -195,7 +209,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         
         guard animated else {
             
-            self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
+            self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: zoom ?? self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
             return
         }
         let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
