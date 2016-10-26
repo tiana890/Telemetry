@@ -53,7 +53,6 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
         ApplicationState.sharedInstance.containerViewController = self
         setInitialState()
         
-        
         let dAlphaView = darkAlphaView as! DarkAlphaView
         dAlphaView.centerContainer = centerContainer
         dAlphaView.leftContainer = leftContainer
@@ -86,6 +85,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
                 if(new == 0.0){
                     self.leftPanelOpen = false
                 } else if(new == -CONTAINER_OFFSET_VALUE){
+                    self.removeShadow()
                     self.leftPanelOpen = true
                 }
             }
@@ -125,6 +125,7 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func moveLeftPanelFromCurrentPositionToX(_ value: CGFloat){
+        self.installShadow()
         let newX = self.leftLeadingContainerConstraint.constant + value
         if(newX > -CONTAINER_OFFSET_VALUE && newX < 0){
             self.leftLeadingContainerConstraint.constant = newX
@@ -139,11 +140,13 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     func animatedLeftMoveViewToRightEdge(){
         animatedLeftPanelMoveToX(0.0)
+        self.installShadow()
         self.leftPanelOpen = true
     }
     
     func animatedLeftMoveViewToLeftEdge(){
         animatedLeftPanelMoveToX(-CONTAINER_OFFSET_VALUE)
+        self.removeShadow()
         self.leftPanelOpen = false
     }
     
@@ -189,6 +192,22 @@ class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.centerTabBarController = tabBarController
             }
         }
+    }
+    
+    //MARK: Shadow
+    func installShadow(){
+        self.leftContainer.layer.masksToBounds = false
+        self.leftContainer.layer.shadowOffset = CGSize(width: 10, height: -10)
+        self.leftContainer.layer.shadowRadius = 5
+        self.leftContainer.layer.shadowColor = UIColor.black.cgColor
+        self.leftContainer.layer.shadowOpacity = 0.5
+    }
+    
+    func removeShadow(){
+        self.leftContainer.layer.masksToBounds = false
+        self.leftContainer.layer.shadowOffset = CGSize.zero
+        self.leftContainer.layer.shadowRadius = 0
+        self.leftContainer.layer.shadowOpacity = 0
     }
     
     deinit{
