@@ -60,29 +60,21 @@ class MapFilterViewController: UIViewController {
         self.searchBar.isHidden = true
         self.searchBar.text = (PreferencesManager.showGarageNumber()) ? (ApplicationState.sharedInstance.filter?.garageNumber ?? "") : (ApplicationState.sharedInstance.filter?.registrationNumber ?? "")
         self.searchBar.placeholder = (PreferencesManager.showGarageNumber()) ? "Гаражный номер ТС" : "Регистрационный номер ТС"
-        self.searchBar
-            .rx.text
-            .subscribeNext { (str) in
-                //if(str.characters.count > 0){
-                    if(!PreferencesManager.showGarageNumber()){
-                        ApplicationState.sharedInstance.filter?.registrationNumber = str
-                    } else {
-                        ApplicationState.sharedInstance.filter?.garageNumber = str
-                    }
-                //}
-            }.addDisposableTo(self.disposeBag)
     }
     
     func addBindsToViewModel(){
         filterViewModel?.filterDict.observeOn(MainScheduler.instance)
-        .doOnError(onError: { (errType) in
-            self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
-        })
-        .subscribeNext({ [unowned self](filtDict) in
-            self.filterDict = filtDict
-            self.indicator!.stopAnimating()
-            self.searchBar.isHidden = false
-            self.addTableBinds()
+            .subscribe(onNext: { [unowned self](filtDict) in
+                self.filterDict = filtDict
+                self.indicator!.stopAnimating()
+                self.searchBar.isHidden = false
+                self.addTableBinds()
+                }, onError: { (err) in
+                self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
+            }, onCompleted: { 
+                
+            }, onDisposed: { 
+                
         }).addDisposableTo(self.disposeBag)
     }
     
@@ -95,7 +87,7 @@ class MapFilterViewController: UIViewController {
             ])
         
         items.observeOn(MainScheduler.instance)
-            .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+            .bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                 cell.mainText.text = element.name
@@ -103,7 +95,8 @@ class MapFilterViewController: UIViewController {
             }.addDisposableTo(self.disposeBag)
         
         table.rx.itemSelected.observeOn(MainScheduler.instance)
-        .subscribeNext { [unowned self](indexPath) in
+        .subscribe({ [unowned self](event) in
+            guard let indexPath = event.element else { return }
             if (self.filterDict != nil){
                 if((indexPath as NSIndexPath).row == RowType.company.rawValue){
                     self.performSegue(withIdentifier: self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(value: RowType.company.rawValue as Int))
@@ -111,7 +104,8 @@ class MapFilterViewController: UIViewController {
                     self.performSegue(withIdentifier: self.SELECT_SEGUE_IDENTIFIER, sender: NSNumber(value: RowType.autoModel.rawValue as Int))
                 }
             }
-        }.addDisposableTo(self.disposeBag)
+        })
+        .addDisposableTo(self.disposeBag)
     }
     
     //MARK: Segues
@@ -141,6 +135,16 @@ class MapFilterViewController: UIViewController {
     
     @IBAction func applyFilter(_ sender: AnyObject) {
         
+        if(!PreferencesManager.showGarageNumber()){
+            if(self.searchBar.text != nil){
+                ApplicationState.sharedInstance.filter?.registrationNumber = self.searchBar.text!
+            }
+        } else {
+            if(self.searchBar.text != nil){
+                ApplicationState.sharedInstance.filter?.garageNumber = self.searchBar.text!
+            }
+        }
+
         self.navigationController?.popViewController(animated: true)
     }
     

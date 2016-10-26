@@ -62,12 +62,14 @@ class SettingsTableViewController: UITableViewController {
             AutosClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
                 .autosDictJSONObservable()
                 .observeOn(MainScheduler.instance)
-                .doOnError(onError: { (errType) in
-                    HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось обновить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
-                })
-                .subscribeNext { (autosDictResponse) in
-                    HUD.flash(.success)
-                }.addDisposableTo(self.disposeBag)
+                .subscribe({ (event) in
+                    if(event.error != nil){
+                        HUD.flash(.labeledError(title: "Ошибка", subtitle: "Не удалось обновить справочник ТС. Информация о ТС может отображаться некорректно."), delay: 2, completion: nil)
+                    } else {
+                        guard let autosDictResponse = event.element else { return }
+                        HUD.flash(.success)
+                    }
+                }).addDisposableTo(self.disposeBag)
 
         }
         

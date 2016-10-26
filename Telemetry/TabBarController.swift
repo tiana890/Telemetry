@@ -22,32 +22,39 @@ class TabBarViewController: UITabBarController{
         super.viewDidLoad()
         self.selectedViewController = self.viewControllers![TabBarItem.map.rawValue]
         
-        subscription = NotificationCenter.default.rx.notification(Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification)).subscribeNext { (notification) in
-            if let value = notification.object as? String{
-                if let menuItem = MenuItem(rawValue: value){
-                    switch(menuItem){
-                    case MenuItem.Profile:
-                        self.showProfile()
-                        break
-                    case MenuItem.Maps:
-                        self.showMap()
-                        break
-                    case MenuItem.Company:
-                        self.showCompanies()
-                        break
-                    case MenuItem.Settings:
-                        self.showSettings()
-                        break
-                    case MenuItem.Vehicles:
-                        self.showVehicles()
-                        break
-                    default:
-                        break
+        NotificationCenter.default.rx
+        .notification(Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification))
+        .observeOn(MainScheduler.instance)
+        .subscribe ({ [unowned self](event) in
+            
+            if let notification = event.element {
+            
+                if let value = notification.object as? String{
+                    if let menuItem = MenuItem(rawValue: value){
+                        switch(menuItem){
+                        case MenuItem.Profile:
+                            self.showProfile()
+                            break
+                        case MenuItem.Maps:
+                            self.showMap()
+                            break
+                        case MenuItem.Company:
+                            self.showCompanies()
+                            break
+                        case MenuItem.Settings:
+                            self.showSettings()
+                            break
+                        case MenuItem.Vehicles:
+                            self.showVehicles()
+                            break
+                        default:
+                            break
+                        }
                     }
                 }
             }
-        }
-        subscription?.addDisposableTo(self.disposeBag)
+        }).addDisposableTo(self.disposeBag)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -18,7 +18,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class ContainerViewController: BaseViewController, UIGestureRecognizerDelegate {
+class ContainerViewController: UIViewController, UIGestureRecognizerDelegate {
     
     let CENTER_EMBED_SEGUE_IDENTIFIER = "centerEmbedSegue"
     

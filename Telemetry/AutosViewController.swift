@@ -112,11 +112,13 @@ class AutosViewController: UIViewController {
     }
     
     func addBindsToViewModel(){
+        
+        
         self.publishSubject
         .observeOn(MainScheduler.instance)
-        .bindTo(collection.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
-            let indexPath = IndexPath(item: row, section: 0)
-            let cell = self.collection.dequeueReusableCell(withReuseIdentifier: self.CELL_IDENTIFIER, for: indexPath) as! AutoCollectionCell
+        .bindTo(collection.rx.items(cellIdentifier: self.CELL_IDENTIFIER)) { (collectionView, element, c) in
+            
+            let cell = c as! AutoCollectionCell
             cell.registrationNumber.text = element.registrationNumber ?? ""
             cell.companyName.text = element.organization ?? ""
             cell.model.text = element.model ?? ""
@@ -137,7 +139,6 @@ class AutosViewController: UIViewController {
                 cell.lastUpdate.text = ""
             }
             
-            return cell
         }.addDisposableTo(self.disposeBag)
         
     }
@@ -146,11 +147,12 @@ class AutosViewController: UIViewController {
     func addCollectionBinds(){
         self.collection.rx.modelSelected(Auto)
             .observeOn(MainScheduler.instance)
-            .subscribeNext { [unowned self](auto) in
+            .subscribe({ [unowned self](event) in
+                guard let auto = event.element else { return }
                 if let autoId = auto.id{
                     self.performSegue(withIdentifier: self.AUTO_DETAIL_SEGUE, sender: NSNumber(value: autoId as Int))
                 }
-        }.addDisposableTo(self.disposeBag)
+        }).addDisposableTo(self.disposeBag)
         
     }
     

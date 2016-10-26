@@ -46,28 +46,29 @@ class CompaniesViewController: UIViewController {
         self.table.isHidden = true
         
         self.viewModel?.getCompaniesObservable()
-        .doOnError(onError: { (errType) in
-            DispatchQueue.main.async(execute: {
-                indicator.removeFromSuperview()
-                self.table.isHidden = false
-            })
-            self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
-        })
-        .subscribeNext({ (companies) in
-            DispatchQueue.main.async(execute: {
-                indicator.removeFromSuperview()
-                self.table.isHidden = false
-            })
-            self.publishSubject.onNext(companies)
-        })
-        .addDisposableTo(self.disposeBag)
+        .subscribe({ (event) in
+            if(event.error != nil){
+                DispatchQueue.main.async(execute: {
+                    indicator.removeFromSuperview()
+                    self.table.isHidden = false
+                })
+                self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
+            } else {
+                guard let companies = event.element else { return }
+                DispatchQueue.main.async(execute: {
+                    indicator.removeFromSuperview()
+                    self.table.isHidden = false
+                })
+                self.publishSubject.onNext(companies)
+            }
+        }).addDisposableTo(self.disposeBag)
     }
     
     func addBindsToViewModel(){
 
         self.publishSubject
             .observeOn(MainScheduler.instance)
-            .bindTo(table.rx_itemsWithCellFactory) { [unowned self](collectionView, row, element) in
+            .bindTo(table.rx.items) { [unowned self](collectionView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: self.CELL_IDENTIFIER, for: indexPath) as! CompanyTableCell
                 cell.name.text = element.name ?? ""
@@ -80,11 +81,12 @@ class CompaniesViewController: UIViewController {
         
         self.table.rx.modelSelected(Company)
             .observeOn(MainScheduler.instance)
-            .subscribeNext { [unowned self](company) in
+            .subscribe({ [unowned self](event) in
+                guard let company = event.element else { return }
                 if let companyId = company.id{
                     self.performSegue(withIdentifier: self.COMPANY_DETAIL_SEGUE, sender: NSNumber(value: companyId as Int))
                 }
-        }.addDisposableTo(self.disposeBag)
+        }).addDisposableTo(self.disposeBag)
         
     }
     

@@ -40,7 +40,7 @@ class CompanyViewController: UIViewController {
             .observeOn(MainScheduler.instance)
             .flatMap({ [unowned self](company) -> Observable<[(cellID:String, name: String)]> in
                 return Observable.just(self.createItemsArrayFromCompanyModel(company))
-            }).bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+            }).bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                     let indexPath = IndexPath(item: row, section: 0)
                     let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
                     cell.mainText.text = element.name

@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 
-class MenuTableViewController: BaseTableViewController{
+class MenuTableViewController: UITableViewController{
     
     @IBOutlet weak var profilePhoto: UIImageView!
     @IBOutlet var email: UILabel!
@@ -20,7 +20,7 @@ class MenuTableViewController: BaseTableViewController{
     @IBOutlet var table: UITableView!
     
     var ifLoading = false
-    
+    var disposeBag = DisposeBag()
     
     @IBOutlet weak var numberOfMyTasks: UILabel!
     enum MenuItemIndex: Int{
@@ -31,32 +31,33 @@ class MenuTableViewController: BaseTableViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let sub = self.table.rx.itemSelected.observeOn(MainScheduler.instance)
-            .subscribeNext { [unowned self](indexPath) in
+        self.table.rx.itemSelected.observeOn(MainScheduler.instance)
+        .subscribe({ (event) in
+            guard let indexPath = event.element else { return }
             switch ((indexPath as NSIndexPath).row){
             case MenuItemIndex.profile.rawValue:
-                //NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
-                break
+            //NSNotificationCenter.defaultCenter().postNotification(NSNotification(name: NotificationManager.MenuItemSelectedNotification, object: MenuItem.Profile.rawValue))
+            break
             case MenuItemIndex.maps.rawValue:
-                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Maps.rawValue))
-                break
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Maps.rawValue))
+            break
             case MenuItemIndex.company.rawValue:
-                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Company.rawValue))
-                break
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Company.rawValue))
+            break
             case MenuItemIndex.vehicles.rawValue:
-                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Vehicles.rawValue))
-                break
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Vehicles.rawValue))
+            break
             case MenuItemIndex.exit.rawValue:
-                //self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
-                break
+            //self.showAlert("Вы действительно хотите выйти из приложения?", msg: "")
+            break
             case MenuItemIndex.settings.rawValue:
-                NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Settings.rawValue))
-                break
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: NotificationManager.MenuItemSelectedNotification), object: MenuItem.Settings.rawValue))
+            break
             default:
-                break
+            break
             }
-        }
-        self.addSubscription(sub)
+
+            }).addDisposableTo(self.disposeBag)
     }
 
     //MARK: -Alerts

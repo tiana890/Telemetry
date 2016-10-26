@@ -59,14 +59,14 @@ class SelectableTableViewController: UIViewController {
     
     func createObservables(){
         if(selectType == .company){
-            self.filterCompanies.asObservable().bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+            self.filterCompanies.asObservable().bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
                 cell.mainText.text = element.name
                 return cell
             }.addDisposableTo(self.disposeBag)
         } else if(selectType == .autoModel){
-            self.filterAutoModels.asObservable().bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+            self.filterAutoModels.asObservable().bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
                 cell.mainText.text = element.name
@@ -78,7 +78,8 @@ class SelectableTableViewController: UIViewController {
     func addTableBinds(){
         if(self.selectType == .company){
             table.rx.modelSelected(Company)
-            .subscribeNext({ (company) in
+            .subscribe({ (event) in
+                guard let company = event.element else { return }
                 if let itemId = company.id{
                     if let index = self.selectedIds.index(of: itemId){
                         self.selectedIds.remove(at: index)
@@ -87,40 +88,47 @@ class SelectableTableViewController: UIViewController {
                     }
                 }
                 self.table.reloadData()
-            }).addDisposableTo(self.disposeBag)
+            })
+                .addDisposableTo(self.disposeBag)
         } else {
             table.rx.modelSelected(AutoModel)
-                .subscribeNext({ (autoModel) in
-                    if let itemId = autoModel.id{
-                        if let index = self.selectedIds.index(of: itemId){
-                            self.selectedIds.remove(at: index)
-                        } else {
-                            self.selectedIds.append(itemId)
-                        }
+            .subscribe({ (event) in
+                guard let autoModel = event.element else { return }
+                if let itemId = autoModel.id{
+                    if let index = self.selectedIds.index(of: itemId){
+                        self.selectedIds.remove(at: index)
+                    } else {
+                        self.selectedIds.append(itemId)
                     }
-                    self.table.reloadData()
-                }).addDisposableTo(self.disposeBag)
+                }
+                self.table.reloadData()
+            })
+            .addDisposableTo(self.disposeBag)
             
         }
         
         
         table.rx.willDisplayCell.observeOn(MainScheduler.instance)
-             .subscribeNext { [unowned self](event) in
-                if let itemId = (self.selectType == .company) ? self.filterCompaniesArray[(event.indexPath as NSIndexPath).row].id :  self.filterAutoModelsArray[(event.indexPath as NSIndexPath).row].id {
+            .subscribe({ [unowned self](event) in
+                guard let willDisplayCellEvent = event.element else { return }
+                
+                if let itemId = (self.selectType == .company) ? self.filterCompaniesArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id :  self.filterAutoModelsArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id {
                     if(self.selectedIds.contains(itemId)){
-                        event.cell.setSelected(true, animated: false)
+                        willDisplayCellEvent.cell.setSelected(true, animated: false)
                     } else {
-                        event.cell.setSelected(false, animated: false)
+                        willDisplayCellEvent.cell.setSelected(false, animated: false)
                     }
                 }
-            }.addDisposableTo(self.disposeBag)
+            }).addDisposableTo(self.disposeBag)
     }
     
     func adjustSearchBar(){
         self.searchBar
         .rx.text
         .debounce(0.4, scheduler: MainScheduler.instance)
-        .subscribeNext { (str) in
+        .subscribe({ (event) in
+            guard let strOpt = event.element else { return }
+            guard let str = strOpt else { return }
             guard str.characters.count > 0 else {
                 if(self.selectType == .company){
                     self.filterCompaniesArray.removeAll()
@@ -158,7 +166,8 @@ class SelectableTableViewController: UIViewController {
                 self.filterAutoModelsArray.append(contentsOf: arr)
                 self.filterAutoModels.on(.next(arr))
             }
-        }.addDisposableTo(self.disposeBag)
+
+        }).addDisposableTo(self.disposeBag)
     }
     
     @IBAction func applyFilter(_ sender: AnyObject) {
@@ -176,14 +185,18 @@ class SelectableTableViewController: UIViewController {
     
     func setObservers(){
         
-        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillShow).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
-            let keyboardFrame: CGRect = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillShow).observeOn(MainScheduler.instance)
+            .subscribe({ (event) in
+                guard let notification = event.element else { return }
+                let keyboardFrame: CGRect = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
                 self.table.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrame.size.height, 0)
-            }.addDisposableTo(self.disposeBag)
+            }).addDisposableTo(self.disposeBag)
         
-        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillHide).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillHide).observeOn(MainScheduler.instance)
+            .subscribe({ [unowned self](event) in
+                guard let notification = event.element else { return }
                 self.table.contentInset = UIEdgeInsets.zero
-            }.addDisposableTo(self.disposeBag)
+            }).addDisposableTo(self.disposeBag)
         
     }
 

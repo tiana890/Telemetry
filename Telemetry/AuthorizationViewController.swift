@@ -28,16 +28,16 @@ class AuthorizationViewController: UIViewController {
         
         self.indicator.isHidden = true
         
-        Observable.combineLatest(passwordTxtField.rx_text, loginTxtField.rx_text, serverTxtField.rx_text){ (txt1, txt2, txt3) -> Bool in
+        Observable.combineLatest(passwordTxtField.rx.text, loginTxtField.rx.text, serverTxtField.rx.text){ (txt1, txt2, txt3) -> Bool in
             if((txt1?.characters.count)! > 0 && (txt2?.characters.count)! > 0 && (txt3?.characters.count)! > 0){
                 return true
             }
             return false
-        }.bindTo(enterButton.rx.enabled).addDisposableTo(self.disposeBag)
+        }.bindTo(enterButton.rx.isEnabled).addDisposableTo(self.disposeBag)
         
-        enterButton.rx.tap.asObservable().map({ return false }).bindTo(self.indicator.rx.hidden).addDisposableTo(self.disposeBag)
-        enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.indicator.rx.animating).addDisposableTo(self.disposeBag)
-        enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.enterButton.rx.hidden).addDisposableTo(self.disposeBag)
+        enterButton.rx.tap.asObservable().map({ return false }).bindTo(self.indicator.rx.isHidden).addDisposableTo(self.disposeBag)
+        enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.indicator.rx.isAnimating).addDisposableTo(self.disposeBag)
+        enterButton.rx.tap.asObservable().map({ return true }).bindTo(self.enterButton.rx.isHidden).addDisposableTo(self.disposeBag)
 
         self.enterButton.rx.tap
         .subscribe { [unowned self] (event) in
@@ -132,14 +132,19 @@ class AuthorizationViewController: UIViewController {
     
     func setObservers(){
         
-        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillShow).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
-            let keyboardFrame: CGRect = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
-            self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrame.size.height, 0)
-        }.addDisposableTo(self.disposeBag)
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillShow).observeOn(MainScheduler.instance)
+            .subscribe({ [unowned self](event) in
+                guard let notification = event.element else { return }
+                let keyboardFrame: CGRect = ((notification as NSNotification).userInfo![UIKeyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+                self.scroll.contentInset = UIEdgeInsetsMake(0, 0, keyboardFrame.size.height, 0)
+            }).addDisposableTo(self.disposeBag)
         
-        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillHide).observeOn(MainScheduler.instance).subscribeNext { [unowned self](notification) in
-            self.scroll.contentInset = UIEdgeInsets.zero
-        }.addDisposableTo(self.disposeBag)
+        NotificationCenter.default.rx.notification(NSNotification.Name.UIKeyboardWillHide).observeOn(MainScheduler.instance)
+            .subscribe({ [unowned self](event) in
+                guard let notification = event.element else { return }
+                self.scroll.contentInset = UIEdgeInsets.zero
+            })
+           .addDisposableTo(self.disposeBag)
         
     }
     

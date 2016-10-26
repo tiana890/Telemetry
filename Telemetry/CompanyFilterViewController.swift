@@ -24,9 +24,10 @@ class CompanyFilterViewController: UIViewController {
 
         searchBar.text = ApplicationState.sharedInstance.filter?.companyName ?? ""
         searchBar.rx.text.observeOn(MainScheduler.instance)
-            .subscribeNext { (str) in
+            .subscribe({ (event) in
+                guard let str = event.element else { return }
                 ApplicationState.sharedInstance.filter?.companyName = str
-        }.addDisposableTo(self.disposeBag)
+            }).addDisposableTo(self.disposeBag)
         
         let items = Observable.just([
             (name: "ВЫБРАТЬ ОРГАНИЗАЦИЮ", cellID: HEADER_CELL_ID),

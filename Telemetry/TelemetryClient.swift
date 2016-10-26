@@ -76,14 +76,14 @@ class TelemetryClient: NSObject {
                 self.vehObservable.onError(APIError(errType: .NETWORK))
                 return Observable.just(false)
             })
-            .subscribeNext { [unowned self](val) in
+            .subscribe({ [unowned self](event) in
+                guard let val = event.element else { return }
                 if(val){
                     self.webSocket!.send(self.vehiclesRequestSocket?.getData() ?? Data())
                 } else {
                     self.vehObservable.onError(APIError(errType: .UNKNOWN))
                 }
-            }
-            .addDisposableTo(self.disposeBag)
+            }).addDisposableTo(self.disposeBag)
         
         self.webSocket?.rx_didReceiveMessage
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
@@ -134,10 +134,10 @@ class TelemetryClient: NSObject {
         
         self.webSocket?.rx_didFailWithError
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
-            .subscribeNext({ (error) in
-                print((error as NSError).description)
+            .subscribe({ (error) in
                 self.vehObservable.onError(APIError(errType: .SOCKET_INTERRUPTED))
-            }).addDisposableTo(self.disposeBag)
+            })
+            .addDisposableTo(self.disposeBag)
         
         backgrQueue.async {
             self.webSocket!.open()

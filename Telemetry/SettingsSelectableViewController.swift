@@ -40,7 +40,7 @@ class SettingsSelectableViewController: UIViewController {
         let array = Observable.just(["Отображать регистрационные номера", "Отображать гаражные номера"])
         
         array.asObservable()
-        .bindTo(table.rx_itemsWithCellFactory){ [unowned self](tableView, row, element) in
+        .bindTo(table.rx.items){ [unowned self](tableView, row, element) in
             let indexPath = IndexPath(item: row, section: 0)
             let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
             cell.mainText.text = element
@@ -48,23 +48,28 @@ class SettingsSelectableViewController: UIViewController {
         }.addDisposableTo(disposeBag)
         
         table.rx.itemSelected
-        .subscribeNext { (indexPath) in
+        .map { index in
+            return index
+        }.subscribe({ (event) in
+            guard let indexPath = event.element else { return }
             if((indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
                 self.showGarageNumber = false
             } else {
                 self.showGarageNumber = true
             }
             self.table.reloadData()
-        }.addDisposableTo(self.disposeBag)
+        }).addDisposableTo(self.disposeBag)
         
         table.rx.willDisplayCell.observeOn(MainScheduler.instance)
-        .subscribeNext { [unowned self](event) in
-            if((event.indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
-                 event.cell.setSelected(!self.showGarageNumber, animated: false)
+        .subscribe({ (event) in
+            guard let willDisplayCellEvent = event.element else { return }
+            if((willDisplayCellEvent.indexPath as NSIndexPath).row == ShowNumber.registrationNumber.rawValue){
+                willDisplayCellEvent.cell.setSelected(!self.showGarageNumber, animated: false)
             } else {
-                event.cell.setSelected(self.showGarageNumber, animated: false)
+                willDisplayCellEvent.cell.setSelected(self.showGarageNumber, animated: false)
             }
-        }.addDisposableTo(self.disposeBag)
+
+        }).addDisposableTo(self.disposeBag)
     }
     
     
