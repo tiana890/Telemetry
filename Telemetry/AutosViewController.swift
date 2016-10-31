@@ -128,7 +128,7 @@ class AutosViewController: UIViewController {
             cell.contentView.clipsToBounds = true
             cell.registrationNumber.layer.cornerRadius = 4.0
             cell.registrationNumber.clipsToBounds = true
-            
+            cell.garageNumber.text = element.garageNumber ?? ""
             
             if let lastUpdate = element.lastUpdate{
                 let date = Date(timeIntervalSince1970: Double(lastUpdate))
