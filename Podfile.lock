@@ -2,7 +2,7 @@ PODS:
   - Alamofire (4.0.1)
   - Crashlytics (3.8.3):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.10)
+  - Fabric (1.6.11)
   - GoogleMaps (2.1.0):
     - GoogleMaps/Maps (= 2.1.0)
   - GoogleMaps/Base (2.1.0)
@@ -10,11 +10,11 @@ PODS:
     - GoogleMaps/Base (= 2.1.0)
   - JASON (3.0)
   - PKHUD (4.0.0)
-  - Realm (2.0.2):
-    - Realm/Headers (= 2.0.2)
-  - Realm/Headers (2.0.2)
-  - RealmSwift (2.0.2):
-    - Realm (= 2.0.2)
+  - Realm (2.0.3):
+    - Realm/Headers (= 2.0.3)
+  - Realm/Headers (2.0.3)
+  - RealmSwift (2.0.3):
+    - Realm (= 2.0.3)
   - RxAlamofire (3.0.0):
     - RxAlamofire/Core (= 3.0.0)
   - RxAlamofire/Core (3.0.0):
@@ -45,12 +45,12 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Alamofire: 7682d43245de14874acd142ec137b144aa1dd335
   Crashlytics: 2b6dbe138a42395577cfa73dfa1aa7248cadf39e
-  Fabric: c73f371ee543e3f0b80608f2674750e4910d1669
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   GoogleMaps: 06589b9a38097bce0cd6e90f0fd9b5e4b4a9344c
   JASON: cf4d762e61428a20db8eaef2acb6a569a10c1801
   PKHUD: 2bb45c936bb8afa39f3cd33ec14e8cc89f624255
-  Realm: 0f5a194af0b7e6158b83db41b4ee1a00be7ddf1a
-  RealmSwift: 0eb5070d851cba7c66e841ca756d83609dc78bc8
+  Realm: 5f008bfe3c8c47142eddfc30b8c1584cde22db24
+  RealmSwift: 5afb451f65b682242f272dbb52d5c6f6e343c980
   RxAlamofire: 0b1fa48f545fffe7f7a28af2086bcaa3b5946cc9
   RxBlocking: 0132c660340d8b8f34b65b2e099167ea6134eecf
   RxCocoa: 0a2f3ae381cf16f4021a4cee7a4420f83058a965
@@ -60,4 +60,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 5340dfbcb63da6dbf16f99e82adbc977a55f3407
 
-COCOAPODS: 1.1.0.beta.1
+COCOAPODS: 1.1.0.rc.3

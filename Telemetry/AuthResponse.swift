@@ -19,6 +19,6 @@ class AuthResponse: BaseResponse {
     override init(json: JSON){
         super.init(json: json)
         
-        self.token = json["auth"]["token"].string
+        self.token = json["user"]["token"].string
     }
 }

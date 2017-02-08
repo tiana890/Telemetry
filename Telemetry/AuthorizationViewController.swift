@@ -42,13 +42,13 @@ class AuthorizationViewController: UIViewController {
         self.enterButton.rx.tap
         .subscribe { [unowned self] (event) in
             guard !event.isStopEvent else { return }
-            if(self.serverTxtField.text!.hasPrefix("http://")){
+            if(self.serverTxtField.text!.hasPrefix("http://") || self.serverTxtField.text!.hasPrefix("https://")){
                 PreferencesManager.saveAPIServer(self.serverTxtField.text ?? "")
                 self.addBindsToViewModel()
             } else {
                 self.indicator.isHidden = true
                 self.enterButton.isHidden = false
-                self.showAlert("Внимание", msg: "Введите сервер в формате \"http://xxxx.xx\"")
+                self.showAlert("Внимание", msg: "Введите сервер в формате \"http(s)://xxxx.xx\"")
             }
             
         }.addDisposableTo(self.disposeBag)

@@ -146,7 +146,11 @@ static CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
       BOOL showMarker = NO;
       CLLocationCoordinate2D prevPosition;
       if([marker.userData isKindOfClass:[POIItem class]]){
+
           POIItem* item = (POIItem *)marker.userData;
+          for(GMSPolyline *line in item.polylines){
+              line.map = nil;
+          }
           if(item.selected){
               _mapView.selectedMarker = marker;
               showMarker = YES;
