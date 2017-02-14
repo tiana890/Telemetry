@@ -112,7 +112,9 @@ class AuthorizationViewController: UIViewController {
         infoClient.infoObservable()
         .observeOn(MainScheduler.instance)
         .do(onError: { (err) in
-            failure()
+            PreferencesManager.saveServer("wss://esmc.info/stk-dev/api/v1/telemetry/socket_server")
+            success()
+            //failure()
         })
         .subscribe { (event) in
             guard !event.isStopEvent else { return }

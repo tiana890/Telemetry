@@ -27,10 +27,10 @@ class VehiclesRequestSocket{
        
         if(vehicles.count > 0){
             json = JSON(dictionaryLiteral: ("vehicles", self.vehicles),
-                            ("auth_token", token)/*, ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]])*/)
+                            ("auth_token", token), ("bounds", [[0, 0],[180, 180]]))
         } else {
             json = JSON(dictionaryLiteral: ("vehicles", "all"),
-                        ("auth_token", token)/*, ("bounds", [[bounds.first.lat, bounds.first.lon],[bounds.second.lat, bounds.second.lon]])*/)
+                        ("auth_token", token), ("bounds", [[0, 0],[180, 180]]))
         }
         return try! json!.rawData()
     }

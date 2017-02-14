@@ -14,7 +14,8 @@ import SwiftyJSON
 class TelemetryClient: NSObject {
     
     //let SERVER_URL = "ws://esmc.info/stk/api/v1/telemetry/socket_server"
-    let SERVER_URL = PreferencesManager.getServer() + "socket_server"
+    //let SERVER_URL = PreferencesManager.getServer() //+ "socket_server"
+    let SERVER_URL = "wss://esmc.info/stk-dev/api/v1/telemetry/socket_server"
     
     var webSocket: SRWebSocket?
     fileprivate var token: String?
@@ -115,22 +116,22 @@ class TelemetryClient: NSObject {
                 }
                
                 
+                return (vehicles, APIError(errType: .NONE))
+                //return (vehicles, APIError(errType: .UNKNOWN))
                 
-                return (vehicles, APIError(errType: .UNKNOWN))
-                
-                }).subscribe(onNext: { (veh, err) in
-                    if(err.errType == APIErrorType.NONE){
-                        self.vehObservable.on(.next(veh))
-                    } else {
-                        self.vehObservable.onError(err)
-                    }
-                    }, onError: { (err) in
-                        print((err as NSError).description)
-                    }, onCompleted: { 
-                        print("Completed")
-                    }, onDisposed: { 
-                        print("disposed")
-                }).addDisposableTo(self.disposeBag)
+            }).subscribe(onNext: { (veh, err) in
+                if(err.errType == APIErrorType.NONE){
+                    self.vehObservable.on(.next(veh))
+                } else {
+                    self.vehObservable.onError(err)
+                }
+                }, onError: { (err) in
+                    print((err as NSError).description)
+                }, onCompleted: { 
+                    print("Completed")
+                }, onDisposed: { 
+                    print("disposed")
+            }).addDisposableTo(self.disposeBag)
         
         self.webSocket?.rx_didFailWithError
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue))
