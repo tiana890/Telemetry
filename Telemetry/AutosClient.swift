@@ -14,9 +14,31 @@ import JASON
 import Alamofire
 
 class AutosClient: NSObject {
+    /*
+    {
+    status: "success",
+    code: 200,
+        "vehicles": {
+            "4662": [
+                {
+                    id: 4662,
+                    model: "Е786ЕЕ777",
+                    type: "Аварийно-техническая",
+                    garage_number: 2349,
+                    speed: 0,
+                    lastUpdate: 0,
+                    organization_id: 12,
+                    organization: "ГБУ "Автомобильные дороги""
+                    },
+            ...
+            ],
+            ...
+        }
+    }
+ */
     
     var token: String?
-    let autosPath = "/api/v1/vehicles"
+    let autosPath = "/stk/api/v1/telemetry/vehicle_list"
     var local: Bool = false
     
     init(_token: String) {
@@ -41,7 +63,7 @@ class AutosClient: NSObject {
     func autosDictJSONObservable() -> Observable<[String : SwiftyJSON.JSON]>{
         let path = PreferencesManager.getAPIServer() + autosPath
 
-        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
+        return requestJSON(.get, path, parameters: ["auth_token": self.token ?? ""], encoding:  URLEncoding.default, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 let jsonObject = JSON(object)["vehicles"]

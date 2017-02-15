@@ -79,7 +79,7 @@ class CompaniesViewController: UIViewController {
     
     func addTableBinds(){
         
-        self.table.rx.modelSelected(Company)
+        self.table.rx.modelSelected(Company.self)
             .observeOn(MainScheduler.instance)
             .subscribe({ [unowned self](event) in
                 guard let company = event.element else { return }

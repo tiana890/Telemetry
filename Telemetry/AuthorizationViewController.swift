@@ -58,6 +58,9 @@ class AuthorizationViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        self.serverTxtField.text = "https://esmc.info"
+        self.loginTxtField.text = "telemetry_admin"
+        self.passwordTxtField.text = "111111"
     }
     
     func addBindsToViewModel(){

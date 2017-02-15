@@ -14,10 +14,28 @@ import Alamofire
 
 class CompaniesClient: NSObject{
     
+    /*
+     {
+     status: "success",
+     code: 200,
+     "organizations": {
+     "12": [
+     {
+     id: 12,
+     short_name: "АвД",
+     name: "ГБУ "Автомобильные дороги""
+     },
+     ...
+     ],
+     ...
+     }
+     }
+     */
+    
     var token: String?
     var filter: Filter?
     
-    let companiesPath = "/api/v1/organizations"
+    let companiesPath = "/stk/api/v1/telemetry/organization_list"
     
     init(_token: String) {
         super.init()
@@ -29,11 +47,11 @@ class CompaniesClient: NSObject{
         var parameters = [String: Any]()
         let path = PreferencesManager.getAPIServer() + companiesPath
         
-        if let _ = self.filter{
-            parameters["filter"] = ["name": self.filter?.companyName ?? ""]
-        }
-        
-        return requestJSON(.post, path + "?token=" + (self.token ?? ""), parameters: parameters, encoding: JSONEncoding.default, headers: nil)
+//        if let _ = self.filter{
+//            parameters["filter"] = ["name": self.filter?.companyName ?? ""]
+//        }
+        parameters["auth_token"] = self.token ?? ""
+        return requestJSON(.get, path, parameters: parameters, encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map({ (response, object) -> CompaniesResponse in
@@ -41,6 +59,8 @@ class CompaniesClient: NSObject{
                 let compResponse = CompaniesResponse(json: js)
                 return compResponse
             })
+        
+
     }
     
     
