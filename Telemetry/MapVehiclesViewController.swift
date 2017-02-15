@@ -175,8 +175,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
     //MARK: Map functions
     
     func updateMap(){
-        
-        self.addBindsToViewModel([])
+        self.addBindsToViewModel(RealmManager.getAutoIds())
     }
     
     func updateMap(_ arr: [Int]){

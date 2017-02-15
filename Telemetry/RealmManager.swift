@@ -28,11 +28,23 @@ class RealmManager: NSObject {
         }
     }
     
+    static func getAutoIds() -> [Int]{
+        let realm = try! Realm()
+        
+        var ids = [Int]()
+        let autoObjects = realm.objects(AutoJSON.self)
+        
+        for(a) in autoObjects{
+            ids.append(a.id)
+        }
+        return ids
+    }
+    
     static func getAutos() -> [Auto]{
         let realm = try! Realm()
         
         var autoModels = [Auto]()
-        let autoObjects = realm.objects(AutoJSON)
+        let autoObjects = realm.objects(AutoJSON.self)
         
         for(a) in autoObjects{
             let autoModel = Auto(json: JSON.parse(a.rawValue))
@@ -45,7 +57,7 @@ class RealmManager: NSObject {
     static func getAutoById(_ id: Int) -> Auto?{
         
         let realm = try! Realm()
-        let autosJSON = realm.objects(AutoJSON).filter("id=\(id)")
+        let autosJSON = realm.objects(AutoJSON.self).filter("id=\(id)")
         if autosJSON.count > 0{
             let autoJSON = autosJSON[0]
             let json = JSON.parse(autoJSON.rawValue)
