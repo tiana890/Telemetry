@@ -47,7 +47,6 @@ class AutosViewController: UIViewController {
             return
         }
         
-        print(self.storedFilter)
         guard let f = self.storedFilter else {
             self.loadAutos(false)
             return
@@ -145,12 +144,12 @@ class AutosViewController: UIViewController {
     
     
     func addCollectionBinds(){
-        self.collection.rx.modelSelected(Auto)
+        self.collection.rx.modelSelected(Auto.self)
             .observeOn(MainScheduler.instance)
             .subscribe({ [unowned self](event) in
                 guard let auto = event.element else { return }
                 if let autoId = auto.id{
-                    self.performSegue(withIdentifier: self.AUTO_DETAIL_SEGUE, sender: NSNumber(value: autoId as Int))
+                    self.performSegue(withIdentifier: self.AUTO_DETAIL_SEGUE, sender: auto)
                 }
         }).addDisposableTo(self.disposeBag)
         
@@ -159,9 +158,10 @@ class AutosViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if(segue.identifier == AUTO_DETAIL_SEGUE){
             if let destVC = segue.destination as? AutoViewController{
-                if let autoId = sender as? NSNumber{
+                if let auto = sender as? Auto{
+                    destVC.auto = auto
                     destVC.autosViewController = self
-                    destVC.autoId = autoId.int64Value
+                    destVC.autoId = Int64(auto.id ?? 0)
                 }
             }
         }

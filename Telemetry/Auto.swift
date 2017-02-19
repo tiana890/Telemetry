@@ -13,13 +13,14 @@ import JASON
 /*
  {
  
- "speed" : 1.27,
- "id" : 623,
- "registrationNumber" : "Ut ad adipisci minima quidem.",
- "model" : "Dicta sed omnis rerum.",
- "organization" : "Ea at labore et nemo autem.",
- "type" : "Qui mollitia vel eius.",
- "lastUpdate" : 1052771092
+ id: 399,
+ model: "К060КА777",
+ type: "Аварийно-техническая",
+ garage_number: "",
+ speed: 0,
+ lastUpdate: 0,
+ organization_id: 95,
+ organization: "АО "Мосводоканал"
  
  } */
 struct Auto {
@@ -28,6 +29,7 @@ struct Auto {
     var garageNumber: String?
     var model: String?
     var organization: String?
+    var organizationId: Int?
     var lastUpdate: Int64?
     var speed: Double?
     var type: String?
@@ -37,11 +39,12 @@ struct Auto {
     }
     init(json: SwiftyJSON.JSON){
         self.id = json["id"].int
-        self.registrationNumber = json["registrationNumber"].string
-        self.garageNumber = json["garageNumber"].string
+        self.registrationNumber = json["model"].string
+        self.garageNumber = json["garage_number"].string
         self.model = json["model"].string
         self.organization = json["organization"].string
         self.lastUpdate = json["lastUpdate"].int64
+        self.organizationId = json["organization_id"].int
         self.speed = json["speed"].double
         self.type = json["type"].string
     }

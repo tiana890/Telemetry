@@ -13,7 +13,7 @@ import RxSwift
 
 
 class AutoViewController: UIViewController {
-    
+
     let HEADER_CELL_IDENTIFIER = "headerCell"
     let COMMON_CELL_IDENTIFIER = "commonCell"
     let COMMON_ARROW_CELL_IDENTIFIER = "commonArrowCell"
@@ -21,6 +21,8 @@ class AutoViewController: UIViewController {
     
     let SHOW_TRACK_SEGUE_IDENTIFIER = "showTrack"
     let FOLLOW_VEHICLE_SEGUE_IDENTIFIER = "followMapSegue"
+    
+    var auto: Auto?
     
     var autoId: Int64?
     var garageNumber: String?
@@ -41,38 +43,47 @@ class AutoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        autoClient = AutoClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0)
-        self.viewModel = AutoViewModel(autoClient: autoClient!)
+//        autoClient = AutoClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: autoId ?? 0)
+//        self.viewModel = AutoViewModel(autoClient: autoClient!)
         
         addBindsToViewModel()
         addTableBinds()
     }
     
     func addBindsToViewModel(){
-        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
-        indicator.startAnimating()
-        self.view.addSubview(indicator)
-        self.table.isHidden = true
+//        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+//        indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+//        indicator.startAnimating()
+//        self.view.addSubview(indicator)
+//        self.table.isHidden = true
         
-        self.viewModel?.auto
-            .observeOn(MainScheduler.instance)
-            .do(onError: { (errType) in
-                self.table.isHidden = false
-                indicator.removeFromSuperview()
-                self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
-            })
-            .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
-                indicator.removeFromSuperview()
-                self.table.isHidden = false
-                return Observable.just(self.createItemsArrayFromAutoModel(auto))
-            })
-            .bindTo(table.rx.items){ [unowned self](tableView, row, element) in
-                let indexPath = IndexPath(item: row, section: 0)
-                let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
-                cell.mainText.text = element.name
-                return cell
-            }.addDisposableTo(self.disposeBag)
+//        self.viewModel?.auto
+//            .observeOn(MainScheduler.instance)
+//            .do(onError: { (errType) in
+//                self.table.isHidden = false
+//                indicator.removeFromSuperview()
+//                self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
+//            })
+//            .flatMap({ [unowned self](auto) -> Observable<[(cellID:String, name: String)]> in
+//                indicator.removeFromSuperview()
+//                self.table.isHidden = false
+//                return Observable.just(self.createItemsArrayFromAutoModel(auto))
+//            })
+//            .bindTo(table.rx.items){ [unowned self](tableView, row, element) in
+//                let indexPath = IndexPath(item: row, section: 0)
+//                let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
+//                cell.mainText.text = element.name
+//                return cell
+//            }.addDisposableTo(self.disposeBag)
+        
+    
+        Observable.just(self.createItemsArrayFromAutoModel(self.auto ?? Auto()))
+        .bindTo(table.rx.items){ [unowned self](tableView, row, element) in
+            let indexPath = IndexPath(item: row, section: 0)
+            let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
+            cell.mainText.text = element.name
+            return cell
+        }.addDisposableTo(self.disposeBag)
         
     }
     
@@ -90,7 +101,7 @@ class AutoViewController: UIViewController {
         }.addDisposableTo(self.disposeBag)
     }
     
-    func createItemsArrayFromAutoModel(_ auto: AutoDetail) -> [(cellID:String, name: String)]{
+    func createItemsArrayFromAutoModel(_ auto: Auto) -> [(cellID:String, name: String)]{
         var array = [(cellID:String, name: String)]()
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Модель ТС"))
@@ -112,12 +123,12 @@ class AutoViewController: UIViewController {
             array.append((self.HEADER_CELL_IDENTIFIER, "Скорость"))
             array.append((self.COMMON_CELL_IDENTIFIER, "\(speed)" ))
         }
-        if let glonasId = auto.glonasId{
-            if(glonasId > 0){
-                array.append((self.HEADER_CELL_IDENTIFIER, "Глонасс ID"))
-                array.append((self.COMMON_CELL_IDENTIFIER, "\(glonasId)"))
-            }
-        }
+//        if let glonasId = auto.glonasId{
+//            if(glonasId > 0){
+//                array.append((self.HEADER_CELL_IDENTIFIER, "Глонасс ID"))
+//                array.append((self.COMMON_CELL_IDENTIFIER, "\(glonasId)"))
+//            }
+//        }
         
         if let lastUpdate = auto.lastUpdate{
             let date = Date(timeIntervalSince1970: Double(lastUpdate))
@@ -127,14 +138,14 @@ class AutoViewController: UIViewController {
             array.append((self.COMMON_CELL_IDENTIFIER, dateFormatter.string(from: date)))
         }
         
-        if let sensors = auto.sensors{
-            if(sensors.count > 0){
-                array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
-            }
-            for sensor in sensors{
-                array.append((self.COMMON_CELL_IDENTIFIER, sensor.name ?? ""))
-            }
-        }
+//        if let sensors = auto.sensors{
+//            if(sensors.count > 0){
+//                array.append((self.HEADER_CELL_IDENTIFIER, "Датчики"))
+//            }
+//            for sensor in sensors{
+//                array.append((self.COMMON_CELL_IDENTIFIER, sensor.name ?? ""))
+//            }
+//        }
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Проиграть трек"))
         array.append((self.COMMON_ARROW_CELL_IDENTIFIER, "Выбрать параметры трека"))

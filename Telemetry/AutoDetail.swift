@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 /*
-
+***** old *********
  "speed" : 2.67,
  "glonassId" : 753,
  "id" : 447,
@@ -39,6 +39,20 @@ import SwiftyJSON
         "name" : "Nihil nobis dolore maiores."
      }
  ]
+ ******* new ******
+ vid: 0,
+ pid: 2,
+ sid: 24909962,
+ spe: "0",
+ azm: 198,
+ lat: "55.136364997629",
+ lon: "37.443101582453",
+ sta: "mv",
+ dto: 1487349114,
+ dtr: 1487349112,
+ fue: ""[]"",
+ parking: true,
+ offline: false
  
  */
 
