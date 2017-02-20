@@ -78,33 +78,35 @@ class AutosClient: NSObject {
     
     func autosIDsObservableWithFilter() -> Observable<[Int]>{
     
-        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
-        let path = PreferencesManager.getAPIServer() + autosPath
-        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
-            .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .map({ (response, object) -> [Int] in
-                let js = SwiftyJSON.JSON(object)
-                let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
-                return ids
-            })
+//        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
+//        let path = PreferencesManager.getAPIServer() + autosPath
+//        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
+//            .debug()
+//            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+//            .map({ (response, object) -> [Int] in
+//                let js = SwiftyJSON.JSON(object)
+//                let ids = RealmManager.saveAutoJSONDict(js["vehicles"])
+//                return ids
+//            })
+        return Observable.just(RealmManager.getAutoIdsWithFilter(filter: ApplicationState.sharedInstance.filter ?? Filter()))
     }
     
     func autosObservableWithFilter() -> Observable<[Auto]>{
         
-        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
-        let path = PreferencesManager.getAPIServer() + autosPath
-        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
-            .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .map({ (response, object) -> [Auto] in
-                let jsonObject = JSON(object)["vehicles"]
-                var arr: [Auto] = []
-                for (key,subJson):(String, SwiftyJSON.JSON) in jsonObject.dictionaryValue {
-                    arr.append(Auto(json: subJson))
-                }
-                return arr
-            })
+//        let filterParams = ApplicationState.sharedInstance.filter?.getJSONString() ?? ""
+//        let path = PreferencesManager.getAPIServer() + autosPath
+//        return requestJSON(.post, path, parameters: ["filter":filterParams, "token": PreferencesManager.getToken() ?? ""], encoding: URLEncoding.default, headers: nil)
+//            .debug()
+//            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+//            .map({ (response, object) -> [Auto] in
+//                let jsonObject = JSON(object)["vehicles"]
+//                var arr: [Auto] = []
+//                for (key,subJson):(String, SwiftyJSON.JSON) in jsonObject.dictionaryValue {
+//                    arr.append(Auto(json: subJson))
+//                }
+//                return arr
+//            })
+        return Observable.just(RealmManager.getAutosWithFilter(filter: ApplicationState.sharedInstance.filter ?? Filter()))
     }
 
     

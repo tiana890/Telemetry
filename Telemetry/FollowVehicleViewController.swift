@@ -105,6 +105,7 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
         self.socketBag = DisposeBag()
         
         self.telemetryClient = TelemetryClient(token: ApplicationState.sharedInstance.getToken() ?? "", bounds: self.mapView!.getBounds())
+        
         self.telemetryClient?.setVehicles(vehicles)
         
         self.viewModel = VehiclesViewModel(telemetryClient: self.telemetryClient!)

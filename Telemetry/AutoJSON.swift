@@ -12,7 +12,6 @@ class AutoJSON: Object {
     dynamic var id = 0
     dynamic var rawValue = ""
     
-    
     override class func primaryKey() -> String? {
         return "id"
     }

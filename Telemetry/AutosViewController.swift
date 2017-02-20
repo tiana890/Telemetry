@@ -80,12 +80,12 @@ class AutosViewController: UIViewController {
             indicator.startAnimating()
             self.view.addSubview(indicator)
             
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
-                    let autos = RealmManager.getAutos()
-                    DispatchQueue.main.async(execute: {
-                        indicator.removeFromSuperview()
-                    })
-                    self.publishSubject.onNext(autos)
+            DispatchQueue.global(qos: .userInteractive).async(execute: { 
+                let autos = RealmManager.getAutos()
+                DispatchQueue.main.async(execute: {
+                    indicator.removeFromSuperview()
+                })
+                self.publishSubject.onNext(autos)
             })
         } else {
             HUD.show(.labeledProgress(title: "Поиск по фильтру", subtitle: ""))
@@ -139,7 +139,6 @@ class AutosViewController: UIViewController {
             }
             
         }.addDisposableTo(self.disposeBag)
-        
     }
     
     

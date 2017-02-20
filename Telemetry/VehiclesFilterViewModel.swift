@@ -24,7 +24,7 @@ final class VehiclesFilterViewModel{
         filterClient
             .filterObservable()
             .observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (filterResponse) -> FilterDict in
-            return filterResponse.filterDict ?? FilterDict()
+            return filterResponse.filterDict!
         }.bindTo(filterDict).addDisposableTo(self.disposeBag)
 
     }

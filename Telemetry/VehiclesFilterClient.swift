@@ -23,15 +23,22 @@ class VehiclesFilterClient: NSObject {
     
     func filterObservable() -> Observable<VehiclesFilterResponse>{
         
-        let path = PreferencesManager.getAPIServer() + vehiclesFilterPath
+//        let path = PreferencesManager.getAPIServer() + vehiclesFilterPath
+//        
+//        
+//        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+//            .debug()
+//            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+//            .map({ (response, object) -> VehiclesFilterResponse in
+//                let js = JSON(object)
+//                let filterResponse = VehiclesFilterResponse(json: js)
+//                return filterResponse
+//            })
         
-        return requestJSON(.get, path, parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
-            .debug()
-            .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-            .map({ (response, object) -> VehiclesFilterResponse in
-                let js = JSON(object)
-                let filterResponse = VehiclesFilterResponse(json: js)
-                return filterResponse
-            })
+        let filterResponse = VehiclesFilterResponse()
+        filterResponse.filterDict?.companies = RealmManager.getCompanies()
+        filterResponse.filterDict?.models = []
+        return Observable.just(filterResponse)
+        
     }
 }

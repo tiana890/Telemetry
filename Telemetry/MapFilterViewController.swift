@@ -63,19 +63,28 @@ class MapFilterViewController: UIViewController {
     }
     
     func addBindsToViewModel(){
-        filterViewModel?.filterDict.observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [unowned self](filtDict) in
-                self.filterDict = filtDict
-                self.indicator!.stopAnimating()
-                self.searchBar.isHidden = false
-                self.addTableBinds()
-                }, onError: { (err) in
+        filterClient?.filterObservable().observeOn(MainScheduler.instance)
+        .debug()
+        .subscribe({ (event) in
+            guard event.error == nil else {
                 self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
-            }, onCompleted: { 
-                
-            }, onDisposed: { 
-                
-        }).addDisposableTo(self.disposeBag)
+                return
+            }
+            guard let element = event.element?.filterDict else { return }
+            self.filterDict = element
+            self.indicator!.stopAnimating()
+            self.searchBar.isHidden = false
+            self.addTableBinds()
+
+        })
+        /*.subscribe(onNext: { [unowned self](filtDict) in
+                            }, onError: { (err) in
+            self.showAlert("Ошибка", msg: "Произошла ошибка при загрузке фильтра")
+        }, onCompleted: { 
+            
+        }, onDisposed: { 
+            
+    })*/.addDisposableTo(self.disposeBag)
     }
     
     func addTableBinds(){

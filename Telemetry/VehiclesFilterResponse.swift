@@ -13,6 +13,11 @@ class VehiclesFilterResponse: BaseResponse {
 
     var filterDict: FilterDict?
     
+    override init() {
+        super.init(_status: Status.Success.rawValue, _reason: nil)
+        filterDict = FilterDict()
+    }
+    
     override init(json: JSON){
         super.init(json: json)
         

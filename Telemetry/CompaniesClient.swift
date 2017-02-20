@@ -57,6 +57,9 @@ class CompaniesClient: NSObject{
             .map({ (response, object) -> CompaniesResponse in
                 let js = JSON(object)
                 let compResponse = CompaniesResponse(json: js)
+                if let companies = compResponse.companies{
+                    RealmManager.saveCompanies(companies)
+                }
                 return compResponse
             })
         

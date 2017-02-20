@@ -20,4 +20,8 @@ struct Company {
         self.id = json["id"].int
         self.name = json["name"].string
     }
+    init(_id: Int, _name: String) {
+        id = _id
+        name = _name
+    }
 }

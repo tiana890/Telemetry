@@ -50,6 +50,7 @@
 		4CBB2DFD1D3F938F000AAE33 /* GQTPointQuadTreeChild.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CBB2DF21D3F938F000AAE33 /* GQTPointQuadTreeChild.m */; };
 		59C30E631DB7972D001B5AC8 /* InfoClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C30E621DB7972D001B5AC8 /* InfoClient.swift */; };
 		59C30E651DB79827001B5AC8 /* InfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59C30E641DB79827001B5AC8 /* InfoResponse.swift */; };
+		59DEA0D51E59C3370056E554 /* CompanyEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59DEA0D41E59C3370056E554 /* CompanyEntity.swift */; };
 		8809A06E1D3F693000974319 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A06D1D3F693000974319 /* Accelerate.framework */; };
 		8809A0721D3F694D00974319 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A06F1D3F694D00974319 /* CoreBluetooth.framework */; };
 		8809A0731D3F694D00974319 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8809A0701D3F694D00974319 /* CoreData.framework */; };
@@ -247,6 +248,7 @@
 		4CBB2DF31D3F938F000AAE33 /* GQTPointQuadTreeItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GQTPointQuadTreeItem.h; sourceTree = "<group>"; };
 		59C30E621DB7972D001B5AC8 /* InfoClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoClient.swift; sourceTree = "<group>"; };
 		59C30E641DB79827001B5AC8 /* InfoResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoResponse.swift; sourceTree = "<group>"; };
+		59DEA0D41E59C3370056E554 /* CompanyEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyEntity.swift; sourceTree = "<group>"; };
 		8809A06D1D3F693000974319 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8809A06F1D3F694D00974319 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
 		8809A0701D3F694D00974319 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -855,6 +857,7 @@
 				88CFC59E1D92F64F00D8C58D /* RealmManager.swift */,
 				88CFC5A11D97E29200D8C58D /* AutoEntity.swift */,
 				885D18AA1DA0DC8500EA0CBB /* AutoJSON.swift */,
+				59DEA0D41E59C3370056E554 /* CompanyEntity.swift */,
 			);
 			name = Realm;
 			sourceTree = "<group>";
@@ -1302,6 +1305,7 @@
 				88F99DB81D4A22170031A645 /* CompanyViewController.swift in Sources */,
 				88F99DB61D49EEEA0031A645 /* CompaniesViewController.swift in Sources */,
 				88CAB7DB1D54B93B004829F9 /* SettingsTableViewController.swift in Sources */,
+				59DEA0D51E59C3370056E554 /* CompanyEntity.swift in Sources */,
 				88F99DBC1D4A236C0031A645 /* CompanyClient.swift in Sources */,
 				88F99DD51D4A4B970031A645 /* AutoClient.swift in Sources */,
 				88EDFA9A1D544EE3005ACA54 /* APIError.swift in Sources */,
