@@ -16,7 +16,6 @@ class CompaniesViewController: UIViewController {
     //MARK: IBOutlets
     @IBOutlet var table: UITableView!
     
-
     let COMPANY_DETAIL_SEGUE = "companyDetailSegue"
     let CELL_IDENTIFIER = "companyCellIdentifier"
     
