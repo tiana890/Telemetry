@@ -33,6 +33,8 @@ fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 class Filter: NSObject {
     
     var autoModelIds = [Int]()
+    
+    var types = [String]()
     var companyIds = [Int]()
     
     var companyName: String?
@@ -44,13 +46,13 @@ class Filter: NSObject {
     
     func filterIsSet() -> Bool{
         let numberString = PreferencesManager.showGarageNumber() ? garageNumber : registrationNumber
-        return (autoModelIds.count > 0 || companyIds.count > 0 || companyName?.characters.count > 0
+        return (types.count > 0 || companyIds.count > 0 || companyName?.characters.count > 0
                 || numberString?.characters.count > 0)
     }
     
     func isEqualToFilter(_ filter: Filter?) -> Bool {
         if let f = filter{
-            if(autoModelIds.elementsEqual(f.autoModelIds, by: {
+            if(types.elementsEqual(f.types, by: {
                 return ($0 == $1) ? true : false
             })){
                 if(companyIds.elementsEqual(f.companyIds, by: {
@@ -68,10 +70,10 @@ class Filter: NSObject {
     static func createCopy(_ filter: Filter?) -> Filter?{
         if(filter != nil){
             let f = Filter()
-            f.autoModelIds = [Int]()
+            f.types = [String]()
             f.companyIds = [Int]()
             
-            f.autoModelIds.append(contentsOf: filter!.autoModelIds)
+            f.types.append(contentsOf: filter!.types)
             f.companyIds.append(contentsOf: filter!.companyIds)
             
             if(filter!.companyName != nil){

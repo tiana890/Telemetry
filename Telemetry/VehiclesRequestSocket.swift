@@ -26,12 +26,13 @@ class VehiclesRequestSocket{
         var json: JSON?
        
         if(vehicles.count > 0){
-            json = JSON(dictionaryLiteral: ("vehicles", self.vehicles),
-                            ("auth_token", token), ("bounds", [[0, 0],[180, 180]]))
+            json = JSON(dictionaryLiteral: ("vehicles", "all"),
+                            ("auth_token", token), ("bounds", [[0, 0],[180, 180]]), ("vehicles_id", vehicles))
         } else {
             json = JSON(dictionaryLiteral: ("vehicles", "all"),
                         ("auth_token", token), ("bounds", [[0, 0],[180, 180]]))
         }
+        print(json)
         return try! json!.rawData()
     }
 }

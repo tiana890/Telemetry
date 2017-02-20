@@ -27,16 +27,29 @@ struct Auto {
     var id: Int?
     var registrationNumber: String?
     var garageNumber: String?
-    var model: String?
     var organization: String?
     var organizationId: Int?
     var lastUpdate: Int64?
     var speed: Double?
     var type: String?
+    var model: String?
     
     init(){
         
     }
+    
+    init(entity: AutoEntity){
+        self.id = entity.id
+        self.registrationNumber = entity.regNumber
+        self.garageNumber = entity.garageNumber
+        self.model = entity.model
+        self.organization = entity.organization
+        self.organizationId = entity.organizationId
+        self.lastUpdate = Int64(entity.lastUpdate)
+        self.speed = Double(entity.speed)
+        self.type = entity.type
+    }
+    
     init(json: SwiftyJSON.JSON){
         self.id = json["id"].int
         self.registrationNumber = json["model"].string

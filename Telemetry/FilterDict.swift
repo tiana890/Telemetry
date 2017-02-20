@@ -14,6 +14,7 @@ struct FilterDict {
     
     var companies: [Company]?
     var models: [AutoModel]?
+
     
     init(){
         

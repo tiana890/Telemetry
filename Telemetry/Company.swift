@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyJSON
 
-struct Company {
+struct Company: Hashable, Equatable {
     var id: Int?
     var name: String?
     
@@ -23,5 +23,16 @@ struct Company {
     init(_id: Int, _name: String) {
         id = _id
         name = _name
+    }
+    
+    var hashValue: Int{
+        return id ?? 0
+    }
+    
+    public static func ==(lhs: Company, rhs: Company) -> Bool{
+        if let id1 = lhs.id, let id2 = rhs.id{
+            return (id1 == id2)
+        }
+        return false
     }
 }

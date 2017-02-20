@@ -129,7 +129,7 @@ class MapFilterViewController: UIViewController {
                     } else if(rowType == RowType.autoModel){
                         destVC.selectType = .autoModel
                         destVC.autoModels = filterDict?.models ?? []
-                        destVC.selectedIds = ApplicationState.sharedInstance.filter?.autoModelIds ?? []
+                        destVC.selectedTypes = ApplicationState.sharedInstance.filter?.types ?? []
                     }
                 }
             }

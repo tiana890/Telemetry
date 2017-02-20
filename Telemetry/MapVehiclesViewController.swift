@@ -361,7 +361,7 @@ class MapVehiclesViewController: UIViewController, GMUClusterManagerDelegate, GM
         if let markerView = Bundle.main.loadNibNamed("MarkerWindow", owner: self, options: nil)?[0] as? MarkerWindow{
             markerView.company.text = auto.organization ?? ""
             markerView.regNumber.text = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
-            markerView.model.text = auto.model ?? ""
+            markerView.model.text = ""
             markerView.modelName.text = auto.type ?? ""
             markerView.layer.cornerRadius = 4.0
             markerView.clipsToBounds = true

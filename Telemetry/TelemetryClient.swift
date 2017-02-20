@@ -97,8 +97,12 @@ class TelemetryClient: NSObject {
                 var vehicles = Vehicles()
                 if let str = object as? String{
                     let js = JSON.parse(str)
+                    if str == ""{
+                        return (vehicles, APIError(errType: .NONE))
+                    }
                     if str == "{}"{
-                        return (vehicles, APIError(errType: .NO_VEHICLES_ON_MAP))
+                        return (vehicles, APIError(errType: .NONE))
+                        //return (vehicles, APIError(errType: .NO_VEHICLES_ON_MAP))
                     }
                     if let dict = js["vehicles"].dictionary {
                         for(key, value) in dict{
@@ -115,9 +119,8 @@ class TelemetryClient: NSObject {
                     }
                 }
                
-                
-                return (vehicles, APIError(errType: .NONE))
-                //return (vehicles, APIError(errType: .UNKNOWN))
+
+                return (vehicles, APIError(errType: .UNKNOWN))
                 
             }).subscribe(onNext: { (veh, err) in
                 if(err.errType == APIErrorType.NONE){

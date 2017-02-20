@@ -31,6 +31,7 @@ class SelectableTableViewController: UIViewController {
     var filterAutoModelsArray = [AutoModel]()
     
     var selectedIds = [Int]()
+    var selectedTypes = [String]()
     
     var selectType: SelectType = .company
     
@@ -62,14 +63,26 @@ class SelectableTableViewController: UIViewController {
             self.filterCompanies.asObservable().bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
-                cell.mainText.text = element.name
+                if let name = element.name{
+                    if name == ""{
+                        cell.mainText.text = "-"
+                    } else {
+                        cell.mainText.text = name
+                    }
+                }
                 return cell
             }.addDisposableTo(self.disposeBag)
         } else if(selectType == .autoModel){
             self.filterAutoModels.asObservable().bindTo(table.rx.items){ [unowned self](tableView, row, element) in
                 let indexPath = IndexPath(item: row, section: 0)
                 let cell = self.table.dequeueReusableCell(withIdentifier: self.COMMON_CELL_IDENTIFIER, for: indexPath) as! SelectableCell
-                cell.mainText.text = element.name
+                if let name = element.name{
+                    if name == ""{
+                        cell.mainText.text = "-"
+                    } else {
+                        cell.mainText.text = name
+                    }
+                }
                 return cell
             }.addDisposableTo(self.disposeBag)
         }
@@ -77,7 +90,7 @@ class SelectableTableViewController: UIViewController {
     
     func addTableBinds(){
         if(self.selectType == .company){
-            table.rx.modelSelected(Company)
+            table.rx.modelSelected(Company.self)
             .subscribe({ (event) in
                 guard let company = event.element else { return }
                 if let itemId = company.id{
@@ -89,17 +102,23 @@ class SelectableTableViewController: UIViewController {
                 }
                 self.table.reloadData()
             })
-                .addDisposableTo(self.disposeBag)
+            .addDisposableTo(self.disposeBag)
         } else {
-            table.rx.modelSelected(AutoModel)
+            table.rx.modelSelected(AutoModel.self)
             .subscribe({ (event) in
-                guard let autoModel = event.element else { return }
-                if let itemId = autoModel.id{
-                    if let index = self.selectedIds.index(of: itemId){
-                        self.selectedIds.remove(at: index)
-                    } else {
-                        self.selectedIds.append(itemId)
-                    }
+                guard let name = event.element?.name else { return }
+//                if let itemId = autoModel.id{
+//                    if let index = self.selectedIds.index(of: itemId){
+//                        self.selectedIds.remove(at: index)
+//                    } else {
+//                        self.selectedIds.append(itemId)
+//                    }
+//                }
+                
+                if let index = self.selectedTypes.index(where: { $0 == name }){
+                    self.selectedTypes.remove(at: index)
+                } else {
+                    self.selectedTypes.append(name)
                 }
                 self.table.reloadData()
             })
@@ -112,11 +131,22 @@ class SelectableTableViewController: UIViewController {
             .subscribe({ [unowned self](event) in
                 guard let willDisplayCellEvent = event.element else { return }
                 
-                if let itemId = (self.selectType == .company) ? self.filterCompaniesArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id :  self.filterAutoModelsArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id {
-                    if(self.selectedIds.contains(itemId)){
-                        willDisplayCellEvent.cell.setSelected(true, animated: false)
-                    } else {
-                        willDisplayCellEvent.cell.setSelected(false, animated: false)
+                if self.selectType == .company{
+                    if let itemId = (self.selectType == .company) ? self.filterCompaniesArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id :  self.filterAutoModelsArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].id {
+                        if(self.selectedIds.contains(itemId)){
+                            willDisplayCellEvent.cell.setSelected(true, animated: false)
+                        } else {
+                            willDisplayCellEvent.cell.setSelected(false, animated: false)
+                        }
+                    }
+                } else {
+                    if let name = self.filterAutoModelsArray[(willDisplayCellEvent.indexPath as NSIndexPath).row].name{
+                        if(self.selectedTypes.contains(name)){
+                            willDisplayCellEvent.cell.setSelected(true, animated: false)
+                        } else {
+                            willDisplayCellEvent.cell.setSelected(false, animated: false)
+                        }
+
                     }
                 }
             }).addDisposableTo(self.disposeBag)
@@ -174,7 +204,7 @@ class SelectableTableViewController: UIViewController {
         if(self.selectType == SelectType.company){
             ApplicationState.sharedInstance.filter?.companyIds = self.selectedIds
         } else if(self.selectType == SelectType.autoModel){
-            ApplicationState.sharedInstance.filter?.autoModelIds = self.selectedIds
+            ApplicationState.sharedInstance.filter?.types = self.selectedTypes
         }
         self.navigationController?.popViewController(animated: true)
     }

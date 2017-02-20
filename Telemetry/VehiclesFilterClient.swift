@@ -36,8 +36,9 @@ class VehiclesFilterClient: NSObject {
 //            })
         
         let filterResponse = VehiclesFilterResponse()
-        filterResponse.filterDict?.companies = RealmManager.getCompanies()
-        filterResponse.filterDict?.models = []
+        let filterInfo = RealmManager.getFilterInfo()
+        filterResponse.filterDict?.companies = filterInfo.companies
+        filterResponse.filterDict?.models = filterInfo.autoTypes
         return Observable.just(filterResponse)
         
     }

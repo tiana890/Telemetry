@@ -15,8 +15,8 @@ struct AutoModel {
     var id: Int?
     var name: String?
     
-    init(){
-        
+    init(_name: String){
+        name = _name
     }
     
     init(json: JSON){
