@@ -32,7 +32,7 @@ class VehiclesRequestSocket{
             json = JSON(dictionaryLiteral: ("vehicles", "all"),
                         ("auth_token", token), ("bounds", [[0, 0],[180, 180]]))
         }
-        print(json)
+        print(json!)
         return try! json!.rawData()
     }
 }

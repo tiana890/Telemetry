@@ -24,20 +24,47 @@ import SwiftyJSON
  }
 
  */
+/*
+{
+    tracks: {
+        4662: [
+        {
+            prk: 1,
+            off: 0,
+                fuel_data: {
+                2: "161.265"
+                },
+                evt: {
+                id: 0,
+                name: "Таймер (зажигание вкл)"
+                },
+                spe: "0",
+                lat: "55.769438179156",
+                lon: "37.519709872436",
+                azm: 254,
+                sid: 132134,
+                sta: "mv",
+                dto: 1486050820,
+                dtr: 1486253421,
+                date_flush: 1486253522
+            }
+        ]
+    }
+}*/
 
 struct TrackItem{
     var lat: String?
     var lon: String?
     var speed: Int64?
-    var azimut: String?
+    var azimut: Int?
     var time: Int64?
     
     init(json: JSON){
         self.lat = json["lat"].string
         self.lon = json["lon"].string
-        self.speed = json["speed"].int64
-        self.azimut = json["azimut"].string
-        self.time = json["time"].int64
+        self.speed = json["spe"].int64
+        self.azimut = json["azm"].int
+        self.time = json["dto"].int64
     }
 }
 

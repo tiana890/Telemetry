@@ -29,8 +29,15 @@ class TrackResponse: BaseResponse {
     
     override init(json: JSON){
         super.init(json: json)
+    }
+    
+    init(json: JSON, trackId: Int){
+        super.init(json: json)
 
-        self.track = Track(json: json["track"])
+        if json["error"] == nil{
+            status = Status.Success
+        }
+        self.track = Track(json: json["tracks"]["\(trackId)"])
         
     }
 

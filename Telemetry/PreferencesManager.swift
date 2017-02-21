@@ -11,6 +11,17 @@ import SwiftyJSON
 
 class PreferencesManager: NSObject {
     
+    static func saveWasUpdated(value: Bool){
+        let def = UserDefaults.standard
+        def.set(value, forKey: "wasUpdated")
+        def.synchronize()
+    }
+    
+    static func getWasUpdated() -> Bool{
+        let def = UserDefaults.standard
+        return def.bool(forKey: "wasUpdated")
+    }
+    
     static func saveToken(_ token: String){
         let def = UserDefaults.standard
         def.set(token, forKey: "token")

@@ -24,7 +24,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         initializeServices()
         setAppearanceForUIElements()
-        setInitialVC()
+        
+        if PreferencesManager.getWasUpdated(){
+            setInitialVC()
+        } else {
+            checkVersion()
+        }
+        RealmManager.getConfiguration()
         return true
     }
 
@@ -86,6 +92,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = authVC
         self.window?.makeKeyAndVisible()
         ApplicationState.sharedInstance.deleteToken()
+    }
+    
+    func checkVersion(){
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        if version == "1.0.1"{
+            self.window = UIWindow(frame: UIScreen.main.bounds)
+            let mainStoryboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            let authVC = mainStoryboard.instantiateViewController(withIdentifier: AUTH_CONTROLLER_ID) as! AuthorizationViewController
+            self.window?.rootViewController = authVC
+            
+            self.window?.makeKeyAndVisible()
+            
+            PreferencesManager.saveWasUpdated(value: true)
+        } else {
+            setInitialVC()
+        }
     }
 }
 

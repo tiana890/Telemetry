@@ -18,7 +18,7 @@ class TrackClient: NSObject {
     var startTime: String?
     var endTime: String?
     
-    let trackPath = "/api/v1/vehicle/track/"
+    let trackPath = "/stk/api/v1/telemetry/track/"
     
     init(_token: String, _autoId: Int, _startTime: Int64, _endTime: Int64) {
         super.init()
@@ -31,18 +31,18 @@ class TrackClient: NSObject {
     func trackObservable() -> Observable<TrackResponse>{
         let path = PreferencesManager.getAPIServer() + trackPath
         
-        let parameters = ["token": self.token ?? "",
-                          "startTime": self.startTime ?? "",
-                          "endTime": self.endTime ?? ""]
+        let parameters = ["auth_token": self.token ?? ""]
+//                          "startTime": self.startTime ?? "",
+//                          "endTime": self.endTime ?? ""]
         print(path + "\(autoId ?? 0)")
 
-       
-        return requestJSON(.get, path + "\(autoId ?? 0)", parameters: parameters, encoding: URLEncoding.default, headers: nil)
+        
+        return requestJSON(.get, path + "/\(autoId ?? 0)/\(startTime ?? "")/\(endTime ?? "")", parameters: parameters, encoding: URLEncoding.default, headers: nil)
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .flatMap({ (response, object) -> Observable<TrackResponse> in
                 let js = JSON(object)
                 
-                let trackResponse = TrackResponse(json: js)
+                let trackResponse = TrackResponse(json: js, trackId: self.autoId ?? 0)
                 if(trackResponse.status == Status.Success){
                     return Observable.just(trackResponse)
                 } else {

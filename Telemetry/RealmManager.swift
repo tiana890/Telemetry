@@ -11,10 +11,10 @@ import SwiftyJSON
 
 class RealmManager: NSObject {
 
-    //********Destroy db
-    static func setConfiguration(){
+    //********D
+    static func getConfiguration(){
         //let realm = try! Realm()
-        Realm.Configuration.defaultConfiguration.deleteRealmIfMigrationNeeded = true
+        print(Realm.Configuration.defaultConfiguration.fileURL)
     }
     //********Autos
     static func saveAuto(_ autoModel: Auto){

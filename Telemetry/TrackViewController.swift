@@ -61,6 +61,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: self.autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
         
+        print("AUTO ID = \(autoId ?? 0)")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -197,7 +198,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         guard (trackItem.lat != nil && trackItem.lon != nil) else { return }
         
         marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
-        (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(Float(trackItem.azimut ?? "0")!)))
+        (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(trackItem.azimut ?? 0)))
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         
         if let interval = trackItem.time{
