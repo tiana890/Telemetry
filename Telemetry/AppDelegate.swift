@@ -105,6 +105,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             self.window?.makeKeyAndVisible()
             
+            PreferencesManager.setAutosLoaded(false)
             PreferencesManager.saveWasUpdated(value: true)
         } else {
             setInitialVC()
