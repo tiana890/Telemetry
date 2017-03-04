@@ -60,8 +60,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         
         trackClient = TrackClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _autoId: self.autoId ?? 0, _startTime: self.trackParams?.startDate ?? 0, _endTime: self.trackParams?.endDate ?? 0)
         viewModel = TrackViewModel(trackClient: trackClient!)
-        
-        print("AUTO ID = \(autoId ?? 0)")
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -151,6 +150,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     func showTrackOnMap(_ track: Track){
         
         self.mapView.clear()
+        drawTrack(track)
         self.disposeBag = DisposeBag()
         let marker = GMSMarker()
         marker.map = self.mapView
@@ -232,6 +232,38 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             return Disposables.create{
             }
         })
+    }
+    
+    func drawTrack(_ track: Track){
+//        GMSMutablePath *path = [[GMSMutablePath alloc] init];
+//        [path addCoordinate:startPosition];
+//        [path addCoordinate:endPosition];
+//        
+//        GMSPolyline *polyline = [[GMSPolyline alloc] init];
+//        polyline.path = path;
+//        polyline.strokeColor = [UIColor redColor];
+//        polyline.map = _mapView;
+//        
+//        POIItem *item = (POIItem *)marker.userData;
+//        item.polylines = [[NSMutableArray alloc] init];
+//        [item.polylines removeAllObjects];
+//        [item.polylines addObject: polyline];
+        
+        guard let trackArray = track.trackArray else { return }
+        let path = GMSMutablePath()
+        for i in 0 ..< trackArray.count{
+//            let prevItem = trackArray[i-1]
+            let item = trackArray[i]
+            guard let itemLat = item.lat, let itemLon = item.lon else { return }
+            path.add(CLLocationCoordinate2D(latitude: Double(itemLat) ?? Double(0.0), longitude: Double(itemLon) ?? Double(0.0)))
+//            guard let prevItemLat = prevItem.lat, let prevItemLon = prevItem.lon, let itemLat = item.lat, let itemLon = item.lon else { return }
+//            path.add(CLLocationCoordinate2D(latitude: Double(prevItemLat) ?? Double(0.0), longitude: Double(prevItemLon) ?? Double(0.0)))
+//            path.add(CLLocationCoordinate2D(latitude: Double(itemLat) ?? Double(0.0), longitude: Double(itemLon) ?? Double(0.0)))
+        }
+        let polyLine = GMSPolyline(path: path)
+        polyLine.strokeColor = UIColor.red
+        polyLine.map = self.mapView
+        //polyLine.strokeWidth = 10.0
     }
 
 
