@@ -212,7 +212,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
             self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: zoom ?? self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
             return
         }
-        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
+        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: zoom ?? self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
         self.mapView.animate(with: update)
         
         if let interval = trackItem.time{

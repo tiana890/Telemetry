@@ -112,7 +112,6 @@ class AutosViewController: UIViewController {
     
     func addBindsToViewModel(){
         
-        
         self.publishSubject
         .observeOn(MainScheduler.instance)
         .bindTo(collection.rx.items(cellIdentifier: self.CELL_IDENTIFIER)) { (collectionView, element, c) in
