@@ -12,6 +12,8 @@ import SwiftyJSON
 struct Company: Hashable, Equatable {
     var id: Int?
     var name: String?
+    var phone: String?
+    var address: String?
     
     init(){
         
@@ -19,6 +21,8 @@ struct Company: Hashable, Equatable {
     init(json: JSON){
         self.id = json["id"].int
         self.name = json["name"].string
+        self.address = json["address"].string
+        self.phone = json["phone"].string
     }
     init(_id: Int, _name: String) {
         id = _id

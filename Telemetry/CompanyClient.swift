@@ -17,7 +17,7 @@ class CompanyClient: NSObject {
     var token: String?
     var companyId: Int64?
     
-    let companyPath = "/api/v1/organization/"
+    let companyPath = "/stk/api/v1/telemetry/organization/"
     
     init(_token: String, _companyId: Int64) {
         super.init()
@@ -27,8 +27,8 @@ class CompanyClient: NSObject {
     
     func companyObservable() -> Observable<CompanyResponse>{
         let path = PreferencesManager.getAPIServer() + companyPath
-        
-        return requestJSON(.get, path + "\(companyId ?? 0)", parameters: ["token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
+        print(path)
+        return requestJSON(.get, path + "\(companyId ?? 0)", parameters: ["auth_token": self.token ?? ""], encoding: URLEncoding.default, headers: nil)
             .debug()
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .do(onError: { (errType) in
@@ -36,6 +36,7 @@ class CompanyClient: NSObject {
             })
             .map({ (response, object) -> CompanyResponse in
                 let js = JSON(object)
+                print(js)
                 let compResponse = CompanyResponse(json: js)
                 return compResponse
             })

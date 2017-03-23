@@ -68,7 +68,7 @@ class AutosClient: NSObject {
             .map({ (response, object) -> [String: SwiftyJSON.JSON] in
                 let jsonObject = JSON(object)["vehicles"]
                 let start = Date().timeIntervalSince1970
-                print(jsonObject.type)
+                print(jsonObject)
                 RealmManager.saveAutoJSONDict(jsonObject)
                 let end = Date().timeIntervalSince1970 - start
                 print(end)

@@ -93,9 +93,11 @@ class TelemetryClient: NSObject {
                 return Observable.just(APIError(errType: .NETWORK))
             })
             .map({ (object) -> (Vehicles, APIError) in
-            
+                
                 var vehicles = Vehicles()
                 if let str = object as? String{
+                    print("*********************************")
+                    print(str)
                     let js = JSON.parse(str)
                     if str == ""{
                         return (vehicles, APIError(errType: .NONE))

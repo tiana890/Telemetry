@@ -54,8 +54,10 @@ class CompanyViewController: UIViewController {
         
         array.append((self.HEADER_CELL_IDENTIFIER, "Название"))
         array.append((self.COMMON_CELL_IDENTIFIER, company.name ?? ""))
-//        array.append((self.HEADER_CELL_IDENTIFIER, "Адрес"))
-//        array.append((self.COMMON_CELL_IDENTIFIER, auto.type ?? ""))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Адрес"))
+        array.append((self.COMMON_CELL_IDENTIFIER, company.address ?? ""))
+        array.append((self.HEADER_CELL_IDENTIFIER, "Телефон"))
+        array.append((self.COMMON_CELL_IDENTIFIER, company.phone ?? ""))
         
         return array
     }

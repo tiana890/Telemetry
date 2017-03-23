@@ -104,19 +104,20 @@ class RealmManager: NSObject {
                 /*
                  {
                  
-                 id: 399,
-                 model: "К060КА777",
-                 type: "Аварийно-техническая",
-                 garage_number: "",
-                 speed: 0,
-                 lastUpdate: 0,
-                 organization_id: 95,
-                 organization: "АО "Мосводоканал"
+                 "speed" : 0,
+                 "id" : 7129,
+                 "registration_number" : "8023ВС77",
+                 "model" : null,
+                 "organization" : "ГБУ \"Автомобильные дороги\"",
+                 "type" : null,
+                 "garage_number" : "",
+                 "lastUpdate" : 0,
+                 "organization_id" : 12
                  
                  } */
                 auto.id = subJson["id"].int ?? 0
                 auto.model = subJson["model"].string ?? ""
-                auto.regNumber = subJson["model"].string ?? ""
+                auto.regNumber = subJson["registration_number"].string ?? ""
                 auto.type = subJson["type"].string ?? ""
                 auto.garageNumber = subJson["garage_number"].string ?? ""
                 auto.speed = subJson["speed"].int ?? 0

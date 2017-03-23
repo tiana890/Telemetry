@@ -19,7 +19,7 @@ class CompaniesViewController: UIViewController {
     let COMPANY_DETAIL_SEGUE = "companyDetailSegue"
     let CELL_IDENTIFIER = "companyCellIdentifier"
     
-    var viewModel :CompaniesViewModel?
+    var viewModel:CompaniesViewModel?
     var companiesClient = CompaniesClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
     let disposeBag = DisposeBag()
     

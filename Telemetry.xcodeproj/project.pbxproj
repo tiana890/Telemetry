@@ -1490,7 +1490,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WLFBMB9YE7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1509,8 +1509,8 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.gbu.Telemetry;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6426d3dc-9743-42df-8164-41738e4c4066";
-				PROVISIONING_PROFILE_SPECIFIER = TelemetryDistribution;
+				PROVISIONING_PROFILE = "1224e89e-8a80-411c-97d8-8c79eb72c257";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Telemetry";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers $inherited";
 			};
@@ -1524,7 +1524,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WLFBMB9YE7;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1541,8 +1541,8 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework";
 				PRODUCT_BUNDLE_IDENTIFIER = org.gbu.Telemetry;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6426d3dc-9743-42df-8164-41738e4c4066";
-				PROVISIONING_PROFILE_SPECIFIER = TelemetryDistribution;
+				PROVISIONING_PROFILE = "1224e89e-8a80-411c-97d8-8c79eb72c257";
+				PROVISIONING_PROFILE_SPECIFIER = "Development Telemetry";
 				SWIFT_VERSION = 3.0;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Telemetry/GoogleMaps.framework/Headers $inherited";
 			};

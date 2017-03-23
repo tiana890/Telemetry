@@ -52,7 +52,7 @@ struct Auto {
     
     init(json: SwiftyJSON.JSON){
         self.id = json["id"].int
-        self.registrationNumber = json["model"].string
+        self.registrationNumber = json["registration_number"].string
         self.garageNumber = json["garage_number"].string
         self.model = json["model"].string
         self.organization = json["organization"].string

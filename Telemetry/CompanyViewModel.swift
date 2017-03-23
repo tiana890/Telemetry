@@ -23,6 +23,7 @@ final class CompanyViewModel{
         let backgrQueue = DispatchQueue(label: "com.Telemetry.companies.backgroundQueue", attributes: [])
         
         companyClient.companyObservable().observeOn(ConcurrentDispatchQueueScheduler(queue: backgrQueue)).map { (compResponse) -> Company in
+            
             return compResponse.company ?? Company()
         }.bindTo(company).addDisposableTo(self.disposeBag)
         
