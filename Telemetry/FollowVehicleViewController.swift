@@ -257,9 +257,17 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
         }
         
         if let markerView = Bundle.main.loadNibNamed("MarkerWindow", owner: self, options: nil)?[0] as? MarkerWindow{
+//            markerView.company.text = auto.organization ?? ""
+//            markerView.regNumber.text = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
+//            markerView.model.text = auto.model ?? ""
+//            markerView.modelName.text = auto.type ?? ""
+//            markerView.layer.cornerRadius = 4.0
+//            markerView.clipsToBounds = true
+//            markerView.regNumber.layer.cornerRadius = 4.0
+//            markerView.regNumber.clipsToBounds = true
+            
             markerView.company.text = auto.organization ?? ""
             markerView.regNumber.text = !PreferencesManager.showGarageNumber() ? (auto.registrationNumber ?? "") : (auto.garageNumber ?? "")
-            markerView.model.text = auto.model ?? ""
             markerView.modelName.text = auto.type ?? ""
             markerView.layer.cornerRadius = 4.0
             markerView.clipsToBounds = true
@@ -277,19 +285,19 @@ class FollowVehicleViewController: UIViewController, GMUClusterManagerDelegate, 
         return nil
     }
     
-    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
-        mapView.selectedMarker = nil
-        for(val) in self.dict.values{
-            val.spot.selected = false
-        }
-    }
-    
-    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
-        mapView.selectedMarker = nil
-        for(val) in self.dict.values{
-            val.spot.selected = false
-        }
-    }
+//    func mapView(_ mapView: GMSMapView, didTap overlay: GMSOverlay) {
+//        mapView.selectedMarker = nil
+//        for(val) in self.dict.values{
+//            val.spot.selected = false
+//        }
+//    }
+//    
+//    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+//        mapView.selectedMarker = nil
+//        for(val) in self.dict.values{
+//            val.spot.selected = false
+//        }
+//    }
     
     //MARK: -Alerts
     func showAlert(_ title: String, msg: String){

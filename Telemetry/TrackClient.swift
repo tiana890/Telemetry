@@ -18,7 +18,7 @@ class TrackClient: NSObject {
     var startTime: String?
     var endTime: String?
     
-    let trackPath = "/stk/api/v1/telemetry/track/"
+    let trackPath = "/stk/api/v1/telemetry/track"
     
     init(_token: String, _autoId: Int, _startTime: Int64, _endTime: Int64) {
         super.init()
@@ -48,8 +48,9 @@ class TrackClient: NSObject {
                 } else {
                     return self.createObserverOnError(APIError(_errType: .UNKNOWN, _reason: trackResponse.reason ?? ""))
                 }
-        })
+            })
             
+        
     }
     
     internal func createObserverOnError(_ apiError: APIError) -> Observable<TrackResponse>{

@@ -23,6 +23,7 @@ class CompaniesViewController: UIViewController {
     var companiesClient = CompaniesClient(_token: ApplicationState.sharedInstance.getToken() ?? "")
     let disposeBag = DisposeBag()
     
+    var companiesLoaded = false
     var publishSubject = PublishSubject<[Company]>()
     
     override func viewDidLoad() {
@@ -37,6 +38,8 @@ class CompaniesViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        guard !companiesLoaded else { return }
      
         let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
@@ -57,6 +60,7 @@ class CompaniesViewController: UIViewController {
                 DispatchQueue.main.async(execute: {
                     indicator.removeFromSuperview()
                     self.table.isHidden = false
+                    self.companiesLoaded = true
                 })
                 self.publishSubject.onNext(companies)
             }

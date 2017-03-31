@@ -43,6 +43,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     var zoom = 12
     
     var disposeBag: DisposeBag? = DisposeBag()
+    var serverDisposeBag: DisposeBag = DisposeBag()
 
     var iterationIndex = 0
     
@@ -65,6 +66,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         
         adjustInfoView()
         addBindsToViewModel()
@@ -143,7 +145,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
                 }, onDisposed: { 
                     print("disposed")
             })
-            .addDisposableTo(self.disposeBag!)
+            .addDisposableTo(self.serverDisposeBag)
         
     }
     
@@ -197,7 +199,7 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
     func moveMarker(_ marker: GMSMarker, trackItem: TrackItem, animated: Bool, zoom: Float?){
         guard (trackItem.lat != nil && trackItem.lon != nil) else { return }
         
-        marker.position = CLLocationCoordinate2D(latitude: Double(trackItem.lat!)!, longitude: Double(trackItem.lon!)!)
+        marker.position = CLLocationCoordinate2D(latitude: trackItem.lat!, longitude: trackItem.lon!)
         (marker.iconView as! MarkerIcon).carImage.transform = CGAffineTransform(rotationAngle: self.DegreesToRadians(CGFloat(trackItem.azimut ?? 0)))
         marker.groundAnchor = CGPoint(x: 0.5, y: 0.5)
         
@@ -209,10 +211,10 @@ class TrackViewController: UIViewController, GMSMapViewDelegate {
         
         guard animated else {
             
-            self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: zoom ?? self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
+            self.mapView.camera = GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0)
             return
         }
-        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: zoom ?? self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
+        let update = GMSCameraUpdate.setCamera(GMSCameraPosition(target: marker.position, zoom: self.mapView.camera.zoom, bearing: 0, viewingAngle: 0))
         self.mapView.animate(with: update)
         
         if let interval = trackItem.time{

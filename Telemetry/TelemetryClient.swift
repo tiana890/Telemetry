@@ -99,12 +99,8 @@ class TelemetryClient: NSObject {
                     print("*********************************")
                     print(str)
                     let js = JSON.parse(str)
-                    if str == ""{
+                    if str == "" || str == "[]" || str == "{}"{
                         return (vehicles, APIError(errType: .NONE))
-                    }
-                    if str == "{}"{
-                        return (vehicles, APIError(errType: .NONE))
-                        //return (vehicles, APIError(errType: .NO_VEHICLES_ON_MAP))
                     }
                     if let dict = js["vehicles"].dictionary {
                         for(key, value) in dict{

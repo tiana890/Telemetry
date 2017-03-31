@@ -27,9 +27,16 @@ class CompanyViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        indicator.tag = 12345
+        indicator.center = CGPoint(x: UIScreen.main.bounds.width/2, y: UIScreen.main.bounds.height/2)
+        indicator.startAnimating()
+        self.view.addSubview(indicator)
+        self.table.isHidden = true
+        
         companyClient = CompanyClient(_token: ApplicationState.sharedInstance.getToken() ?? "", _companyId: companyId ?? 0)
         self.viewModel = CompanyViewModel(companyClient: companyClient!)
-        
         addBindsToViewModel()
         
     }
@@ -38,13 +45,19 @@ class CompanyViewController: UIViewController {
         
         self.viewModel?.company
             .observeOn(MainScheduler.instance)
+            .do(onError: { (err) in
+                self.showAlert("Ошибка", msg: "Невозможно загрузить данные")
+            })
             .flatMap({ [unowned self](company) -> Observable<[(cellID:String, name: String)]> in
+                self.view.viewWithTag(12345)?.removeFromSuperview()
+                self.table.isHidden = false
                 return Observable.just(self.createItemsArrayFromCompanyModel(company))
             }).bindTo(table.rx.items){ [unowned self](tableView, row, element) in
-                    let indexPath = IndexPath(item: row, section: 0)
-                    let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
-                    cell.mainText.text = element.name
-                    return cell
+                
+                let indexPath = IndexPath(item: row, section: 0)
+                let cell = self.table.dequeueReusableCell(withIdentifier: element.cellID, for: indexPath) as! CommonCell
+                cell.mainText.text = element.name
+                return cell
             }.addDisposableTo(self.disposeBag)
         
     }
@@ -61,6 +74,22 @@ class CompanyViewController: UIViewController {
         
         return array
     }
+    
+    //MARK: -Alerts
+    func showAlert(_ title: String, msg: String){
+        let alert = UIAlertController(title: title,
+                                      message: msg,
+                                      preferredStyle: UIAlertControllerStyle.alert)
+        
+        let cancelAction = UIAlertAction(title: "OK",
+                                         style: .cancel, handler: nil)
+        
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+
+    
     
     //MARK: IBActions
     @IBAction func menuPressed(_ sender: AnyObject) {

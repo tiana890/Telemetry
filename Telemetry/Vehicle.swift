@@ -30,7 +30,7 @@ class Vehicle: NSObject {
         self.id = json["v_id"].int64
         self.companyProviderId = json["p_id"].int64
         self.sensorId = json["s_id"].int64
-        self.azimut = (json["azm"].string != nil) ? Double(json["azm"].stringValue) : 0
+        self.azimut = Float64(json["azm"].int ?? 0)
         self.speed = json["spe"].double
         self.odometr = json["odo"].double
         self.lat = (json["lat"].string != nil) ? Double(json["lat"].stringValue) : 0
